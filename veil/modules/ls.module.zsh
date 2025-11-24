@@ -1,7 +1,7 @@
 # Vail Ls Module
 #
 # ------------------------------------------------------------------------------
-# License: WTFPL – https://github.com/egorlem/ultima.zsh-theme/blob/main/LICENSE 
+# License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
 # ------------------------------------------------------------------------------
 # Authors
 # -------
