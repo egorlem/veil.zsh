@@ -24,7 +24,7 @@ jobs:
       - name: Setup CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: bash
+          languages: shell
           tools: latest
           queries: security-extended
 
