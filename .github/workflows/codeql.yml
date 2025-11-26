@@ -2,37 +2,36 @@ name: "CodeQL Advanced Shell Scan"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
     types: [opened, synchronize, reopened]
 
 jobs:
   codeql-shell-analysis:
     name: CodeQL Shell Analysis
     runs-on: ubuntu-latest
-    
+
     permissions:
       security-events: write
       actions: read
       contents: read
 
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: shellscript
-        tools: latest  # Использовать последнюю версию CodeQL
-        queries: security-extended  # Более строгие проверки
+      - name: Setup CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: bash
+          tools: latest
+          queries: security-extended
 
-    - name: Build for Analysis
-      run: |
-        find . -name "*.zsh" -o -name "*.sh" | head -10
-        echo "Shell codebase prepared for CodeQL analysis"
+      - name: Build for Analysis
+        run: |
+          find . -name "*.zsh" -o -name "*.sh" | head -10
+          echo "Shell codebase prepared for CodeQL analysis"
 
-    - name: Run CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
