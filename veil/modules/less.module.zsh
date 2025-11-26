@@ -1,4 +1,4 @@
-# Vail Less Module
+# Veil Less Module
 #
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 

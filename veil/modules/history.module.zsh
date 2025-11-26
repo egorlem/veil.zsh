@@ -1,4 +1,4 @@
-# Vail History Module
+# Veil History Module
 #
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 

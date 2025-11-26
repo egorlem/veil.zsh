@@ -1,4 +1,4 @@
-# Vail Сursor Module
+# Veil Сursor Module
 #
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
