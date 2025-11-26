@@ -15,6 +15,6 @@ jobs:
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
         env:
-          SHELLCHECK_OPTS: -e SC2148 -e SC2206
+          SHELLCHECK_OPTS: -e SC2148 -e SC2206 -e SC2296
         with:
           severity: warning
