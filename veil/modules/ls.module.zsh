@@ -1,4 +1,4 @@
-# Vail Ls Module
+# Veil Ls Module
 #
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 

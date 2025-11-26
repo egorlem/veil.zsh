@@ -1,4 +1,4 @@
-# Vail Evn Module
+# Veil Evn Module
 #
 # ------------------------------------------------------------------------------
 # License: WTFPL — https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
@@ -26,5 +26,5 @@ initEnvironmentSettings() {
   # Path
   export PATH="$HOME/.local/bin:$PATH"
   
-  echo "Vail: environment module initialized"
+  echo "Veil: environment module initialized"
 }

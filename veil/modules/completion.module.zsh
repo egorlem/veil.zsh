@@ -1,4 +1,4 @@
-# Vail Completion Module
+# Veil Completion Module
 #
 # Enhanced Zsh completion system with caching and customizable styles
 # ------------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 _ultimaCompletionDeps() {
   # Проверка что Zsh поддерживает completion систему
   if ! autoload -Uz compinit >/dev/null 2>&1; then
-    echo "Vail: error - zsh completion system not available" >&2
+    echo "Veil: error - zsh completion system not available" >&2
     return 1
   fi
   return 0
@@ -28,7 +28,7 @@ _ultimaCompletionInitSystem() {
   # Создаем директорию для кеша если нужно
   if [[ ! -d "$CACHE_DIR" ]]; then
     if ! mkdir -p "$CACHE_DIR" 2>/dev/null; then
-      echo "Vail: warning - cannot create cache directory, using default" >&2
+      echo "Veil: warning - cannot create cache directory, using default" >&2
       COMPDUMP="$HOME/.zcompdump"
     fi
   fi
@@ -43,7 +43,7 @@ _ultimaCompletionInitSystem() {
   fi
   
   if [[ $? -ne 0 ]]; then
-    echo "Vail: error - compinit failed" >&2
+    echo "Veil: error - compinit failed" >&2
     return 1
   fi
   
@@ -133,7 +133,7 @@ _ultimaCompletionSetupHosts() {
 _ultimaCompletionVerify() {
   # Проверка что completion система работает
   if ! zstyle -L ':completion:*' >/dev/null 2>&1; then
-    echo "Vail: error - completion styles not applied" >&2
+    echo "Veil: error - completion styles not applied" >&2
     return 1
   fi
   
@@ -144,7 +144,7 @@ ultimaCompletionInit() {
   # Основная функция инициализации completion
   local EXIT_CODE=0
   
-  echo "Vail: initializing completion module..."
+  echo "Veil: initializing completion module..."
   
   if ! _ultimaCompletionDeps; then
     return 1
@@ -171,9 +171,9 @@ ultimaCompletionInit() {
   fi
   
   if [[ $EXIT_CODE -eq 0 ]]; then
-    echo "Vail: completion module initialized successfully"
+    echo "Veil: completion module initialized successfully"
   else
-    echo "Vail: completion module initialized with warnings" >&2
+    echo "Veil: completion module initialized with warnings" >&2
   fi
   
   return $EXIT_CODE
@@ -193,6 +193,6 @@ ultimaCompletionStatus() {
 # Автоинициализация с обработкой ошибок
 if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
   if ! ultimaCompletionInit; then
-    echo "Vail: critical - completion module failed to load" >&2
+    echo "Veil: critical - completion module failed to load" >&2
   fi
 fi  

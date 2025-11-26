@@ -1,5 +1,5 @@
 # test-theme.zsh-theme
-# Simple test theme for Vail
+# Simple test theme for Veil
 #
 # Usage: export THEME_NAME="test-theme" before loading ultima.zsh
 
