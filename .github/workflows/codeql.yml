@@ -1,0 +1,30 @@
+name: "CodeQL Advanced Shell Scan"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  codeql-shell-analysis:
+    name: CodeQL Shell Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: shell
+        queries: security-extended  # Более строгие проверки
+
+    - name: Build for Analysis
+      run: |
+        find . -name "*.zsh" -o -name "*.sh" | head -10
+        echo "Shell codebase prepared for CodeQL analysis"
+
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
