@@ -103,7 +103,6 @@ veilHistoryInit() {
   return $EXIT_CODE
 }
 
-# Auto-initialization with error handling
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilHistoryInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "History module: critical - module failed to load" >&2
