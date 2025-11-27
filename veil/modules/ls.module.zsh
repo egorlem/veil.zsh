@@ -31,6 +31,7 @@ __ultimaLsDetectSystem() {
 
 __ultimaLsSetupAliases() {
   # Настройка алиасов с проверкой поддержки
+  # SC2155
   local SYSTEM_TYPE=$(__ultimaLsDetectSystem)
   local HAS_COLOR_SUPPORT=0
   
@@ -42,6 +43,7 @@ __ultimaLsSetupAliases() {
   case $SYSTEM_TYPE in
     bsd)
       if ls -G / >/dev/null 2>&1; then
+        # SC2262
         alias ls='ls -G'
         alias ll='ls -laG'
         alias la='ls -laG'
@@ -116,7 +118,7 @@ ultimaLsInit() {
   if ! __ultimaLsVerify; then
     EXIT_CODE=1
   fi
-  
+  # SC2155
   local SYSTEM_TYPE=$(__ultimaLsDetectSystem)
   if [[ $EXIT_CODE -eq 0 ]]; then
     echo "Ultima: ls module initialized ($SYSTEM_TYPE system)"

@@ -109,6 +109,7 @@ ultimaHistoryInit() {
 
 ultimaHistoryStatus() {
   # Проверка статуса модуля
+  # SC1073 SC1072 https://www.shellcheck.net/wiki/
   if [[ -n "$HISTFILE" && -n "$HISTSIZE" && alias history >/dev/null 2>&1 ]]; then
     echo "loaded"
     return 0

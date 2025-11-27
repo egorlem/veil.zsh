@@ -34,6 +34,7 @@ _ultimaCompletionInitSystem() {
   fi
   
   # Оптимизированная инициализация completion
+  # SC1073 SC1036 SC1072
   if [[ -n "$COMPDUMP"(#qN.mh+24) ]]; then
     # Файл старше 24 часов - перекомпилируем
     compinit -d "$COMPDUMP"

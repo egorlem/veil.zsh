@@ -96,6 +96,7 @@ _veilLoadModule() {
   fi
   
   # Load module
+  # SC1090 Can't follow non-constant source. Use a directive to specify location
   if source "$module_file"; then
     VEIL_MODULE_LOADED[$1]=1
     [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: module '$1' loaded successfully"
@@ -122,6 +123,7 @@ _veilLoadTheme() {
   fi
   
   # Load theme
+  # SC1090 Can't follow non-constant source. Use a directive to specify location
   if source "$THEME_FILE"; then
       [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: theme '$THEME' loaded successfully"
       return 0
