@@ -117,7 +117,7 @@ _veilLoadTheme() {
   
   # Validate module name to prevent path traversal
   if [[ ! "$THEME" =~ ^[a-zA-Z0-9_-]+$ ]]; then
-    [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: invalid theme name: $1" >&2
+    [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: invalid theme name: $THEME" >&2
     return 1
   fi
   
