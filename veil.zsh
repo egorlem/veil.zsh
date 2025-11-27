@@ -1,4 +1,4 @@
-# Veil — https://github.com/egorlem/vail.zsh
+# Veil — https://github.com/egorlem/veil.zsh
 #
 # Modular Z Shell Configuration System
 # Takes full control of zsh configuration through logical modules
@@ -77,12 +77,18 @@ typeset -gA VEIL_MODULE_LOADED
 _veilLoadModule() {
   local module_file="$MODULES_DIR/$1.module.zsh"
   
+  # Validate module name to prevent path traversal
+  if [[ ! "$1" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: invalid module name: $1" >&2
+    return 1
+  fi
+  
   # Check if module file exists
   if [[ ! -f "$module_file" ]]; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: module $1 not found at $module_file" >&2
     return 1
   fi
-  
+
   # Check if module file is readable
   if [[ ! -r "$module_file" ]]; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: cannot read module $1" >&2
@@ -95,8 +101,7 @@ _veilLoadModule() {
     return 0
   fi
   
-  # Load module
-  # SC1090 Can't follow non-constant source. Use a directive to specify location
+  # shellcheck source=/dev/null
   if source "$module_file"; then
     VEIL_MODULE_LOADED[$1]=1
     [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: module '$1' loaded successfully"
@@ -109,7 +114,13 @@ _veilLoadModule() {
 
 _veilLoadTheme() {
   local THEME_FILE="$THEMES_DIR/${THEME}.zsh-theme"
-    
+  
+  # Validate module name to prevent path traversal
+  if [[ ! "$THEME" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: invalid theme name: $1" >&2
+    return 1
+  fi
+  
   # Check if theme file exists
   if [[ ! -f "$THEME_FILE" ]]; then
       [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: error - theme file not found: $THEME_FILE" >&2
@@ -122,8 +133,7 @@ _veilLoadTheme() {
       return 1
   fi
   
-  # Load theme
-  # SC1090 Can't follow non-constant source. Use a directive to specify location
+  # shellcheck source=/dev/null
   if source "$THEME_FILE"; then
       [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: theme '$THEME' loaded successfully"
       return 0
