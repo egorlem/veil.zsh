@@ -13,7 +13,7 @@
 __ultimaLsDeps() {
   # Проверка зависимостей
   if ! command -v ls >/dev/null 2>&1; then
-    echo "Ultima: error - 'ls' command not found" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: error - 'ls' command not found" >&2
     return 1
   fi
   return 0
@@ -37,7 +37,7 @@ __ultimaLsSetupAliases() {
   
   # Проверяем что LS_COLORS установлен colors модулем
   if [[ -z "$LS_COLORS" && -z "$LSCOLORS" ]]; then
-    echo "Ultima: warning - colors not configured, ls will be without colors" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: warning - colors not configured, ls will be without colors" >&2
   fi
   
   case $SYSTEM_TYPE in
@@ -77,7 +77,7 @@ __ultimaLsSetupAliases() {
   alias l='ls -CF'
   
   if [[ $HAS_COLOR_SUPPORT -eq 0 ]]; then
-    echo "Ultima: warning - color support not available for ls" >&2
+[[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: warning - color support not available for ls" >&2
   fi
   
   return 0
@@ -86,17 +86,17 @@ __ultimaLsSetupAliases() {
 __ultimaLsVerify() {
   # Проверка что алиасы установились
   if ! alias ls >/dev/null 2>&1; then
-    echo "Ultima: error - failed to create ls aliases" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: error - failed to create ls aliases" >&2
     return 1
   fi
   
   if ! alias ll >/dev/null 2>&1; then
-    echo "Ultima: error - failed to create ll alias" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: error - failed to create ll alias" >&2
     return 1
   fi
   
   if ! alias la >/dev/null 2>&1; then
-    echo "Ultima: error - failed to create la alias" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: error - failed to create la alias" >&2
     return 1
   fi
   
@@ -121,28 +121,17 @@ ultimaLsInit() {
   # SC2155
   local SYSTEM_TYPE=$(__ultimaLsDetectSystem)
   if [[ $EXIT_CODE -eq 0 ]]; then
-    echo "Ultima: ls module initialized ($SYSTEM_TYPE system)"
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: ls module initialized ($SYSTEM_TYPE system)"
   else
-    echo "Ultima: ls module initialized with warnings ($SYSTEM_TYPE system)" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: ls module initialized with warnings ($SYSTEM_TYPE system)" >&2
   fi
   
   return $EXIT_CODE
 }
 
-ultimaLsStatus() {
-  # Проверка статуса модуля
-  if command -v ls >/dev/null 2>&1 && alias ls >/dev/null 2>&1; then
-    echo "loaded"
-    return 0
-  else
-    echo "failed" 
-    return 1
-  fi
-}
-
 # Автоинициализация с обработкой ошибок
 if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
   if ! ultimaLsInit; then
-    echo "Ultima: critical - ls module failed to load" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: critical - ls module failed to load" >&2
   fi
 fi
