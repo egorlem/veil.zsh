@@ -26,13 +26,13 @@ _veilHistorySetupEnv() {
   local HIST_DIR="${HISTFILE:h}"
   if [[ ! -d "$HIST_DIR" ]]; then
     if ! mkdir -p "$HIST_DIR" 2>/dev/null; then
-      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "History module: error - cannot create history directory $HIST_DIR" >&2
+      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "history.module: error - cannot create history directory $HIST_DIR" >&2
       return 1
     fi
   fi
   
   if [[ ! -w "$HIST_DIR" ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "History module: error - history directory $HIST_DIR is not writable" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "history.module: error - history directory $HIST_DIR is not writable" >&2
     return 1
   fi
   
@@ -68,7 +68,7 @@ _veilHistorySetupAliases() {
 
 _veilHistoryVerify() {
   [[ -n "$HISTFILE" ]] || {
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "History module: error - HISTFILE not set" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "history.module: error - HISTFILE not set" >&2
     return 1
   }
   return 0
@@ -95,9 +95,9 @@ veilHistoryInit() {
   fi
   
   if [[ $EXIT_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "History module: initialized (HISTSIZE: $HISTSIZE)"
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "history.module: initialized (HISTSIZE: $HISTSIZE)"
   else
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "History module: initialized with warnings" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "history.module: initialized with warnings" >&2
   fi
   
   return $EXIT_CODE
@@ -105,6 +105,6 @@ veilHistoryInit() {
 
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilHistoryInit; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "History module: critical - module failed to load" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "history.module: critical - module failed to load" >&2
   fi
 fi
