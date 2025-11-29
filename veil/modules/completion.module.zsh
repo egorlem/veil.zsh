@@ -34,7 +34,6 @@ _veilCompletionInitSystem() {
   fi
   
   # Оптимизированная инициализация completion
-  # SC1073 SC1036 SC1072
   if [[ -n "$COMPDUMP"(#qN.mh+24) ]]; then
     # Файл старше 24 часов - перекомпилируем
     compinit -d "$COMPDUMP"
@@ -181,7 +180,7 @@ veilCompletionInit() {
 }
 
 # Автоинициализация с обработкой ошибок
-if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
+if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilCompletionInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: critical - completion module failed to load" >&2
   fi

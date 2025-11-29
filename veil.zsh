@@ -23,6 +23,7 @@ fi
 VEIL_DIR="${0:A:h}"
 DEFAULT_VEIL_MODULES_DIR="$VEIL_DIR/veil/modules"
 
+# TODO: use :- local CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 # Support for custom modules path
 if [[ -z "$VEIL_MODULES_DIR" ]]; then
     MODULES_DIR="$DEFAULT_VEIL_MODULES_DIR"
