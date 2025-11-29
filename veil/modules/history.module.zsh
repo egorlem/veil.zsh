@@ -7,7 +7,6 @@
 # • Smart deduplication and space optimization  
 # • Shared history across sessions
 # • Convenient aliases: history, h, hg (search)
-#
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
 # ------------------------------------------------------------------------------
