@@ -1,5 +1,11 @@
 # Veil Ls Module
 #
+# Enhanced Zsh ls aliases with cross-platform color support.
+#
+# Features:
+# • Cross-platform color support (BSD -G / GNU --color=auto)
+# • Optimized aliases: ls, ll, la, l
+# • Graceful fallbacks when color not available
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
 # ------------------------------------------------------------------------------
@@ -47,8 +53,8 @@ _veilLsSetupAliases() {
         alias la='command ls -laG'
         HAS_COLOR_SUPPORT=1
       else
-        alias ll='ls -la'
-        alias la='ls -la'
+        alias ll='command ls -la'
+        alias la='command ls -la'
       fi
       ;;
     gnu)
@@ -58,13 +64,13 @@ _veilLsSetupAliases() {
         alias la='command ls -la --color=auto'
         HAS_COLOR_SUPPORT=1
       else
-        alias ll='ls -la'
-        alias la='ls -la'
+        alias ll='command ls -la'
+        alias la='command ls -la'
       fi
       ;;
     *)
-      alias ll='ls -la'
-      alias la='ls -la'
+      alias ll='command ls -la'
+      alias la='command ls -la'
       ;;
   esac
   
