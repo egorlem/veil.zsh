@@ -158,3 +158,6 @@ VEIL_CORE_LOADED=1
 if ! _veilLoadTheme; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: warning - theme loading failed, continuing without theme" >&2
 fi
+
+
+echo 'DEV'
