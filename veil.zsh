@@ -39,7 +39,7 @@ typeset -U VEIL_MODULES
 if [[ ${#VEIL_MODULES[@]} -eq 0 ]]; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "veil: warning - no modules specified" >&2
 fi
-s
+
 # ------------------------------------------------------------------------------
 # SHARED VARIABLES (available to all modules)
 # ------------------------------------------------------------------------------
