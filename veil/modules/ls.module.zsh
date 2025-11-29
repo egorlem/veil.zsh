@@ -43,8 +43,8 @@ _veilLsSetupAliases() {
     bsd)
       if command ls -G / >/dev/null 2>&1; then 
         alias ls='command ls -G'
-        alias ll='ls -laG'
-        alias la='ls -laG'
+        alias ll='command ls -laG'
+        alias la='command ls -laG'
         HAS_COLOR_SUPPORT=1
       else
         alias ll='ls -la'
@@ -54,8 +54,8 @@ _veilLsSetupAliases() {
     gnu)
       if command ls --color=auto / >/dev/null 2>&1; then
         alias ls='command ls --color=auto'
-        alias ll='ls -la --color=auto'
-        alias la='ls -la --color=auto'
+        alias ll='command ls -la --color=auto'
+        alias la='command ls -la --color=auto'
         HAS_COLOR_SUPPORT=1
       else
         alias ll='ls -la'
@@ -68,7 +68,7 @@ _veilLsSetupAliases() {
       ;;
   esac
   
-  alias l='ls -CF'
+  alias l='command ls -CF'
   
   if [[ $HAS_COLOR_SUPPORT -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: warning - color support not available for ls" >&2
@@ -125,7 +125,7 @@ veilLsInit() {
 }
 
 # Автоинициализация с обработкой ошибок
-if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
+if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilLsInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: critical - ls module failed to load" >&2
   fi
