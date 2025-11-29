@@ -11,16 +11,16 @@
 #
 # ------------------------------------------------------------------------------
 
-_ultimaCompletionDeps() {
+_veilCompletionDeps() {
   # Проверка что Zsh поддерживает completion систему
   if ! autoload -Uz compinit >/dev/null 2>&1; then
-    echo "Veil: error - zsh completion system not available" >&2
+     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: error - zsh completion system not available" >&2
     return 1
   fi
   return 0
 }
 
-_ultimaCompletionInitSystem() {
+_veilCompletionInitSystem() {
   # Инициализация completion системы с кешированием
   local CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
   local COMPDUMP="$CACHE_DIR/.zcompdump"
@@ -28,7 +28,7 @@ _ultimaCompletionInitSystem() {
   # Создаем директорию для кеша если нужно
   if [[ ! -d "$CACHE_DIR" ]]; then
     if ! mkdir -p "$CACHE_DIR" 2>/dev/null; then
-      echo "Veil: warning - cannot create cache directory, using default" >&2
+      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: warning - cannot create cache directory, using default" >&2
       COMPDUMP="$HOME/.zcompdump"
     fi
   fi
@@ -43,14 +43,14 @@ _ultimaCompletionInitSystem() {
   fi
   
   if [[ $? -ne 0 ]]; then
-    echo "Veil: error - compinit failed" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: error - compinit failed" >&2
     return 1
   fi
   
   return 0
 }
 
-_ultimaCompletionSetupOptions() {
+_veilCompletionSetupOptions() {
   # Настройка опций completion
   setopt MENU_COMPLETE
   setopt LIST_TYPES
@@ -59,7 +59,7 @@ _ultimaCompletionSetupOptions() {
   return 0
 }
 
-_ultimaCompletionSetupStyles() {
+_veilCompletionSetupStyles() {
   # Настройка стилей completion с использованием безопасных значений по умолчанию
   local COMPLETION_ARROW="›"  # Используем значение по умолчанию вместо CHAR_ARROW
   local COMPLETION_INDICATOR="%F{blue} ${COMPLETION_ARROW} %f"
@@ -106,7 +106,7 @@ _ultimaCompletionSetupStyles() {
   return 0
 }
 
-_ultimaCompletionSetupHosts() {
+_veilCompletionSetupHosts() {
   # Настройка дополнения для хостов с обработкой ошибок
   local HOST_FILES=(
     "/etc/ssh/ssh_known_hosts"
@@ -130,69 +130,58 @@ _ultimaCompletionSetupHosts() {
   return 0
 }
 
-_ultimaCompletionVerify() {
+_veilCompletionVerify() {
   # Проверка что completion система работает
   if ! zstyle -L ':completion:*' >/dev/null 2>&1; then
-    echo "Veil: error - completion styles not applied" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: error - completion styles not applied" >&2
     return 1
   fi
   
   return 0
 }
 
-ultimaCompletionInit() {
+veilCompletionInit() {
   # Основная функция инициализации completion
   local EXIT_CODE=0
   
-  echo "Veil: initializing completion module..."
+  # [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: initializing completion module..."
   
-  if ! _ultimaCompletionDeps; then
+  if ! _veilCompletionDeps; then
     return 1
   fi
   
-  if ! _ultimaCompletionInitSystem; then
+  if ! _veilCompletionInitSystem; then
     EXIT_CODE=1
   fi
   
-  if ! _ultimaCompletionSetupOptions; then
+  if ! _veilCompletionSetupOptions; then
     EXIT_CODE=1
   fi
   
-  if ! _ultimaCompletionSetupStyles; then
+  if ! _veilCompletionSetupStyles; then
     EXIT_CODE=1
   fi
   
-  if ! _ultimaCompletionSetupHosts; then
+  if ! _veilCompletionSetupHosts; then
     EXIT_CODE=1
   fi
   
-  if ! _ultimaCompletionVerify; then
+  if ! _veilCompletionVerify; then
     EXIT_CODE=1
   fi
   
   if [[ $EXIT_CODE -eq 0 ]]; then
-    echo "Veil: completion module initialized successfully"
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: completion module initialized successfully"
   else
-    echo "Veil: completion module initialized with warnings" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: completion module initialized with warnings" >&2
   fi
   
   return $EXIT_CODE
 }
 
-ultimaCompletionStatus() {
-  # Проверка статуса completion системы
-  if zstyle -L ':completion:*' >/dev/null 2>&1 && compctl -L >/dev/null 2>&1; then
-    echo "loaded"
-    return 0
-  else
-    echo "failed" 
-    return 1
-  fi
-}
-
 # Автоинициализация с обработкой ошибок
-if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
-  if ! ultimaCompletionInit; then
-    echo "Veil: critical - completion module failed to load" >&2
+if [[ -z "$VEIL_CORE_LOADED" ]]; then
+  if ! veilCompletionInit; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: critical - completion module failed to load" >&2
   fi
 fi  

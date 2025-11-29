@@ -1,4 +1,4 @@
-# Veil — https://github.com/egorlem/vail.zsh
+# Veil — https://github.com/egorlem/veil.zsh
 #
 # Modular Z Shell Configuration System
 # Takes full control of zsh configuration through logical modules
@@ -23,6 +23,7 @@ fi
 VEIL_DIR="${0:A:h}"
 DEFAULT_VEIL_MODULES_DIR="$VEIL_DIR/veil/modules"
 
+# TODO: use :- local CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 # Support for custom modules path
 if [[ -z "$VEIL_MODULES_DIR" ]]; then
     MODULES_DIR="$DEFAULT_VEIL_MODULES_DIR"
@@ -77,12 +78,18 @@ typeset -gA VEIL_MODULE_LOADED
 _veilLoadModule() {
   local module_file="$MODULES_DIR/$1.module.zsh"
   
+  # Validate module name to prevent path traversal
+  if [[ ! "$1" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: invalid module name: $1" >&2
+    return 1
+  fi
+  
   # Check if module file exists
   if [[ ! -f "$module_file" ]]; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: module $1 not found at $module_file" >&2
     return 1
   fi
-  
+
   # Check if module file is readable
   if [[ ! -r "$module_file" ]]; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: cannot read module $1" >&2
@@ -95,7 +102,7 @@ _veilLoadModule() {
     return 0
   fi
   
-  # Load module
+  # shellcheck source=/dev/null
   if source "$module_file"; then
     VEIL_MODULE_LOADED[$1]=1
     [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: module '$1' loaded successfully"
@@ -108,7 +115,13 @@ _veilLoadModule() {
 
 _veilLoadTheme() {
   local THEME_FILE="$THEMES_DIR/${THEME}.zsh-theme"
-    
+  
+  # Validate module name to prevent path traversal
+  if [[ ! "$THEME" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: invalid theme name: $THEME" >&2
+    return 1
+  fi
+  
   # Check if theme file exists
   if [[ ! -f "$THEME_FILE" ]]; then
       [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: error - theme file not found: $THEME_FILE" >&2
@@ -121,7 +134,7 @@ _veilLoadTheme() {
       return 1
   fi
   
-  # Load theme
+  # shellcheck source=/dev/null
   if source "$THEME_FILE"; then
       [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: theme '$THEME' loaded successfully"
       return 0
@@ -146,3 +159,6 @@ VEIL_CORE_LOADED=1
 if ! _veilLoadTheme; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: warning - theme loading failed, continuing without theme" >&2
 fi
+
+
+echo 'DEV'
