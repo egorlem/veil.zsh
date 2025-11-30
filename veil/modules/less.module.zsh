@@ -10,30 +10,30 @@
 #
 # ------------------------------------------------------------------------------
 
-__ultimaLessDeps() {
+_veilLessDeps() {
   # Проверка зависимостей
   if ! command -v less >/dev/null 2>&1; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: error - 'less' command not found" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: error - 'less' command not found" >&2
     return 1
   fi
   return 0
 }
 
-__ultimaLessValidateTerm() {
+_veilLessValidateTerm() {
   # Проверка поддержки терминалом
   if [[ "$TERM" == "dumb" || "$TERM" == "unknown" ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: warning - terminal may not support less features" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: warning - terminal may not support less features" >&2
     return 1
   fi
   return 0
 }
 
-__ultimaLessSetupEnv() {
+_veilLessSetupEnv() {
   # Настройка переменных окружения с валидацией
   local LESS_OPTS="--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4"
   
   if ! LESS="$LESS_OPTS" less --version >/dev/null 2>&1; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: warning - some less options not supported, using minimal set" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: warning - some less options not supported, using minimal set" >&2
     LESS_OPTS="--quit-if-one-screen --ignore-case --LONG-PROMPT --tabs=4"
   fi
   
@@ -41,7 +41,7 @@ __ultimaLessSetupEnv() {
   export GROFF_NO_SGR=1
   
   # TERMCAP настройки только если поддерживается
-  if __ultimaLessValidateTerm; then
+  if _veilLessValidateTerm; then
     export LESS_TERMCAP_mb=$'\x1b[0;36m'    # begin bold
     export LESS_TERMCAP_md=$'\x1b[0;34m'    # begin blink  
     export LESS_TERMCAP_me=$'\x1b[0m'       # reset bold/blink
@@ -54,7 +54,7 @@ __ultimaLessSetupEnv() {
   return 0
 }
 
-__ultimaLessSetupAliases() {
+_veilLessSetupAliases() {
   # Настройка алиасов для less
   alias less='less --RAW-CONTROL-CHARS'   # Always ensure color support
   alias more='less'                       # Use less instead of more
@@ -66,7 +66,7 @@ __ultimaLessSetupAliases() {
   return 0
 }
 
-__ultimaLessSetupHelpers() {
+_veilLessSetupHelpers() {
   # Функции-хелперы для расширенного использования
   
   lessSearch() {
@@ -84,7 +84,7 @@ __ultimaLessSetupHelpers() {
   return 0
 }
 
-__ultimaLessAdaptToTerminal() {
+_veilLessAdaptToTerminal() {
   # Адаптация под возможности терминала
   case "$TERM" in
     "xterm-kitty")
@@ -101,53 +101,53 @@ __ultimaLessAdaptToTerminal() {
   return 0
 }
 
-__ultimaLessVerify() {
+_veilLessVerify() {
   # Финальная проверка что все работает
   if [[ -z "$LESS" ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: error - LESS environment variable not set" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: error - LESS environment variable not set" >&2
     return 1
   fi
   
   if ! command -v less >/dev/null 2>&1; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: error - less command disappeared" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: error - less command disappeared" >&2
     return 1
   fi
   
   return 0
 }
 
-ultimaLessInit() {
+veilLessInit() {
   # Основная функция инициализации
   local EXIT_CODE=0
   
-  if ! __ultimaLessDeps; then
+  if ! _veilLessDeps; then
     return 1
   fi
   
-  if ! __ultimaLessSetupEnv; then
+  if ! _veilLessSetupEnv; then
     EXIT_CODE=1
   fi
   
-  if ! __ultimaLessSetupAliases; then
+  if ! _veilLessSetupAliases; then
     EXIT_CODE=1
   fi
   
-  if ! __ultimaLessSetupHelpers; then
+  if ! _veilLessSetupHelpers; then
     EXIT_CODE=1
   fi
   
-  if ! __ultimaLessAdaptToTerminal; then
+  if ! _veilLessAdaptToTerminal; then
     EXIT_CODE=1
   fi
   
-  if ! __ultimaLessVerify; then
+  if ! _veilLessVerify; then
     EXIT_CODE=1
   fi
   
   if [[ $EXIT_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: less module initialized"
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: less module initialized"
   else
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: less module initialized with warnings" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: less module initialized with warnings" >&2
   fi
   
   return $EXIT_CODE
@@ -155,7 +155,7 @@ ultimaLessInit() {
 
 # Автоинициализация с обработкой ошибок
 if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
-  if ! ultimaLessInit; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Ultima: critical - less module failed to load" >&2
+  if ! veilLessInit; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: critical - less module failed to load" >&2
   fi
 fi

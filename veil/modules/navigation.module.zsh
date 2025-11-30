@@ -10,7 +10,7 @@
 #
 # ------------------------------------------------------------------------------
 
-__ultimaNavigationSetupOptions() {
+_veilNavigationSetupOptions() {
   # Настройка опций навигации
   setopt AUTO_CD           # cd без ввода cd
   setopt AUTO_PUSHD        # автоматически пушить директории в стек
@@ -20,7 +20,7 @@ __ultimaNavigationSetupOptions() {
   return 0
 }
 
-__ultimaNavigationSetupAliases() {
+_veilNavigationSetupAliases() {
   # Настройка алиасов для навигации
   alias ..='cd ..'
   alias ...='cd ../..'
@@ -48,60 +48,49 @@ __ultimaNavigationSetupAliases() {
   return 0
 }
 
-__ultimaNavigationVerify() {
+_veilNavigationVerify() {
   # Проверка что алиасы установились
   if ! alias .. >/dev/null 2>&1; then
-    echo "Ultima: error - failed to create navigation aliases" >&2
+    echo "veil/navigation: error - failed to create navigation aliases" >&2
     return 1
   fi
   
   if ! alias d >/dev/null 2>&1; then
-    echo "Ultima: error - failed to create dirs alias" >&2
+    echo "veil/navigation: error - failed to create dirs alias" >&2
     return 1
   fi
   
   return 0
 }
 
-ultimaNavigationInit() {
+veilNavigationInit() {
   # Основная функция инициализации
   local EXIT_CODE=0
   
-  if ! __ultimaNavigationSetupOptions; then
+  if ! _veilNavigationSetupOptions; then
     EXIT_CODE=1
   fi
   
-  if ! __ultimaNavigationSetupAliases; then
+  if ! _veilNavigationSetupAliases; then
     EXIT_CODE=1
   fi
   
-  if ! __ultimaNavigationVerify; then
+  if ! _veilNavigationVerify; then
     EXIT_CODE=1
   fi
   
   if [[ $EXIT_CODE -eq 0 ]]; then
-    echo "Ultima: navigation module initialized"
+    echo "veil/navigation: navigation module initialized"
   else
-    echo "Ultima: navigation module initialized with warnings" >&2
+    echo "veil/navigation: navigation module initialized with warnings" >&2
   fi
   
   return $EXIT_CODE
 }
 
-ultimaNavigationStatus() {
-  # Проверка статуса модуля
-  if alias .. >/dev/null 2>&1 && alias d >/dev/null 2>&1; then
-    echo "loaded"
-    return 0
-  else
-    echo "failed"
-    return 1
-  fi
-}
-
 # Автоинициализация с обработкой ошибок
 if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
-  if ! ultimaNavigationInit; then
-    echo "Ultima: critical - navigation module failed to load" >&2
+  if ! veilNavigationInit; then
+    echo "veil/navigation: critical - navigation module failed to load" >&2
   fi
 fi

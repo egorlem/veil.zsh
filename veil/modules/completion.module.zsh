@@ -14,7 +14,7 @@
 _veilCompletionDeps() {
   # Проверка что Zsh поддерживает completion систему
   if ! autoload -Uz compinit >/dev/null 2>&1; then
-     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: error - zsh completion system not available" >&2
+     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - zsh completion system not available" >&2
     return 1
   fi
   return 0
@@ -28,7 +28,7 @@ _veilCompletionInitSystem() {
   # Создаем директорию для кеша если нужно
   if [[ ! -d "$CACHE_DIR" ]]; then
     if ! mkdir -p "$CACHE_DIR" 2>/dev/null; then
-      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: warning - cannot create cache directory, using default" >&2
+      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: warning - cannot create cache directory, using default" >&2
       COMPDUMP="$HOME/.zcompdump"
     fi
   fi
@@ -43,7 +43,7 @@ _veilCompletionInitSystem() {
   fi
   
   if [[ $? -ne 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: error - compinit failed" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - compinit failed" >&2
     return 1
   fi
   
@@ -133,7 +133,7 @@ _veilCompletionSetupHosts() {
 _veilCompletionVerify() {
   # Проверка что completion система работает
   if ! zstyle -L ':completion:*' >/dev/null 2>&1; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: error - completion styles not applied" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - completion styles not applied" >&2
     return 1
   fi
   
@@ -144,7 +144,7 @@ veilCompletionInit() {
   # Основная функция инициализации completion
   local EXIT_CODE=0
   
-  # [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: initializing completion module..."
+  # [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: initializing completion module..."
   
   if ! _veilCompletionDeps; then
     return 1
@@ -171,9 +171,9 @@ veilCompletionInit() {
   fi
   
   if [[ $EXIT_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: completion module initialized successfully"
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: completion module initialized successfully"
   else
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: completion module initialized with warnings" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: completion module initialized with warnings" >&2
   fi
   
   return $EXIT_CODE
@@ -182,6 +182,6 @@ veilCompletionInit() {
 # Автоинициализация с обработкой ошибок
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilCompletionInit; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "Veil: critical - completion module failed to load" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: critical - completion module failed to load" >&2
   fi
 fi  

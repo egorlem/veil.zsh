@@ -22,6 +22,4 @@ initKeybindingsSettings() {
   
   # Умное автодополнение с Tab
   bindkey '^I' complete-word
-  
-  echo "Ultima: keybindings module initialized"
 }
