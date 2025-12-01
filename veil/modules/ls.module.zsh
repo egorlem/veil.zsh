@@ -123,8 +123,6 @@ veilLsInit() {
   SYSTEM_TYPE=$(_veilLsDetectSystem)
   if [[ $EXIT_CODE -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized ($SYSTEM_TYPE system)" >&2
-  else
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized with warnings ($SYSTEM_TYPE system)" >&2
   fi
   
   return $EXIT_CODE

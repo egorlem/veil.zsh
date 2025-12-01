@@ -95,8 +95,6 @@ veilHistoryInit() {
   
   if [[ $EXIT_CODE -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: initialized (HISTSIZE: $HISTSIZE)"
-  else
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: initialized with warnings" >&2
   fi
   
   return $EXIT_CODE

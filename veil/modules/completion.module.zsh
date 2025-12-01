@@ -144,8 +144,6 @@ veilCompletionInit() {
   # Основная функция инициализации completion
   local EXIT_CODE=0
   
-  # [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: initializing completion module..."
-  
   if ! _veilCompletionDeps; then
     return 1
   fi
@@ -172,8 +170,6 @@ veilCompletionInit() {
   
   if [[ $EXIT_CODE -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: completion module initialized successfully"
-  else
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: completion module initialized with warnings" >&2
   fi
   
   return $EXIT_CODE

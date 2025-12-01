@@ -117,7 +117,6 @@ _veilLessVerify() {
 }
 
 veilLessInit() {
-  # Основная функция инициализации
   local EXIT_CODE=0
   
   if ! _veilLessDeps; then
@@ -143,11 +142,9 @@ veilLessInit() {
   if ! _veilLessVerify; then
     EXIT_CODE=1
   fi
-  
+
   if [[ $EXIT_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: less module initialized"
-  else
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: less module initialized with warnings" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: navigation module initialized" >&2
   fi
   
   return $EXIT_CODE
