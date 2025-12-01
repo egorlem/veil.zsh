@@ -1,5 +1,12 @@
 # Veil Navigation Module
 #
+# Enhanced directory navigation with intelligent stack management and shortcuts.
+#
+# Features:
+# • Auto-change directory without typing 'cd'
+# • Directory stack with quick navigation (d, 1, 2, 3)
+# • Smart aliases: .., ..., ...., .....
+# • Clean stack behavior (no duplicates, silent operations)
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
 # ------------------------------------------------------------------------------
@@ -11,52 +18,38 @@
 # ------------------------------------------------------------------------------
 
 _veilNavigationSetupOptions() {
-  # Настройка опций навигации
-  setopt AUTO_CD           # cd без ввода cd
-  setopt AUTO_PUSHD        # автоматически пушить директории в стек
-  setopt PUSHD_IGNORE_DUPS # не пушить дубликаты в стек
-  setopt PUSHD_SILENT      # не выводить стек при pushd/popd
+  # Configure navigation options
+  setopt AUTO_CD           # Change directory without typing 'cd'
+  setopt AUTO_PUSHD        # Automatically push directories to stack
+  setopt PUSHD_IGNORE_DUPS # Don't push duplicates to stack
+  setopt PUSHD_SILENT      # Don't print stack on pushd/popd
   
   return 0
 }
 
 _veilNavigationSetupAliases() {
-  # Настройка алиасов для навигации
   alias ..='cd ..'
   alias ...='cd ../..'
   alias ....='cd ../../..'
   alias .....='cd ../../../..'
   
-  alias d='dirs -v'        # показать стек директорий
-  alias 1='cd -'
-  alias 2='cd -2'
-  alias 3='cd -3'
+  alias d='dirs -v'        # Show directory stack
   
-  # Быстрый переход в частые директории (опционально)
-  if [[ -d "$HOME/Development" ]]; then
-    alias dev='cd ~/Development'
-  fi
-  
-  if [[ -d "$HOME/Documents" ]]; then
-    alias docs='cd ~/Documents'
-  fi
-  
-  if [[ -d "$HOME/Downloads" ]]; then
-    alias down='cd ~/Downloads'
-  fi
-  
+  # if [[ -d "$HOME/Development" ]]; then
+  #   alias dev='cd ~/dev'
+  # fi
+
   return 0
 }
 
 _veilNavigationVerify() {
-  # Проверка что алиасы установились
   if ! alias .. >/dev/null 2>&1; then
-    echo "veil/navigation: error - failed to create navigation aliases" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: error - failed to create navigation aliases" >&2
     return 1
   fi
   
   if ! alias d >/dev/null 2>&1; then
-    echo "veil/navigation: error - failed to create dirs alias" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: error - failed to create dirs alias" >&2
     return 1
   fi
   
@@ -64,7 +57,6 @@ _veilNavigationVerify() {
 }
 
 veilNavigationInit() {
-  # Основная функция инициализации
   local EXIT_CODE=0
   
   if ! _veilNavigationSetupOptions; then
@@ -80,17 +72,16 @@ veilNavigationInit() {
   fi
   
   if [[ $EXIT_CODE -eq 0 ]]; then
-    echo "veil/navigation: navigation module initialized"
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: navigation module initialized" >&2
   else
-    echo "veil/navigation: navigation module initialized with warnings" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: navigation module initialized with warnings" >&2
   fi
   
   return $EXIT_CODE
 }
 
-# Автоинициализация с обработкой ошибок
-if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
+if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilNavigationInit; then
-    echo "veil/navigation: critical - navigation module failed to load" >&2
+     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: critical - navigation module failed to load" >&2
   fi
 fi
