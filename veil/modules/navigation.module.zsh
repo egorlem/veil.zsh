@@ -4,7 +4,6 @@
 #
 # Features:
 # • Auto-change directory without typing 'cd'
-# • Directory stack with quick navigation (d, 1, 2, 3)
 # • Smart aliases: .., ..., ...., .....
 # • Clean stack behavior (no duplicates, silent operations)
 # ------------------------------------------------------------------------------
