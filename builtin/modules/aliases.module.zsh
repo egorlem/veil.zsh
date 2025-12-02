@@ -12,6 +12,7 @@
 
 initAliasesSettings() {
 
+  alias stay="printf '\x1b[32mFollow the white rabbit...\x1b[0m\n'"
   # alias rm='rm -i'
   # alias cp='cp -i'
   # alias mv='mv -i'
