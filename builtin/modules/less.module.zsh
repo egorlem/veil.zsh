@@ -144,14 +144,14 @@ veilLessInit() {
   fi
 
   if [[ $EXIT_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: navigation module initialized" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: module initialized" >&2
   fi
   
   return $EXIT_CODE
 }
 
 # Автоинициализация с обработкой ошибок
-if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
+if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilLessInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: critical - less module failed to load" >&2
   fi

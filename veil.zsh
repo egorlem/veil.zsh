@@ -21,8 +21,8 @@ if [[ -n "$VEIL_CORE_LOADED" ]]; then
 fi
 
 VEIL_DIR="${0:A:h}"
-MODULES_DIR="${VEIL_MODULES_DIR:-$VEIL_DIR/veil/modules}"
-THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/veil/themes}"
+MODULES_DIR="${VEIL_MODULES_DIR:-$VEIL_DIR/builtin/modules}"
+THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/builtin/themes}"
 THEME="${THEME:-ultima}"
 
 if [[ -z "$VEIL_MODULES" ]]; then

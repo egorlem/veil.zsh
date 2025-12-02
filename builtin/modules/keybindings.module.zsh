@@ -1,4 +1,4 @@
-# Veil Completion Module
+# Veil Keybindings Module
 #
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
@@ -10,23 +10,18 @@
 #
 # ------------------------------------------------------------------------------
 
-initAliasesSettings() {
-
-  # alias rm='rm -i'
-  # alias cp='cp -i'
-  # alias mv='mv -i'
+initKeybindingsSettings() {
+  # bindkey '^[[A' history-substring-search-up    # стрелка вверх - поиск по истории
+  # bindkey '^[[B' history-substring-search-down  # стрелка вниз - поиск по истории
   
-  # # Git shortcuts
-  # alias gs='git status'
-  # alias ga='git add'
-  # alias gc='git commit'
-  # alias gd='git diff'
-  # alias gl='git log --oneline --graph'
-    
-  # # Network
-  # alias ip='curl -s ifconfig.me'
-  # alias localip='ipconfig getifaddr en0'
-  # alias ping='ping -c 5'
+  # bindkey '^[OH' beginning-of-line              # Home - в начало строки
+  # bindkey '^[OF' end-of-line                    # End - в конец строки
+  
+  bindkey '^[[3~' delete-char                   # Del - удалить символ
+  bindkey '^H' backward-kill-word               # Ctrl+Backspace - удалить слово
+  
+  # Умное автодополнение с Tab
+  bindkey '^I' complete-word
 }
 
 # veilLsInit() {
@@ -49,6 +44,8 @@ initAliasesSettings() {
 #   SYSTEM_TYPE=$(_veilLsDetectSystem)
 #   if [[ $EXIT_CODE -eq 0 ]]; then
 #     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized ($SYSTEM_TYPE system)" >&2
+#   else
+#     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized with warnings ($SYSTEM_TYPE system)" >&2
 #   fi
   
 #   return $EXIT_CODE
@@ -62,8 +59,7 @@ initAliasesSettings() {
 # fi
 
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
-  if ! initAliasesSettings; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/aliases: critical - module failed to load" >&2
+  if ! initKeybindingsSettings; then
+     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/keybindings: critical - keybindings module failed to load" >&2
   fi
 fi
-
