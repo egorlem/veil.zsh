@@ -47,25 +47,19 @@ _veilLsSetupAliases() {
   
   case $SYSTEM_TYPE in
     bsd)
-      if command ls -G / >/dev/null 2>&1; then 
+      if command ls -G /dev/null >/dev/null 2>&1; then 
         alias ls='command ls -G'
         alias ll='command ls -laG'
         alias la='command ls -laG'
         HAS_COLOR_SUPPORT=1
-      else
-        alias ll='command ls -la'
-        alias la='command ls -la'
       fi
       ;;
     gnu)
-      if command ls --color=auto / >/dev/null 2>&1; then
+      if command ls --color=auto /dev/null >/dev/null 2>&1; then
         alias ls='command ls --color=auto'
         alias ll='command ls -la --color=auto'
         alias la='command ls -la --color=auto'
         HAS_COLOR_SUPPORT=1
-      else
-        alias ll='command ls -la'
-        alias la='command ls -la'
       fi
       ;;
     *)
