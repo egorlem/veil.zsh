@@ -45,7 +45,7 @@ _veilLessSetupEnv() {
     export LESS_TERMCAP_mb=$'\x1b[0;36m'    # begin bold
     export LESS_TERMCAP_md=$'\x1b[0;34m'    # begin blink  
     export LESS_TERMCAP_me=$'\x1b[0m'       # reset bold/blink
-    export LESS_TERMCAP_so=$' \x1b[0;42;30m ' # begin reverse video
+    export LESS_TERMCAP_so=$'\x1b[0;30m' # begin reverse video
     export LESS_TERMCAP_se=$' \x1b[0m'      # reset reverse video
     export LESS_TERMCAP_us=$'\x1b[0m\x1b[0;32m' # begin underline
     export LESS_TERMCAP_ue=$'\x1b[0m'       # reset underline
@@ -105,11 +105,6 @@ _veilLessVerify() {
   # Финальная проверка что все работает
   if [[ -z "$LESS" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: error - LESS environment variable not set" >&2
-    return 1
-  fi
-  
-  if ! command -v less >/dev/null 2>&1; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: error - less command disappeared" >&2
     return 1
   fi
   

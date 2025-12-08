@@ -89,7 +89,7 @@ _veilLoadModule() {
     [[ -n "$VEIL_VERBOSE" ]] && echo "veil: module '$1' loaded successfully"
     return 0
   else
-    echo "Veil: failed to load module '$1'" >&2
+    [[ -n "$VEIL_VERBOSE" ]] && echo "Veil: failed to load module '$1'" >&2
     return 1
   fi
 }

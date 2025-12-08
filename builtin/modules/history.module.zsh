@@ -54,7 +54,6 @@ _veilHistorySetupOptions() {
 }
 
 _veilHistorySetupAliases() {
-  # Clean alias creation
   alias history='fc -l 1'
   alias h='history'
   
@@ -74,7 +73,6 @@ _veilHistoryVerify() {
 }
 
 veilHistoryInit() {
-  # Main initialization function
   local EXIT_CODE=0
   
   if ! _veilHistorySetupEnv; then
