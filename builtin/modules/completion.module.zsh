@@ -11,21 +11,19 @@
 #
 # ------------------------------------------------------------------------------
 
-_veilCompletionDeps() {
-  # Проверка что Zsh поддерживает completion систему
+__veilCompletionDeps() {
   if ! autoload -Uz compinit >/dev/null 2>&1; then
      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - zsh completion system not available" >&2
     return 1
   fi
+
   return 0
 }
 
-_veilCompletionInitSystem() {
-  # Инициализация completion системы с кешированием
+__veilCompletionInitSystem() {
   local CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
   local COMPDUMP="$CACHE_DIR/.zcompdump"
   
-  # Создаем директорию для кеша если нужно
   if [[ ! -d "$CACHE_DIR" ]]; then
     if ! mkdir -p "$CACHE_DIR" 2>/dev/null; then
       [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: warning - cannot create cache directory, using default" >&2
@@ -33,81 +31,71 @@ _veilCompletionInitSystem() {
     fi
   fi
   
-  # Оптимизированная инициализация completion
   if [[ -n "$COMPDUMP"(#qN.mh+24) ]]; then
-    # Файл старше 24 часов - перекомпилируем
     compinit -d "$COMPDUMP"
   else
-    # Используем кеш
     compinit -d "$COMPDUMP" -C
   fi
   
   if [[ $? -ne 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - compinit failed" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - compinit with cache failed, trying without cache" >&2
+    if ! compinit 2>/dev/null; then
+      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: critical - compinit failed completely" >&2
+      return 2
+    fi
+    
     return 1
   fi
   
   return 0
 }
 
-_veilCompletionSetupOptions() {
-  # Настройка опций completion
+__veilCompletionSetupOptions() {
   setopt MENU_COMPLETE
   setopt LIST_TYPES
   setopt GLOB_COMPLETE
-  
+
   return 0
 }
 
-_veilCompletionSetupStyles() {
-  # Настройка стилей completion с использованием безопасных значений по умолчанию
-  local COMPLETION_ARROW="›"  # Используем значение по умолчанию вместо CHAR_ARROW
-  local COMPLETION_INDICATOR="%F{blue} ${COMPLETION_ARROW} %f"
-  local WARNING_INDICATOR="%F{yellow} ${COMPLETION_ARROW} %f"
-  local ERROR_INDICATOR="%B%F{red} ${COMPLETION_ARROW} %f"
-  
-  # Базовые настройки
-  zstyle ':completion:*' completer _expand _complete _ignored _approximate
+__veilCompletionSetupStyles() {
   zstyle ':completion:*' use-cache on
   zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompcache"
   zstyle ':completion:*' verbose yes
   zstyle ':completion:*' menu select=2
-  zstyle ':completion:*' matcher-list "m:{a-z}={A-Z}"
+  zstyle ':completion:*' matcher-list "m:{a-z}={A-Z}" "r:|[-._]=*" "r:|=* r:|[-._]=*" "l:|=* r:|=* l:|=*"
   zstyle ':completion:*' group-name ''
   
-  # Форматы сообщений
-  zstyle ':completion:*:*:*:*:descriptions' format "${COMPLETION_INDICATOR}%F{green}%d%f"
-  zstyle ':completion:*:*:*:*:corrections' format "${ERROR_INDICATOR}%F{yellow}%d%f (errors: %e%)"
-  zstyle ':completion:*:*:*:*:warnings' format "${WARNING_INDICATOR}%F{red}no matches for: %d%f"
-  zstyle ':completion:*:*:*:*:messages' format "%d"
+  zstyle ':completion:*' completer _expand _complete _correct
   
-  # Цвета
+  zstyle ':completion:*:expand:*' tag-order all-expansions
+
+  zstyle ':completion:*:correct:*' original true
+  zstyle ':completion:*:correct:*' insert-unambiguous true
+
+  zstyle ':completion:*:descriptions' format "%F{0} › %d%f"
+  zstyle ':completion:*:corrections' format "%F{2} › %d%f"
+  zstyle ':completion:*:warnings' format "%F{1} › no matches for: %f%d"
+  zstyle ':completion:*:messages' format "%d"
+  zstyle ':completion:*' select-prompt "%F{0}position %p%f"
+
+  zstyle ':completion:*' squeeze-slashes true                                    
+  
   if [[ -n "$LS_COLORS" ]]; then
-    zstyle ':completion:*:*:*:*:default' list-colors ${(s.:.)LS_COLORS}
+    # for ultima ${(s.:.)LS_COLORS} "ma=92;48;5;23"
+    zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
   else
-    # Fallback colors если LS_COLORS не установлен
-    zstyle ':completion:*:*:*:*:default' list-colors 'di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
+    zstyle ':completion:*:default' list-colors 'di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
   fi
   
-  zstyle ':completion:*:parameters' list-colors '=*=34'
-  zstyle ':completion:*:options' list-colors '=^(-- *)=34'
-  zstyle ':completion:*:commands' list-colors '=*=1;34'
-  
-  # Продвинутые настройки
-  zstyle ':completion:*:expand:*' tag-order all-expansions
-  zstyle ':completion:*:approximate:*' max-errors "reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )"
   zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
-  
-  # Игнорируемые паттерны
-  local IGNORED_FILES=("*?.o" "*?.c~" "*?.old" "*?.pro")
-  zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns "${IGNORED_FILES[@]}"
-  zstyle ':completion:*:functions' ignored-patterns "_*"
+  zstyle ':completion:*:functions' ignored-patterns '_*' '__veil*' 'veil*'
   
   return 0
 }
 
-_veilCompletionSetupHosts() {
-  # Настройка дополнения для хостов с обработкой ошибок
+__veilCompletionSetupHosts() {
+  local file
   local HOST_FILES=(
     "/etc/ssh/ssh_known_hosts"
     "/etc/ssh/ssh_known_hosts2" 
@@ -130,54 +118,36 @@ _veilCompletionSetupHosts() {
   return 0
 }
 
-_veilCompletionVerify() {
-  # Проверка что completion система работает
-  if ! zstyle -L ':completion:*' >/dev/null 2>&1; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - completion styles not applied" >&2
+veilCompletionInit() {
+  local STATUS_CODE=0
+  
+  if ! __veilCompletionDeps; then
+    return 1  # Нет completion системы
+  fi
+  
+  __veilCompletionInitSystem
+  STATUS_CODE=$?
+  
+  if [[ $STATUS_CODE -eq 2 ]]; then
     return 1
+  fi
+  
+  __veilCompletionSetupOptions
+  __veilCompletionSetupStyles
+  __veilCompletionSetupHosts
+  
+  if [[ $STATUS_CODE -eq 0 ]]; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: module initialized with cache"
+  elif [[ $STATUS_CODE -eq 1 ]]; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: module initialized (cache failed but completion works)"
   fi
   
   return 0
 }
 
-veilCompletionInit() {
-  # Основная функция инициализации completion
-  local EXIT_CODE=0
-  
-  if ! _veilCompletionDeps; then
-    return 1
-  fi
-  
-  if ! _veilCompletionInitSystem; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilCompletionSetupOptions; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilCompletionSetupStyles; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilCompletionSetupHosts; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilCompletionVerify; then
-    EXIT_CODE=1
-  fi
-  
-  if [[ $EXIT_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: completion module initialized successfully"
-  fi
-  
-  return $EXIT_CODE
-}
 
-# Автоинициализация с обработкой ошибок
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilCompletionInit; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: critical - completion module failed to load" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: critical - module failed to load" >&2
   fi
 fi  
