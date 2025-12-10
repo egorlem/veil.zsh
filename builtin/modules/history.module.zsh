@@ -39,7 +39,6 @@ __veilHistorySetupEnv() {
 }
 
 __veilHistorySetupOptions() {
-  # History options configuration
   setopt EXTENDED_HISTORY        # timestamps in history
   setopt HIST_EXPIRE_DUPS_FIRST  # remove duplicates first when trimming
   setopt HIST_IGNORE_DUPS        # ignore consecutive duplicates

@@ -122,7 +122,7 @@ veilCompletionInit() {
   local STATUS_CODE=0
   
   if ! __veilCompletionDeps; then
-    return 1  # Нет completion системы
+    return 1 
   fi
   
   __veilCompletionInitSystem
