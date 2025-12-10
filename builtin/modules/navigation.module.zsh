@@ -16,7 +16,7 @@
 #
 # ------------------------------------------------------------------------------
 
-_veilNavigationSetupOptions() {
+__veilNavigationSetupOptions() {
   # Configure navigation options
   setopt AUTO_CD           # Change directory without typing 'cd'
   setopt AUTO_PUSHD        # Automatically push directories to stack
@@ -26,7 +26,7 @@ _veilNavigationSetupOptions() {
   return 0
 }
 
-_veilNavigationSetupAliases() {
+__veilNavigationSetupAliases() {
   alias ..='cd ..'
   alias ...='cd ../..'
   alias ....='cd ../../..'
@@ -41,7 +41,7 @@ _veilNavigationSetupAliases() {
   return 0
 }
 
-_veilNavigationVerify() {
+__veilNavigationVerify() {
   if ! alias .. >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: error - failed to create navigation aliases" >&2
     return 1
@@ -56,25 +56,20 @@ _veilNavigationVerify() {
 }
 
 veilNavigationInit() {
-  local EXIT_CODE=0
+  local STATUS_CODE=0
   
-  if ! _veilNavigationSetupOptions; then
-    EXIT_CODE=1
+  __veilNavigationSetupOptions
+  __veilNavigationSetupAliases
+
+  if ! __veilNavigationVerify; then
+    STATUS_CODE=1
   fi
   
-  if ! _veilNavigationSetupAliases; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilNavigationVerify; then
-    EXIT_CODE=1
-  fi
-  
-  if [[ $EXIT_CODE -eq 0 ]]; then
+  if [[ $STATUS_CODE -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: module initialized" >&2
   fi
   
-  return $EXIT_CODE
+  return $STATUS_CODE
 }
 
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
