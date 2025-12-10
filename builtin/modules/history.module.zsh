@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 
-_veilHistorySetupEnv() {
+__veilHistorySetupEnv() {
   export HISTFILE="$HOME/.zsh_history"
   export HISTSIZE=100000
   export SAVEHIST=100000
@@ -38,7 +38,7 @@ _veilHistorySetupEnv() {
   return 0
 }
 
-_veilHistorySetupOptions() {
+__veilHistorySetupOptions() {
   # History options configuration
   setopt EXTENDED_HISTORY        # timestamps in history
   setopt HIST_EXPIRE_DUPS_FIRST  # remove duplicates first when trimming
@@ -53,7 +53,7 @@ _veilHistorySetupOptions() {
   return 0
 }
 
-_veilHistorySetupAliases() {
+__veilHistorySetupAliases() {
   alias history='fc -l 1'
   alias h='history'
   
@@ -64,7 +64,7 @@ _veilHistorySetupAliases() {
   return 0
 }
 
-_veilHistoryVerify() {
+__veilHistoryVerify() {
   [[ -n "$HISTFILE" ]] || {
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: error - HISTFILE not set" >&2
     return 1
@@ -73,33 +73,24 @@ _veilHistoryVerify() {
 }
 
 veilHistoryInit() {
-  local EXIT_CODE=0
-  
-  if ! _veilHistorySetupEnv; then
-    EXIT_CODE=1
+  if ! __veilHistorySetupEnv; then
+    return 1
+  fi
+
+  if ! __veilHistoryVerify; then
+    return 1
   fi
   
-  if ! _veilHistorySetupOptions; then
-    EXIT_CODE=1
-  fi
+  __veilHistorySetupOptions
+  __veilHistorySetupAliases
   
-  if ! _veilHistorySetupAliases; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilHistoryVerify; then
-    EXIT_CODE=1
-  fi
-  
-  if [[ $EXIT_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: initialized (HISTSIZE: $HISTSIZE)"
-  fi
-  
-  return $EXIT_CODE
+  [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: initialized (HISTSIZE: $HISTSIZE)"
+
+  return 0
 }
 
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilHistoryInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: critical - module failed to load" >&2
   fi
-fi
+fi 
