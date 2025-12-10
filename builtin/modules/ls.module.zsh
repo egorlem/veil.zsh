@@ -16,8 +16,7 @@
 #
 # ------------------------------------------------------------------------------
 
-_veilLsDeps() {
-  # Проверка зависимостей
+__veilLsDeps() {
   if ! command -v ls >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: error - 'ls' command not found" >&2
     return 1
@@ -25,8 +24,7 @@ _veilLsDeps() {
   return 0
 }
 
-_veilLsDetectSystem() {
-  # Определение типа системы
+__veilLsDetectSystem() {
   case "$OSTYPE" in
     darwin*) echo "bsd" ;;
     linux*) echo "gnu" ;;
@@ -35,12 +33,11 @@ _veilLsDetectSystem() {
   esac
 }
 
-_veilLsSetupAliases() {
+__veilLsSetupAliases() {
   local SYSTEM_TYPE
-  SYSTEM_TYPE=$(_veilLsDetectSystem)
+  SYSTEM_TYPE=$(__veilLsDetectSystem)
   local HAS_COLOR_SUPPORT=0
   
-  # Проверяем что LS_COLORS установлен colors модулем
   if [[ -z "$LS_COLORS" && -z "$LSCOLORS" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: warning - colors not configured, ls will be without colors" >&2
   fi
@@ -77,8 +74,7 @@ _veilLsSetupAliases() {
   return 0
 }
 
-_veilLsVerify() {
-  # Проверка что алиасы установились
+__veilLsVerify() {
   if ! alias ls >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: error - failed to create ls aliases" >&2
     return 1
@@ -98,31 +94,27 @@ _veilLsVerify() {
 }
 
 veilLsInit() {
-  # Основная функция инициализации
-  local EXIT_CODE=0
+  local STATUS_CODE=0
   local SYSTEM_TYPE
   
-  if ! _veilLsDeps; then
+  if ! __veilLsDeps; then
     return 1
   fi
   
-  if ! _veilLsSetupAliases; then
-    EXIT_CODE=1
-  fi
+  __veilLsSetupAliases
   
-  if ! _veilLsVerify; then
-    EXIT_CODE=1
+  if ! __veilLsVerify; then
+    STATUS_CODE=1
   fi
 
-  SYSTEM_TYPE=$(_veilLsDetectSystem)
-  if [[ $EXIT_CODE -eq 0 ]]; then
+  SYSTEM_TYPE=$(__veilLsDetectSystem)
+  if [[ $STATUS_CODE -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized ($SYSTEM_TYPE system)" >&2
   fi
   
-  return $EXIT_CODE
+  return $STATUS_CODE
 }
 
-# Автоинициализация с обработкой ошибок
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilLsInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: critical - ls module failed to load" >&2
