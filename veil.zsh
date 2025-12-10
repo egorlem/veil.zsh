@@ -56,7 +56,7 @@ export LSCOLORS LS_COLORS
 # Associative array to track loaded modules
 typeset -gA VEIL_MODULE_LOADED
 
-_veilLoadModule() {
+__veilLoadModule() {
   local module_file="$MODULES_DIR/$1.module.zsh"
   
   # Validate module name to prevent path traversal
@@ -83,7 +83,6 @@ _veilLoadModule() {
     return 0
   fi
   
-  # shellcheck source=/dev/null
   if source "$module_file"; then
     VEIL_MODULE_LOADED[$1]=1
     [[ -n "$VEIL_VERBOSE" ]] && echo "veil: module '$1' loaded successfully"
@@ -94,7 +93,7 @@ _veilLoadModule() {
   fi
 }
 
-_veilLoadTheme() {
+__veilLoadTheme() {
   local THEME_FILE="$THEMES_DIR/${THEME}.zsh-theme"
   
   # Validate module name to prevent path traversal
@@ -115,7 +114,6 @@ _veilLoadTheme() {
       return 1
   fi
   
-  # shellcheck source=/dev/null
   if source "$THEME_FILE"; then
       [[ -n "$VEIL_VERBOSE" ]] && echo "veil: theme '$THEME' loaded successfully"
       return 0
@@ -128,7 +126,7 @@ _veilLoadTheme() {
 # Load modules if available
 if [[ -d "$MODULES_DIR" ]]; then
   for module in $VEIL_MODULES; do
-    _veilLoadModule "$module"
+    __veilLoadModule "$module"
   done
 else
   [[ -n "$VEIL_VERBOSE" ]] && echo "veil: running in minimal mode without modules" >&2
@@ -136,7 +134,6 @@ fi
 
 VEIL_CORE_LOADED=1
 
-# Load theme
-if ! _veilLoadTheme; then
+if ! __veilLoadTheme; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "veil: warning - theme loading failed, continuing without theme" >&2
 fi
