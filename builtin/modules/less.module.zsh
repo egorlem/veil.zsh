@@ -10,8 +10,7 @@
 #
 # ------------------------------------------------------------------------------
 
-_veilLessDeps() {
-  # Проверка зависимостей
+__veilLessDeps() {
   if ! command -v less >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: error - 'less' command not found" >&2
     return 1
@@ -19,8 +18,7 @@ _veilLessDeps() {
   return 0
 }
 
-_veilLessValidateTerm() {
-  # Проверка поддержки терминалом
+__veilLessValidateTerm() {
   if [[ "$TERM" == "dumb" || "$TERM" == "unknown" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: warning - terminal may not support less features" >&2
     return 1
@@ -28,8 +26,7 @@ _veilLessValidateTerm() {
   return 0
 }
 
-_veilLessSetupEnv() {
-  # Настройка переменных окружения с валидацией
+__veilLessSetupEnv() {
   local LESS_OPTS="--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4"
   
   if ! LESS="$LESS_OPTS" less --version >/dev/null 2>&1; then
@@ -40,8 +37,7 @@ _veilLessSetupEnv() {
   export LESS="$LESS_OPTS"
   export GROFF_NO_SGR=1
   
-  # TERMCAP настройки только если поддерживается
-  if _veilLessValidateTerm; then
+  if __veilLessValidateTerm; then
     export LESS_TERMCAP_mb=$'\x1b[0;36m'    # begin bold
     export LESS_TERMCAP_md=$'\x1b[0;34m'    # begin blink  
     export LESS_TERMCAP_me=$'\x1b[0m'       # reset bold/blink
@@ -54,38 +50,29 @@ _veilLessSetupEnv() {
   return 0
 }
 
-_veilLessSetupAliases() {
-  # Настройка алиасов для less
+__veilLessSetupAliases() {
   alias less='less --RAW-CONTROL-CHARS'   # Always ensure color support
   alias more='less'                       # Use less instead of more
   
-  # Настройка man pages для использования less
   export MANPAGER="less -s -M +Gg"
   export MANWIDTH=80
   
   return 0
 }
 
-_veilLessSetupHelpers() {
-  # Функции-хелперы для расширенного использования
-  
+__veilLessSetupHelpers() {
   lessSearch() {
-    # Поиск текста в файле через less
-    # Usage: lessSearch "pattern" filename
     less -p "$1" "$2"
   }
 
   lessTail() {
-    # Просмотр логов в реальном времени  
-    # Usage: lessTail filename
     less +F "$1"
   }
   
   return 0
 }
 
-_veilLessAdaptToTerminal() {
-  # Адаптация под возможности терминала
+__veilLessAdaptToTerminal() {
   case "$TERM" in
     "xterm-kitty")
       # Kitty terminal has better scrollback
@@ -101,8 +88,7 @@ _veilLessAdaptToTerminal() {
   return 0
 }
 
-_veilLessVerify() {
-  # Финальная проверка что все работает
+__veilLessVerify() {
   if [[ -z "$LESS" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: error - LESS environment variable not set" >&2
     return 1
@@ -112,40 +98,26 @@ _veilLessVerify() {
 }
 
 veilLessInit() {
-  local EXIT_CODE=0
-  
-  if ! _veilLessDeps; then
+  if ! __veilLessDeps; then
     return 1
   fi
+
+  __veilLessSetupEnv
+  __veilLessSetupAliases
+  __veilLessSetupHelpers
+  __veilLessAdaptToTerminal
   
-  if ! _veilLessSetupEnv; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilLessSetupAliases; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilLessSetupHelpers; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilLessAdaptToTerminal; then
-    EXIT_CODE=1
-  fi
-  
-  if ! _veilLessVerify; then
-    EXIT_CODE=1
+  if ! __veilLessVerify; then
+    return 1
   fi
 
-  if [[ $EXIT_CODE -eq 0 ]]; then
+  if [[ $STATUS_CODE -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: module initialized" >&2
   fi
   
-  return $EXIT_CODE
+  return 0
 }
 
-# Автоинициализация с обработкой ошибок
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilLessInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: critical - less module failed to load" >&2
