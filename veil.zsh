@@ -83,6 +83,7 @@ __veilLoadModule() {
     return 0
   fi
   
+  # shellcheck source=/dev/null
   if source "$module_file"; then
     VEIL_MODULE_LOADED[$1]=1
     [[ -n "$VEIL_VERBOSE" ]] && echo "veil: module '$1' loaded successfully"
@@ -113,7 +114,8 @@ __veilLoadTheme() {
       [[ -n "$VEIL_VERBOSE" ]] && echo "veil: error - cannot read theme file: $THEME_FILE" >&2
       return 1
   fi
-  
+
+  # shellcheck source=/dev/null
   if source "$THEME_FILE"; then
       [[ -n "$VEIL_VERBOSE" ]] && echo "veil: theme '$THEME' loaded successfully"
       return 0
