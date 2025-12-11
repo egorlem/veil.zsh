@@ -35,7 +35,7 @@ BOX_L="┌"      # Limiter corner (starts top line)                Unicode: \u25
 BOX_P="└"      # Prompt corner (starts prompt line)              Unicode: \u2514
 BOX_H="─"      # Horizontal line (fills top limiter)             Unicode: \u2500
 
-SCI_RST="\x1b[0m"                                            # SGR 0 - Reset all
+SCI_RST="\x1b[0m"                                          #   SGR 0 - Reset all
 SCI_BLACK="\x1b[0;30m"                                     # SGR 0;30 - black FG
 
 VCS="${VCS:-git}"
@@ -151,6 +151,7 @@ __ultimaPrintPsOneLimiter() {
   echo "${SCI_BLACK}${BOX_L}${spacing}${SCI_RST}"
   return 0
 }
+
 # ------------------------------------------------------------------------------
 # PROMPT DEFINITION
 # ------------------------------------------------------------------------------
