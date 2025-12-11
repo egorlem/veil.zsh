@@ -49,7 +49,7 @@ __ultimaSetupVCS() {
   # Validate VCS value
   if [[ "$VCS" != "git" && "$VCS" != "svn" && "$VCS" != "hg" ]]; then
     VCS=""
-    return 1  # Invalid VCS
+    return 1
   fi
 
   # Define VCS variables
@@ -88,7 +88,6 @@ __ultimaSetupVCS() {
       zstyle ':vcs_info:hg:*' formats " ${CHAR_BADGE} ${VC_BRANCH_NAME}"
       ;;
     *)
-      # Should not happen due to validation above
       return 1
       ;;
   esac
@@ -119,7 +118,6 @@ __ultimaSetupVCS() {
 # ------------------------------------------------------------------------------
 
 # SSH marker - shows "SSH:" when connected via SSH
-# Returns: 0 if SSH connected, 1 otherwise
 __u_ssh() {
   if [[ -n "$SSH_CLIENT" || -n "$SSH2_CLIENT" ]]; then
     echo "%F{2}SSH%f%F{0}:%f"
@@ -129,7 +127,6 @@ __u_ssh() {
 }
 
 # VCS status line - displays git/svn/hg information
-# Returns: 0 if VCS enabled, 1 if disabled
 __u_vcs() {
   if [[ -n "$VCS" ]]; then
     echo '${vcs_info_msg_0_}'
@@ -139,7 +136,6 @@ __u_vcs() {
 }
 
 # Draws the horizontal line separator at the top of each prompt
-# Returns: always 0 (should not fail)
 __ultimaPrintPsOneLimiter() {
   local termwidth spacing="" i
   (( termwidth = COLUMNS - 1 ))
@@ -172,7 +168,6 @@ PS3=" › "
 
 # Called before each prompt display
 # Updates VCS info and draws the top separator line
-# Returns: 0 on success, 1 if vcs_info fails
 __ultimaPrecmd() {
   if [[ $VCS != "" ]]; then
     vcs_info || return 1
@@ -182,7 +177,6 @@ __ultimaPrecmd() {
 }
 
 # Sets up zsh hooks for prompt functionality
-# Returns: 0 on success, 1 if hook setup fails
 __ultimaSetupHooks() {
   add-zsh-hook precmd __ultimaPrecmd || return 1
   return 0
@@ -192,10 +186,8 @@ __ultimaSetupHooks() {
 # MAIN EXECUTION
 # ------------------------------------------------------------------------------
 
-# Initialize VCS
 __ultimaSetupVCS
 
-# Setup hooks
 __ultimaSetupHooks
 
 # Cleanup setup functions (no longer needed after execution)
