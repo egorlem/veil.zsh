@@ -22,16 +22,16 @@ __veilHistorySetupEnv() {
   export HISTSIZE=100000
   export SAVEHIST=100000
   
-  local HIST_DIR="${HISTFILE:h}"
-  if [[ ! -d "$HIST_DIR" ]]; then
-    if ! mkdir -p "$HIST_DIR" 2>/dev/null; then
-      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: error - cannot create history directory $HIST_DIR" >&2
+  local histDir="${HISTFILE:h}"
+  if [[ ! -d "$histDir" ]]; then
+    if ! mkdir -p "$histDir" 2>/dev/null; then
+      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: error - cannot create history directory $histDir" >&2
       return 1
     fi
   fi
   
-  if [[ ! -w "$HIST_DIR" ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: error - history directory $HIST_DIR is not writable" >&2
+  if [[ ! -w "$histDir" ]]; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: error - history directory $histDir is not writable" >&2
     return 1
   fi
   
@@ -82,9 +82,9 @@ veilHistoryInit() {
   
   __veilHistorySetupOptions
   __veilHistorySetupAliases
-  
-  [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: initialized (HISTSIZE: $HISTSIZE)"
 
+  [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: initialized (HISTSIZE: $HISTSIZE)" >&2
+  
   return 0
 }
 
@@ -92,4 +92,4 @@ if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilHistoryInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: critical - module failed to load" >&2
   fi
-fi 
+fi
