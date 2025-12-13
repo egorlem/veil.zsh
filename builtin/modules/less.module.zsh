@@ -1,11 +1,17 @@
 # Veil Less Module
 #
+# Enhanced pager configuration with terminal adaptation and color support.
+#
+# Features:
+# • Intelligent less options based on terminal capabilities
+# • Colorful man pages with proper termcaps
+# • Terminal-specific optimizations (kitty, console, etc.)
+# • Convenient aliases: less, more
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
 # ------------------------------------------------------------------------------
 # Authors
 # -------
-#
 #  * Egor Lem <guezwhoz@gmail.com> / egorlem.com
 #
 # ------------------------------------------------------------------------------
@@ -27,32 +33,32 @@ __veilLessValidateTerm() {
 }
 
 __veilLessSetupEnv() {
-  local LESS_OPTS="--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4"
+  local lessOpts="--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4"
   
-  if ! LESS="$LESS_OPTS" less --version >/dev/null 2>&1; then
+  if ! LESS="$lessOpts" less --version >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: warning - some less options not supported, using minimal set" >&2
-    LESS_OPTS="--quit-if-one-screen --ignore-case --LONG-PROMPT --tabs=4"
+    lessOpts="--quit-if-one-screen --ignore-case --LONG-PROMPT --tabs=4"
   fi
   
-  export LESS="$LESS_OPTS"
+  export LESS="$lessOpts"
   export GROFF_NO_SGR=1
   
   if __veilLessValidateTerm; then
-    export LESS_TERMCAP_mb=$'\x1b[0;36m'    # begin bold
-    export LESS_TERMCAP_md=$'\x1b[0;34m'    # begin blink  
-    export LESS_TERMCAP_me=$'\x1b[0m'       # reset bold/blink
-    export LESS_TERMCAP_so=$'\x1b[0;30m' # begin reverse video
-    export LESS_TERMCAP_se=$' \x1b[0m'      # reset reverse video
-    export LESS_TERMCAP_us=$'\x1b[0m\x1b[0;32m' # begin underline
-    export LESS_TERMCAP_ue=$'\x1b[0m'       # reset underline
+    export LESS_TERMCAP_mb=$'\x1b[0;36m'                            # begin bold
+    export LESS_TERMCAP_md=$'\x1b[0;34m'                           # begin blink  
+    export LESS_TERMCAP_me=$'\x1b[0m'                         # reset bold/blink
+    export LESS_TERMCAP_so=$'\x1b[0;30m'                   # begin reverse video
+    export LESS_TERMCAP_se=$' \x1b[0m'                     # reset reverse video
+    export LESS_TERMCAP_us=$'\x1b[0m\x1b[0;32m'                # begin underline
+    export LESS_TERMCAP_ue=$'\x1b[0m'                          # reset underline
   fi
   
   return 0
 }
 
 __veilLessSetupAliases() {
-  alias less='less --RAW-CONTROL-CHARS'   # Always ensure color support
-  alias more='less'                       # Use less instead of more
+  alias less='less --RAW-CONTROL-CHARS'            # Always ensure color support
+  alias more='less'                                   # Use less instead of more
   
   export MANPAGER="less -s -M +Gg"
   export MANWIDTH=80
@@ -74,12 +80,10 @@ __veilLessSetupHelpers() {
 
 __veilLessAdaptToTerminal() {
   case "$TERM" in
-    "xterm-kitty")
-      # Kitty terminal has better scrollback
+    xterm-kitty)
       export LESS="--quit-if-one-screen --ignore-case --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4"
       ;;
-    "linux"|"console")
-      # Simplified for limited terminals
+    linux|console)
       export LESS="--quit-if-one-screen --ignore-case --LONG-PROMPT --tabs=4"
       export MANPAGER="less -s -M"
       ;;
@@ -103,17 +107,16 @@ veilLessInit() {
   fi
 
   __veilLessSetupEnv
-  __veilLessSetupAliases
-  __veilLessSetupHelpers
   __veilLessAdaptToTerminal
-  
+
   if ! __veilLessVerify; then
     return 1
   fi
-
-  if [[ $STATUS_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: module initialized" >&2
-  fi
+  
+  __veilLessSetupAliases
+  __veilLessSetupHelpers
+  
+  [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: module initialized" >&2
   
   return 0
 }
