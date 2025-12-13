@@ -34,21 +34,20 @@ __veilLsDetectSystem() {
 }
 
 __veilLsSetupAliases() {
-  local SYSTEM_TYPE
-  SYSTEM_TYPE=$(__veilLsDetectSystem)
-  local HAS_COLOR_SUPPORT=0
+  local systemType="$1"
+  local hasColorSupport=0
   
   if [[ -z "$LS_COLORS" && -z "$LSCOLORS" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: warning - colors not configured, ls will be without colors" >&2
   fi
   
-  case $SYSTEM_TYPE in
+  case $systemType in
     bsd)
       if command ls -G /dev/null >/dev/null 2>&1; then 
         alias ls='command ls -G'
         alias ll='command ls -laG'
         alias la='command ls -laG'
-        HAS_COLOR_SUPPORT=1
+        hasColorSupport=1
       fi
       ;;
     gnu)
@@ -56,7 +55,7 @@ __veilLsSetupAliases() {
         alias ls='command ls --color=auto'
         alias ll='command ls -la --color=auto'
         alias la='command ls -la --color=auto'
-        HAS_COLOR_SUPPORT=1
+        hasColorSupport=1
       fi
       ;;
     *)
@@ -67,7 +66,7 @@ __veilLsSetupAliases() {
   
   alias l='command ls -CF'
   
-  if [[ $HAS_COLOR_SUPPORT -eq 0 ]]; then
+  if [[ $hasColorSupport -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: warning - color support not available for ls" >&2
   fi
   
@@ -94,25 +93,25 @@ __veilLsVerify() {
 }
 
 veilLsInit() {
-  local STATUS_CODE=0
-  local SYSTEM_TYPE
+  local statusCode=0
+  local systemType
   
   if ! __veilLsDeps; then
     return 1
   fi
   
-  __veilLsSetupAliases
+  systemType=$(__veilLsDetectSystem)
+  __veilLsSetupAliases "$systemType"
   
   if ! __veilLsVerify; then
-    STATUS_CODE=1
-  fi
-
-  SYSTEM_TYPE=$(__veilLsDetectSystem)
-  if [[ $STATUS_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized ($SYSTEM_TYPE system)" >&2
+    statusCode=1
   fi
   
-  return $STATUS_CODE
+  if [[ $statusCode -eq 0 ]]; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized ($systemType system)" >&2
+  fi
+  
+  return $statusCode
 }
 
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
