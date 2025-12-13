@@ -52,19 +52,22 @@ __ultimaSetupVCS() {
     return 1
   fi
 
-  # Define VCS variables
-  local CHAR_BADGE="%F{0} on %f%F{0}›%f"
-  local VC_BRANCH_NAME="%F{2}%b%f"
-  local VC_ACTION="%F{0}%a %f%F{0}›%f"
-  local VC_UNSTAGED_STATUS="%F{6} M ›%f"
-  local VC_GIT_STAGED_STATUS="%F{2} A ›%f"
-  local VC_GIT_HASH="%F{2}%6.6i%f %F{0}›%f"
+  # Configuration
+  local currentVCS="\":vcs_info:*\" enable $VCS"
   
-  local CURRENT_VCS="\":vcs_info:*\" enable $VCS"
+  # Core prompt elements
+  local badgeFormat="%F{0} on %f%F{0}›%f"                     # "on ›" separator
+  local branchFormat="%F{2}%b%f"                          # Branch name in green
+  local actionFormat="%F{0}%a %f%F{0}›%f"                   # Git action display
+
+  # Git status indicators  
+  local unstagedFormat="%F{6} M ›%f"                          # Unstaged changes
+  local stagedFormat="%F{2} A ›%f"                              # Staged changes
+  local hashFormat="%F{2}%6.6i%f %F{0}›%f"                   # Short commit hash
 
   if [[ $VCS != "" ]]; then
     autoload -Uz vcs_info || return 1
-    eval zstyle $CURRENT_VCS
+    eval zstyle $currentVCS
     zstyle ':vcs_info:*' get-revision true
     zstyle ':vcs_info:*' check-for-changes true
   fi
@@ -74,18 +77,18 @@ __ultimaSetupVCS() {
       if [[ "$ULTIMA_GIT_NO_UNTRACKED" != "1" ]]; then
         zstyle ':vcs_info:git*+set-message:*' hooks useGitUntracked
       fi
-      zstyle ':vcs_info:git:*' stagedstr $VC_GIT_STAGED_STATUS
-      zstyle ':vcs_info:git:*' unstagedstr $VC_UNSTAGED_STATUS
-      zstyle ':vcs_info:git:*' actionformats "  ${VC_ACTION} ${VC_GIT_HASH}%m%u%c${CHAR_BADGE} ${VC_BRANCH_NAME}"
-      zstyle ':vcs_info:git:*' formats " %c%u%m${CHAR_BADGE} ${VC_BRANCH_NAME}"
+      zstyle ':vcs_info:git:*' stagedstr $stagedFormat
+      zstyle ':vcs_info:git:*' unstagedstr $unstagedFormat
+      zstyle ':vcs_info:git:*' actionformats "  ${actionFormat} ${hashFormat}%m%u%c${badgeFormat} ${branchFormat}"
+      zstyle ':vcs_info:git:*' formats " %c%u%m${badgeFormat} ${branchFormat}"
       ;;
     "svn")
       zstyle ':vcs_info:svn:*' branchformat "%b"
-      zstyle ':vcs_info:svn:*' formats " ${CHAR_BADGE} ${VC_BRANCH_NAME}"
+      zstyle ':vcs_info:svn:*' formats " ${badgeFormat} ${branchFormat}"
       ;;
     "hg")
       zstyle ':vcs_info:hg:*' branchformat "%b"
-      zstyle ':vcs_info:hg:*' formats " ${CHAR_BADGE} ${VC_BRANCH_NAME}"
+      zstyle ':vcs_info:hg:*' formats " ${badgeFormat} ${branchFormat}"
       ;;
     *)
       return 1
@@ -100,11 +103,11 @@ __ultimaSetupVCS() {
 # ------------------------------------------------------------------------------
 
 +vi-useGitUntracked() {
-  local VC_GIT_UNTRACKED_STATUS="%F{4} U ›%f"
+  local untrackedFormat="%F{4} U ›%f"                          # Untracked files
 
   if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     if git status --porcelain=v1 2>/dev/null | grep -q "^??"; then
-      hook_com[misc]=$VC_GIT_UNTRACKED_STATUS
+      hook_com[misc]=$untrackedFormat
       return 0
     fi
   fi
@@ -191,4 +194,4 @@ __ultimaSetupVCS
 __ultimaSetupHooks
 
 # Cleanup setup functions (no longer needed after execution)
-unset __ultimaSetupVCS __ultimaSetupHooks
+unset __ultimaSetupVCS __ultimaSetupHooks 
