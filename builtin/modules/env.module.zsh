@@ -23,35 +23,12 @@ __veilEnvSetup() {
   return 0
 }
 
-__veilEnvVerify() {
-  # Проверяем что ключевые переменные установлены
-  if [[ -z "$EDITOR" ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/env: error - EDITOR not set" >&2
-    return 1
-  fi
-  
-  if [[ -z "$PAGER" ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/env: error - PAGER not set" >&2
-    return 1
-  fi
-  
-  return 0
-}
-
 veilEnvInit() {
-  local statusCode=0
-  
   __veilEnvSetup
   
-  if ! __veilEnvVerify; then
-    statusCode=1
-  fi
+  [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/env: module initialized" >&2
   
-  if [[ $statusCode -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/env: module initialized" >&2
-  fi
-  
-  return $statusCode
+  return 0
 }
 
 if [[ -z "$VEIL_CORE_LOADED" ]]; then

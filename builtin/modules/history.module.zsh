@@ -39,15 +39,15 @@ __veilHistorySetupEnv() {
 }
 
 __veilHistorySetupOptions() {
-  setopt EXTENDED_HISTORY        # timestamps in history
-  setopt HIST_EXPIRE_DUPS_FIRST  # remove duplicates first when trimming
-  setopt HIST_IGNORE_DUPS        # ignore consecutive duplicates
-  setopt HIST_IGNORE_ALL_DUPS    # remove older duplicates
-  setopt HIST_FIND_NO_DUPS       # don't show duplicates in search
-  setopt HIST_IGNORE_SPACE       # don't save commands starting with space
-  setopt HIST_REDUCE_BLANKS      # remove extra blanks from commands
-  setopt HIST_VERIFY             # show command before execution
-  setopt SHARE_HISTORY           # share history between sessions
+  setopt EXTENDED_HISTORY                                # timestamps in history
+  setopt HIST_EXPIRE_DUPS_FIRST          # remove duplicates first when trimming
+  setopt HIST_IGNORE_DUPS                        # ignore consecutive duplicates
+  setopt HIST_IGNORE_ALL_DUPS                          # remove older duplicates
+  setopt HIST_FIND_NO_DUPS                     # don't show duplicates in search
+  setopt HIST_IGNORE_SPACE             # don't save commands starting with space
+  setopt HIST_REDUCE_BLANKS                  # remove extra blanks from commands
+  setopt HIST_VERIFY                             # show command before execution
+  setopt SHARE_HISTORY                          # share history between sessions
   
   return 0
 }
