@@ -1,5 +1,9 @@
-# Veil Сursor Module
+# Veil Cursor Module
 #
+# Terminal cursor visibility control system.
+#
+# Features:
+# • Smart cursor hiding during clear operations
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
 # ------------------------------------------------------------------------------
@@ -10,71 +14,103 @@
 #
 # ------------------------------------------------------------------------------
 
-typeset -g TERMINAL_CURSOR_VISIBLE=1
+# Global cursor state tracking
+TERMINAL_CURSOR_VISIBLE=1
 
-# ==============================================================================
-# CORE CURSOR CONTROL FUNCTIONS
-# ==============================================================================
+# ------------------------------------------------------------------------------
+# PRIVATE CURSOR CONTROL FUNCTIONS
+# ------------------------------------------------------------------------------
 
-# Скрыть курсор терминала с сохранением состояния
-_terminalHideCursor() {
-    printf '\033[?25l'  # ESC-последовательность скрытия курсора
+__veilCursorHide() {
+    printf '\033[?25l'
     TERMINAL_CURSOR_VISIBLE=0
 }
 
-# Показать курсор терминала с сохранением состояния  
-_terminalShowCursor() {
-    printf '\033[?25h'  # ESC-последовательность показа курсора
+__veilCursorShow() {
+    printf '\033[?25h'
     TERMINAL_CURSOR_VISIBLE=1
 }
 
-# Принудительное восстановление видимости курсора (страховка)
-_terminalEnsureCursorVisible() {
+__veilCursorEnsureVisible() {
     if (( ! TERMINAL_CURSOR_VISIBLE )); then
-        _terminalShowCursor
+        __veilCursorShow
     fi
 }
 
-# ==============================================================================
-# MAIN CLEAR COMMAND HOOK
-# ==============================================================================
+__veilCursorScheduleRestore() {
+    precmd_functions=(${precmd_functions:#__veilCursorRestore})
+    precmd_functions+=(__veilCursorRestore)
+}
+
+__veilCursorRestore() {
+    __veilCursorShow
+    precmd_functions=(${precmd_functions:#__veilCursorRestore})
+}
+
+# ------------------------------------------------------------------------------
+# ENHANCED CLEAR COMMAND (with cursor control)
+# ------------------------------------------------------------------------------
 
 clear() {
-    _terminalHideCursor
+    __veilCursorHide
     command clear
-    _terminalScheduleCursorRestore
+    __veilCursorScheduleRestore
 }
 
-# ==============================================================================
-# CURSOR RESTORATION SYSTEM
-# ==============================================================================
+# ------------------------------------------------------------------------------
+# PUBLIC CURSOR UTILITIES
+# ------------------------------------------------------------------------------
 
-_terminalScheduleCursorRestore() {
-    precmd_functions=(${precmd_functions:#_terminalRestoreCursor})
-    precmd_functions+=(_terminalRestoreCursor)
-}
-
-_terminalRestoreCursor() {
-    _terminalShowCursor
-    precmd_functions=(${precmd_functions:#_terminalRestoreCursor})
-}
-
-# ==============================================================================
-# SAFETY AND ERROR RECOVERY SYSTEM
-# ==============================================================================
-
-_terminalEnsureCursorVisible
-
-cursorFix() {
-    _terminalEnsureCursorVisible
+veilCursorFix() {
+    # Contract: forces cursor visibility as safety measure
+    # Use: when cursor disappears unexpectedly
+    # Returns: 0 always
+    
+    __veilCursorEnsureVisible
     echo "Cursor state reset"
+    return 0
 }
 
-# Диагностика текущего состояния курсора
-cursorState() {
+veilCursorState() {
+    # Contract: reports current cursor visibility state
+    # Returns: 0 always, prints state to stdout
+    
     if (( TERMINAL_CURSOR_VISIBLE )); then
         echo "Cursor: VISIBLE"
     else
         echo "Cursor: HIDDEN"
     fi
+    return 0
 }
+
+# ------------------------------------------------------------------------------
+# MODULE INITIALIZATION
+# ------------------------------------------------------------------------------
+
+__veilCursorSetup() {
+    # Initial safety check
+    __veilCursorEnsureVisible
+    
+    # Ensure clean hook registration
+    precmd_functions=(${precmd_functions:#__veilCursorRestore})
+    
+    return 0
+}
+
+veilCursorInit() {
+    __veilCursorSetup
+    
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/cursor: module initialized" >&2
+    
+    return 0
+}
+
+# ------------------------------------------------------------------------------
+# AUTO-INITIALIZATION
+# ------------------------------------------------------------------------------
+
+if [[ -z "$VEIL_CORE_LOADED" ]]; then
+  if ! veilCursorInit; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/cursor: critical - cursor module failed to load" >&2
+  fi
+fi
