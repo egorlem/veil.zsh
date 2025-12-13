@@ -13,7 +13,7 @@
 
 __veilCompletionDeps() {
   if ! autoload -Uz compinit >/dev/null 2>&1; then
-     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - zsh completion system not available" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - zsh completion system not available" >&2
     return 1
   fi
 
@@ -21,20 +21,20 @@ __veilCompletionDeps() {
 }
 
 __veilCompletionInitSystem() {
-  local CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
-  local COMPDUMP="$CACHE_DIR/.zcompdump"
+  local cacheDir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+  local compdump="$cacheDir/.zcompdump"
   
-  if [[ ! -d "$CACHE_DIR" ]]; then
-    if ! mkdir -p "$CACHE_DIR" 2>/dev/null; then
+  if [[ ! -d "$cacheDir" ]]; then
+    if ! mkdir -p "$cacheDir" 2>/dev/null; then
       [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: warning - cannot create cache directory, using default" >&2
-      COMPDUMP="$HOME/.zcompdump"
+      compdump="$HOME/.zcompdump"
     fi
   fi
   
-  if [[ -n "$COMPDUMP"(#qN.mh+24) ]]; then
-    compinit -d "$COMPDUMP"
+  if [[ -n "$compdump"(#qN.mh+24) ]]; then
+    compinit -d "$compdump"
   else
-    compinit -d "$COMPDUMP" -C
+    compinit -d "$compdump" -C
   fi
   
   if [[ $? -ne 0 ]]; then
@@ -96,39 +96,39 @@ __veilCompletionSetupStyles() {
 
 __veilCompletionSetupHosts() {
   local file
-  local HOST_FILES=(
+  local hostFiles=(
     "/etc/ssh/ssh_known_hosts"
     "/etc/ssh/ssh_known_hosts2" 
     "$HOME/.ssh/known_hosts"
     "$HOME/.ssh/known_hosts2"
   )
-  local FOUND_FILES=()
+  local foundFiles=()
   
-  for file in $HOST_FILES; do
+  for file in $hostFiles; do
     if [[ -f "$file" && -r "$file" ]]; then
-      FOUND_FILES+=("$file")
+      foundFiles+=("$file")
     fi
   done
   
-  if [[ ${#FOUND_FILES} -gt 0 ]]; then
+  if [[ ${#foundFiles} -gt 0 ]]; then
     zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts \
-      'reply=(${=${${(f)"$(cat ${^FOUND_FILES} 2>/dev/null)"}%%[# ]*}//,/ })'
+      'reply=(${=${${(f)"$(cat ${^foundFiles} 2>/dev/null)"}%%[# ]*}//,/ })'
   fi
   
   return 0
 }
 
 veilCompletionInit() {
-  local STATUS_CODE=0
+  local statusCode=0
   
   if ! __veilCompletionDeps; then
     return 1 
   fi
   
   __veilCompletionInitSystem
-  STATUS_CODE=$?
+  statusCode=$?
   
-  if [[ $STATUS_CODE -eq 2 ]]; then
+  if [[ $statusCode -eq 2 ]]; then
     return 1
   fi
   
@@ -136,18 +136,17 @@ veilCompletionInit() {
   __veilCompletionSetupStyles
   __veilCompletionSetupHosts
   
-  if [[ $STATUS_CODE -eq 0 ]]; then
+  if [[ $statusCode -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: module initialized with cache"
-  elif [[ $STATUS_CODE -eq 1 ]]; then
+  elif [[ $statusCode -eq 1 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: module initialized (cache failed but completion works)"
   fi
   
   return 0
 }
 
-
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilCompletionInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: critical - module failed to load" >&2
   fi
-fi  
+fi
