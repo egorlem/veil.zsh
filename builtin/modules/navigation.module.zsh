@@ -18,10 +18,10 @@
 
 __veilNavigationSetupOptions() {
   # Configure navigation options
-  setopt AUTO_CD           # Change directory without typing 'cd'
-  setopt AUTO_PUSHD        # Automatically push directories to stack
-  setopt PUSHD_IGNORE_DUPS # Don't push duplicates to stack
-  setopt PUSHD_SILENT      # Don't print stack on pushd/popd
+  setopt AUTO_CD                          # Change directory without typing 'cd'
+  setopt AUTO_PUSHD                    # Automatically push directories to stack
+  setopt PUSHD_IGNORE_DUPS                      # Don't push duplicates to stack
+  setopt PUSHD_SILENT                          # Don't print stack on pushd/popd
   
   return 0
 }
@@ -32,7 +32,7 @@ __veilNavigationSetupAliases() {
   alias ....='cd ../../..'
   alias .....='cd ../../../..'
   
-  alias d='dirs -v'        # Show directory stack
+  alias d='dirs -v'                                       # Show directory stack
   
   # if [[ -d "$HOME/Development" ]]; then
   #   alias dev='cd ~/dev'
@@ -56,24 +56,24 @@ __veilNavigationVerify() {
 }
 
 veilNavigationInit() {
-  local STATUS_CODE=0
+  local statusCode=0
   
   __veilNavigationSetupOptions
   __veilNavigationSetupAliases
 
   if ! __veilNavigationVerify; then
-    STATUS_CODE=1
+    statusCode=1
   fi
   
-  if [[ $STATUS_CODE -eq 0 ]]; then
+  if [[ $statusCode -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: module initialized" >&2
   fi
   
-  return $STATUS_CODE
+  return $statusCode
 }
 
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilNavigationInit; then
-     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: critical - navigation module failed to load" >&2
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: critical - navigation module failed to load" >&2
   fi
 fi
