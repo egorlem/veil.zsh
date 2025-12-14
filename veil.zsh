@@ -25,10 +25,11 @@ MODULES_DIR="${VEIL_MODULES_DIR:-$VEIL_DIR/builtin/modules}"
 THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/builtin/themes}"
 THEME="${THEME:-ultima}"
 
-if [[ -z "$VEIL_MODULES" ]]; then
+if ! typeset -p VEIL_MODULES 2>/dev/null >/dev/null; then
   VEIL_MODULES=("less" "ls" "completion")
-else
-  # Split modules string into array (if passed as string)
+elif [[ -z "$VEIL_MODULES" ]]; then
+  VEIL_MODULES=()
+elif [[ "$(typeset -p VEIL_MODULES 2>/dev/null)" != *"-a"* ]]; then
   VEIL_MODULES=(${(@s: :)VEIL_MODULES})
 fi
 
