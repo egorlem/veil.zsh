@@ -25,18 +25,30 @@ MODULES_DIR="${VEIL_MODULES_DIR:-$VEIL_DIR/builtin/modules}"
 THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/builtin/themes}"
 THEME="${THEME:-ultima}"
 
-if ! typeset -p VEIL_MODULES 2>/dev/null >/dev/null; then
+# ------------------------------------------------------------------------------
+# VEIL_MODULES normalization
+# ------------------------------------------------------------------------------
+
+if ! typeset -p VEIL_MODULES >/dev/null 2>&1; then
   VEIL_MODULES=("less" "ls" "completion")
-elif [[ -z "$VEIL_MODULES" ]]; then
-  VEIL_MODULES=()
-elif [[ "$(typeset -p VEIL_MODULES 2>/dev/null)" != *"-a"* ]]; then
-  VEIL_MODULES=(${(@s: :)VEIL_MODULES})
+else
+  if [[ "$(typeset -p VEIL_MODULES 2>/dev/null)" != *"-a"* ]]; then
+    if [[ -z "$VEIL_MODULES" ]]; then
+      VEIL_MODULES=()
+    else
+      VEIL_MODULES=(${(@s: :)VEIL_MODULES})
+    fi
+  else
+    if [[ ${#VEIL_MODULES[@]} -eq 0 ]]; then
+      VEIL_MODULES=()
+    fi
+  fi
 fi
 
 # Remove duplicate modules
 typeset -U VEIL_MODULES
 
-# Check for empty modules array
+# Warn if empty
 if [[ ${#VEIL_MODULES[@]} -eq 0 ]]; then
   [[ -n "$VEIL_VERBOSE" ]] && echo "veil: warning - no modules specified" >&2
 fi
