@@ -1,15 +1,16 @@
-# Veil [veɪl] — Modular Z Shell Configuration System
+# Veil — Configuration Guide (Tier 2)
 
-### Takes full control of zsh configuration through logical modules
+<!-- This document describes how to configure Veil without touching its core. -->
 
----
+<!-- ### 1. Модульность как основа
+Каждая настройка, алиас или функция живёт в своём модуле. Хотите отключить что-то? Просто не загружайте этот модуль.
 
-~/opensource/veil  am/rebase › a5731a › M › A › on › v1.0.0
+### 2. Прогрессивное раскрытие
+- **Уровень 1** (сейчас): Установил и работаю
+- **Уровень 2**: Настроил под себя
+- **Уровень 3**: Создал свои модули
 
-"Working in ~/opensource/veil directory, currently rebasing at commit a5731a with some Modified and Added files, on branch v1.0.0"
+Сложность раскрывается по мере вашего погружения.
 
- 
-[ГДЕ]        [ЧТО ДЕЛАЮ]      [НА ЧЁМ]    [СТАТУС]     [ВЕТКА]
-~/opensource/veil  am/rebase › a5731a   › M › A     › on › v1.0.0
-│                  │                    │            │
-Location          Operation           File status   Context
+### 3. Полная прозрачность
+Никакой скрытой магии. Каждый модуль — это обычный `.zsh` файл, который вы можете читать, редактировать и понимать. -->
