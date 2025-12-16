@@ -43,7 +43,7 @@ exec zsh
 
 [**Ultima**](https://github.com/egorlem/ultima.zsh-theme) — минималистичная тема для командной строки
 
-> ### Больше деталей о настройке и мудлях veil можно получить в [TIER 2](builtin/README.md) документации 
+> ### Больше деталей о настройке и мудлях veil можно получить в [TIER 2](/builtin/README.md) документации 
 
 ---
 
