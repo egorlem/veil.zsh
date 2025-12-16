@@ -33,9 +33,11 @@ if ! typeset -p VEIL_MODULES >/dev/null 2>&1; then
   VEIL_MODULES=("less" "ls" "completion")
 else
   if [[ "$(typeset -p VEIL_MODULES 2>/dev/null)" != *"-a"* ]]; then
+    # shellcheck disable=SC2128 
     if [[ -z "$VEIL_MODULES" ]]; then
       VEIL_MODULES=()
     else
+      # shellcheck disable=SC2206,SC2296
       VEIL_MODULES=(${(@s: :)VEIL_MODULES})
     fi
   else
