@@ -96,7 +96,7 @@ exec zsh
 <!-- 4. Footer -->
 ## License
 
-This project is licensed under the __Do What The F*ck You Want To Public License__. See the [LICENSE](https://github.com/egorlem/ultima.zsh-theme/blob/f8a01d549ee38e720a597f9632ccf7960c7b9c8e/LICENSE) file for details.
+This project is licensed under the __Do What The F*ck You Want To Public License__. See the [LICENSE](https://github.com/egorlem/veil.zsh/blob/main/LICENSE) file for details.
 
 ---
 
