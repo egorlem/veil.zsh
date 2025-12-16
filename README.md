@@ -58,7 +58,7 @@ Tested with **all 10 modules + Ultima theme** using [zimfw/zsh-framework-benchma
 * `zsh-users/zsh-autosuggestions`
 * `zsh-users/zsh-syntax-highlighting`
 
-| Framework / Config             | Real  | User  | Sys   | Max (GB) |
+| Framework / Config             | Real  | User  | Sys   | Max      |
 | ------------------------------ | ----- | ----- | ----- | -------- |
 | ZimFW (all included)           | 0.075 | 0.003 | 0.071 | 0.107    |
 | **Veil (10 modules + Ultima)** | 0.083 | 0.003 | 0.079 | 0.107    |
