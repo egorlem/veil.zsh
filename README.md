@@ -23,7 +23,7 @@ echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
 Included by default:
 
 * Core module loader
-* Modules: `less`, `ls`, `completion`, `history`, …
+* Modules: `less`, `ls`, `completion`
 * [Ultima](https://github.com/egorlem/ultima.zsh-theme) minimalist theme
 
 > For detailed module configuration, see [Tier 2 Documentation](./builtin/README.md)
