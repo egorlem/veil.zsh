@@ -1,102 +1,98 @@
-<!-- 0. Header -->
 # Veil [veɪl] — Modular Zsh (Z Shell) Configuration System
 
 ### Gives you full control via logical modules. No magic, just clarity.
 
 ---
 
-<!-- 1. Большой блок с описанием -->
-Veil — это не менеджер плагинов и не готовый фреймворк. Это архитектурная система для организации вашей конфигурации Zsh в логические, самодостаточные модули. Она разделяет настройки на компоненты и дает полный контроль над тем, что и как загружается.
+<!-- 1. Main description block -->
+Veil is not a plugin manager or a ready-made framework. It is an architectural system for organizing your Zsh configuration into logical, self-contained modules. It splits settings into components and gives you full control over what loads and how.
 
-**Философия:** Никакой магии, только ясность.
+**Philosophy:** No magic, only clarity.
 
-## Что делает Veil?
+## What does Veil do?
 
-Представьте, что ваш `.zshrc` превратился в монстра на 500 строк, где всё перемешано. Veil решает это, разделяя хаос на организованные модули.
-
---- 
-
-<!-- 2. Блок установки  -->
-## Установка
-
-### Быстрый старт
-
-```bash
-# 1. Клонируем репозиторий
-git clone https://github.com/egorlem/veil.zsh ~/.veil
-
-# 2. Подключаем к Zsh
-echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
-
-# 3. Перезагружаем оболочку
-exec zsh
-```
-
-### Что установлено по умолчанию?
-
-**Ядоро системы** — минимальная логика загрузки модулей
-
-**3 базовых модуля:**
-- `less` — улучшенный просмотр файлов
-- `completion` — продвинутое автодополнение
-- `ls` — цветной вывод с умными настройками
-
-[**Ultima**](https://github.com/egorlem/ultima.zsh-theme) — минималистичная тема для командной строки
-
-> ### Больше деталей о настройке и мудлях veil можно получить в [TIER 2](/builtin/README.md) документации 
+Imagine your `.zshrc` has turned into a 500-line monster where everything is mixed together. Veil solves this by dividing the chaos into organized modules.
 
 ---
 
-<!-- 3. Мотивация и философия проекта -->
+<!-- 2. Installation block -->
+## Installation
 
-## Мотивация
+### Quick Start
 
-### Проблемы, которые решает Veil
+```bash
+# 1. Clone the repository
+git clone https://github.com/egorlem/veil.zsh ~/.veil
 
-**Проблема монолита**
+# 2. Connect to Zsh
+echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
 
-Традиционный .zshrc превращается в огромный неподдерживаемый файл. Veil разделяет его: вместо одного файла `.zshrc` логические модули
+```
+
+### What's installed by default?
+
+**System core** — minimal module loading logic
+
+**3 basic modules:**
+- `less` — enhanced file viewing
+- `completion` — advanced autocompletion
+- `ls` — colored output with smart settings
+
+[**Ultima**](https://github.com/egorlem/ultima.zsh-theme) — minimalist command line theme
+
+> ### More details about configuring Veil and its modules can be found in the [TIER 2](/builtin/README.md) documentation
+
+---
+
+<!-- 3. Motivation and project philosophy -->
+## Motivation
+
+### Problems that Veil solves
+
+**The monolith problem**
+
+Traditional .zshrc turns into a huge, unmaintainable file. Veil splits it: instead of one `.zshrc` file, logical modules
 
 ```
 ~/.veil/builtin/modules
-├── completion.module.zsh       # Только настройки completion
-├── history.module.zsh          # Только настройки history
+├── completion.module.zsh       # Only completion settings
+├── history.module.zsh          # Only history settings
 └── ...
 
 ~/.veil/builtin/themes
-├── ultima.zsh-theme            # только то что относится к настройкам тема
+├── ultima.zsh-theme            # only what relates to theme settings
 └── ...
 ```
 
-**Проблема сложных зависимостей**
+**The complex dependencies problem**
 
-Менеджеры плагинов управляют внешними зависимостями, что создаёт:
- - Сложность отладки
- - Зависимость от внешних репозиториев
- - Накладные расходы на синхронизацию
+Plugin managers handle external dependencies, which creates:
+ - Debugging complexity
+ - Dependence on external repositories
+ - Overhead for synchronization
 
-**Veil использует только локальные файлы**. Нет внешних зависимостей, нет менеджера пакетов.
+**Veil uses only local files**. No external dependencies, no package manager.
 
-**Проблема "магического" поведения** 
-  - Скрывают логику работы
-  - Усложняют кастомизацию 
-  - Загружают лишние компоненты
+**The "magical" behavior problem** 
+  - Hidden logic
+  - Complicated customization
+  - Loading unnecessary components
 
-**Veil прозрачен**: каждый модуль — это обычный `.zsh` файл. Вы видите и контролируете всё.
+**Veil is transparent**: every module is a regular `.zsh` file. You see and control everything.
 
-### Ключевые отличия от существующих решений
+### Key differences from existing solutions
 
-| Аспект |	Менеджеры плагинов | Фреймворки | Veil |
+| Aspect | Plugin Managers | Frameworks | Veil |
 | --- | --- | --- | --- |
-| Подход	| Управление внешними плагинами |	Готовое решение "всё в одном" |	Организация локальной конфигурации|
-| Сложность	| Высокая (Turbo Mode, lazy loading)	| Низкая (просто работает) |	Средняя (контролируемая) |
-| Прозрачность | Частичная (скрытая логика)	| Низкая (много "магии")	| Полная (всё в ваших файлах) |
-| Зависимости	| Внешние репозитории	| Встроенные или внешние |	Только локальные файлы |
+| Approach | Managing external plugins | Ready-made "all-in-one" solution | Organizing local configuration |
+| Complexity | High (Turbo Mode, lazy loading) | Low (just works) | Medium (controlled) |
+| Transparency | Partial (hidden logic) | Low (lots of "magic") | Full (everything in your files) |
+| Dependencies | External repositories | Built-in or external | Only local files |
 
 <!-- 4. Footer -->
 ## License
 
-This project is licensed under the __Do What The F*ck You Want To Public License__. See the [LICENSE](https://github.com/egorlem/veil.zsh/blob/main/LICENSE) file for details.
+This project is licensed under the **Do What The F*ck You Want To Public License**. See the [LICENSE](https://github.com/egorlem/veil.zsh/blob/main/LICENSE) file for details.
 
 ---
 
