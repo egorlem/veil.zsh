@@ -26,7 +26,7 @@ Included by default:
 * Modules: `less`, `ls`, `completion`
 * [Ultima](https://github.com/egorlem/ultima.zsh-theme) minimalist theme
 
-> For detailed module configuration, see [Tier 2 Documentation](./builtin/README.md)
+> For detailed module configuration, see [Tier 2 Documentation](./components/README.md)
 
 ---
 
@@ -38,12 +38,12 @@ Veil splits configuration into **isolated modules**, making each part readable, 
 It also avoids **dependency chaos**: everything is local, no external repos, no hidden behavior. Every module is explicit — you see and control everything.
 
 ```
-~/.veil/builtin/modules
+~/.veil/components/modules
 ├── completion.module.zsh
 ├── history.module.zsh
 └── ...
 
-~/.veil/builtin/themes
+~/.veil/components/themes
 ├── ultima.zsh-theme
 └── ...
 ```
@@ -74,8 +74,8 @@ Veil starts fast, remains **fully local and predictable**, with **no hidden beha
 Veil documentation follows **progressive disclosure**.
 
 - **Tier 1 (You are here)** — Quick start, core concepts, essentials. 
-- [**Tier 2** — Advanced configuration and integration.](./builtin/README.md)
-- [**Tier 3** — Core modules and system internals.](./builtin/modules/README.md)
+- [**Tier 2** — Advanced configuration and integration.](./components/README.md)
+- [**Tier 3** — Core modules and system internals.](./components/modules/README.md)
 
 
 
