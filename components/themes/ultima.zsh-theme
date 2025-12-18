@@ -22,7 +22,7 @@ if [[ -n "$ULTIMA_THEME_LOADED" ]]; then
   return 0
 fi
 
-ULTIMA_THEME_LOADED=1
+typeset -gr ULTIMA_THEME_LOADED=1
 
 autoload -Uz add-zsh-hook
 
@@ -31,15 +31,15 @@ autoload -Uz add-zsh-hook
 # ------------------------------------------------------------------------------
 
 # Box drawing characters for prompt design
-BOX_L="┌"      # Limiter corner (starts top line)                Unicode: \u250c
-BOX_P="└"      # Prompt corner (starts prompt line)              Unicode: \u2514
-BOX_H="─"      # Horizontal line (fills top limiter)             Unicode: \u2500
+typeset -gr BOX_L="┌"      # Limiter corner (starts top line)     Unicode: \u250c
+typeset -gr BOX_P="└"      # Prompt corner (starts prompt line)   Unicode: \u2514
+typeset -gr BOX_H="─"      # Horizontal line (fills top limiter)  Unicode: \u2500
 
-SCI_RST="\x1b[0m"                                          #   SGR 0 - Reset all
-SCI_BLACK="\x1b[0;30m"                                     # SGR 0;30 - black FG
+typeset -gr SCI_RST="\x1b[0m"                               #   SGR 0 - Reset all
+typeset -gr SCI_BLACK="\x1b[0;30m"                          # SGR 0;30 - black FG
 
-VCS="${VCS:-git}"
-ULTIMA_GIT_NO_UNTRACKED="${ULTIMA_GIT_NO_UNTRACKED:-0}"
+typeset -g VCS="${VCS:-git}"
+typeset -g ULTIMA_GIT_NO_UNTRACKED="${ULTIMA_GIT_NO_UNTRACKED:-0}"
 
 # ------------------------------------------------------------------------------
 # VCS SETUP FUNCTIONS
