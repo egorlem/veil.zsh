@@ -20,12 +20,10 @@ if [[ -n "$VEIL_CORE_LOADED" ]]; then
   return 0
 fi
 
-typeset -gr VEIL_DIR="${0:A:h}"
-typeset -g MODULES_DIR THEMES_DIR THEME
-
-MODULES_DIR="${VEIL_MODULES_DIR:-$VEIL_DIR/components/modules}"
-THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/components/themes}"
-THEME="${THEME:-ultima}"
+typeset -gxr VEIL_DIR="${0:A:h}"
+typeset -g MODULES_DIR="${VEIL_MODULES_DIR:-$VEIL_DIR/components/modules}"
+typeset -g THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/components/themes}"
+typeset -g THEME="${THEME:-ultima}"
 
 # ------------------------------------------------------------------------------
 # VEIL_MODULES normalization
