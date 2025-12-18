@@ -20,7 +20,9 @@ if [[ -n "$VEIL_CORE_LOADED" ]]; then
   return 0
 fi
 
-export VEIL_DIR="${0:A:h}"
+typeset -gr VEIL_DIR="${0:A:h}"
+typeset -g MODULES_DIR THEMES_DIR THEME
+
 MODULES_DIR="${VEIL_MODULES_DIR:-$VEIL_DIR/components/modules}"
 THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/components/themes}"
 THEME="${THEME:-ultima}"
@@ -29,40 +31,33 @@ THEME="${THEME:-ultima}"
 # VEIL_MODULES normalization
 # ------------------------------------------------------------------------------
 
-if ! typeset -p VEIL_MODULES >/dev/null 2>&1; then
-  VEIL_MODULES=("less" "ls" "completion")
-else
-  if [[ "$(typeset -p VEIL_MODULES 2>/dev/null)" != *"-a"* ]]; then
-    # shellcheck disable=SC2128 
-    if [[ -z "$VEIL_MODULES" ]]; then
-      VEIL_MODULES=()
-    else
-      # shellcheck disable=SC2206,SC2296
-      VEIL_MODULES=(${(@s: :)VEIL_MODULES})
-    fi
-  else
-    if [[ ${#VEIL_MODULES[@]} -eq 0 ]]; then
-      VEIL_MODULES=()
-    fi
+__veilNormalizeModules() {
+  if ! typeset -p VEIL_MODULES >/dev/null 2>&1; then
+    VEIL_MODULES=(less ls completion)
+    return 0
   fi
-fi
+
+  if [[ "$(typeset -p VEIL_MODULES 2>/dev/null)" != *"-a"* ]]; then
+    # shellcheck disable=SC2206,SC2296
+    VEIL_MODULES=(${(s: :)VEIL_MODULES})
+    return 0
+  fi
+
+  if (( ${#VEIL_MODULES[@]} == 0 )); then
+    VEIL_MODULES=()
+  fi
+
+  return 0
+}
 
 # Remove duplicate modules
+__veilNormalizeModules
 typeset -U VEIL_MODULES
 
 # Warn if empty
 if [[ ${#VEIL_MODULES[@]} -eq 0 ]]; then
   [[ -n "$VEIL_VERBOSE" ]] && echo "veil: warning - no modules specified" >&2
 fi
-
-# ------------------------------------------------------------------------------
-# SHARED VARIABLES (available to all modules)
-# ------------------------------------------------------------------------------
-
-# Color schemes for LS and completion
-LSCOLORS="gxafexdxfxagadabagacad"                                                                   # BSD
-LS_COLORS="di=36:ln=30;45:so=34:pi=33:ex=35:bd=30;46:cd=30;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"  # GNU
-export LSCOLORS LS_COLORS
 
 # ------------------------------------------------------------------------------
 # MODULE SYSTEM
@@ -144,7 +139,7 @@ else
   [[ -n "$VEIL_VERBOSE" ]] && echo "veil: running in minimal mode without modules" >&2
 fi
 
-VEIL_CORE_LOADED=1
+typeset -gr VEIL_CORE_LOADED=1
 
 if ! __veilLoadTheme; then
   [[ -n "$VEIL_VERBOSE" ]] && echo "veil: warning - theme loading failed, continuing without theme" >&2
