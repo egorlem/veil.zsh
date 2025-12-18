@@ -73,11 +73,11 @@ Veil starts fast, remains **fully local and predictable**, with **no hidden beha
 
 Veil documentation follows **progressive disclosure**.
 
-- **Tier 1 (You are here)** — Quick start, core concepts, essentials  
-- [**Tier 2** — Advanced configuration and integration](./builtin/README.md)
-  Global variables, external frameworks, customization  
-- [**Tier 3** — Core modules and system internals](./builtin/modules/README.md)
-  Module development, deep customization, architecture  
+- **Tier 1 (You are here)** — Quick start, core concepts, essentials. 
+- [**Tier 2** — Advanced configuration and integration](./builtin/README.md) — Global variables, external frameworks, customization.
+- [**Tier 3** — Core modules and system internals.](./builtin/modules/README.md)
+
+
 
 Start with Tier 1.  
 Move deeper only when you’re ready.
