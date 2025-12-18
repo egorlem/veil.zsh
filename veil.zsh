@@ -20,7 +20,7 @@ if [[ -n "$VEIL_CORE_LOADED" ]]; then
   return 0
 fi
 
-VEIL_DIR="${0:A:h}"
+export VEIL_DIR="${0:A:h}"
 MODULES_DIR="${VEIL_MODULES_DIR:-$VEIL_DIR/components/modules}"
 THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/components/themes}"
 THEME="${THEME:-ultima}"
