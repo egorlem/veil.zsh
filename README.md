@@ -69,6 +69,21 @@ Veil starts fast, remains **fully local and predictable**, with **no hidden beha
 
 ---
 
+## Documentation Tiers
+
+Veil documentation follows **progressive disclosure**.
+
+- **Tier 1 (You are here)** — Quick start, core concepts, essentials  
+- [**Tier 2** — Advanced configuration and integration](./builtin/README.md)
+  Global variables, external frameworks, customization  
+- [**Tier 3** — Core modules and system internals](./builtin/modules/README.md)
+  Module development, deep customization, architecture  
+
+Start with Tier 1.  
+Move deeper only when you’re ready.
+
+---
+
 ## Philosophy
 
 Veil embodies the **“Script as Application”** mindset:
