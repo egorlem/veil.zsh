@@ -53,13 +53,12 @@ __veilHistorySetupOptions() {
 }
 
 __veilHistorySetupAliases() {
-  alias history='fc -l 1'
   alias h='history'
-  
-  if command -v grep >/dev/null 2>&1; then
-    alias hg='history | grep'
+
+  if ! alias history >/dev/null 2>&1; then
+    alias history='fc -l 1'
   fi
-  
+
   return 0
 }
 
