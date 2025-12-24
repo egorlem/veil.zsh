@@ -25,9 +25,30 @@ typeset -g MODULES_DIR="${VEIL_MODULES_DIR:-$VEIL_DIR/components/modules}"
 typeset -g THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/components/themes}"
 typeset -g THEME="${THEME:-ultima}"
 
+typeset -g VEIL_LOAD_MODE="${VEIL_MODE:-standalone}"
+
 # ------------------------------------------------------------------------------
 # VEIL_MODULES normalization
 # ------------------------------------------------------------------------------
+
+# __veilNormalizeModules() {
+#   # Если VEIL_MODULES не определена, ставим дефолт
+#   if ! typeset -p VEIL_MODULES >/dev/null 2>&1; then
+#     typeset -g VEIL_MODULES=(less ls completion)
+#   fi
+
+#   # Если VEIL_MODULES не массив, превратить в массив
+#   if [[ "$(typeset -p VEIL_MODULES 2>/dev/null)" != *"-a"* ]]; then
+#     typeset -g VEIL_MODULES=("${(@s: :)VEIL_MODULES}")
+#   fi
+
+#   if (( ${#VEIL_MODULES[@]} == 0 )); then
+#     VEIL_MODULES=()
+#   fi
+
+#   return 0
+# }
+
 
 __veilNormalizeModules() {
   if ! typeset -p VEIL_MODULES >/dev/null 2>&1; then
@@ -48,9 +69,7 @@ __veilNormalizeModules() {
   return 0
 }
 
-# Remove duplicate modules
 __veilNormalizeModules
-typeset -U VEIL_MODULES
 
 # Warn if empty
 if [[ ${#VEIL_MODULES[@]} -eq 0 ]]; then
@@ -139,6 +158,8 @@ fi
 
 typeset -gr VEIL_CORE_LOADED=1
 
-if ! __veilLoadTheme; then
-  [[ -n "$VEIL_VERBOSE" ]] && echo "veil: warning - theme loading failed, continuing without theme" >&2
+if [[ "$VEIL_LOAD_MODE" == "standalone" ]]; then
+  if ! __veilLoadTheme; then
+    [[ -n "$VEIL_VERBOSE" ]] && echo "veil: warning - theme loading failed, continuing without theme" >&2
+  fi
 fi
