@@ -13,6 +13,16 @@ typeset -g VEIL_MODE="plugin"
 typeset -g VEIL_CORE_FILE="${0:A:h}/veil.zsh"
 
 veilCoreInit() {
+  if [[ ! -f "$VEIL_CORE_FILE" ]]; then
+    [[ -n "$VEIL_VERBOSE" ]] && echo "veil: error - core file not found: $VEIL_CORE_FILE" >&2
+    return 1
+  fi
+
+  if [[ ! -r "$VEIL_CORE_FILE" ]]; then
+    [[ -n "$VEIL_VERBOSE" ]] && echo "veil: error - cannot read core file: $VEIL_CORE_FILE" >&2
+    return 1
+  fi
+
   # shellcheck disable=SC1090
   if source "$VEIL_CORE_FILE"; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "veil: core loaded successfully in plugin mode"
@@ -24,3 +34,5 @@ veilCoreInit() {
 }
 
 veilCoreInit
+
+unset -f veilCoreInit
