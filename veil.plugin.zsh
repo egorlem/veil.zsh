@@ -1,6 +1,6 @@
 # Veil Plugin Adapter
 #
-# Adapter for using Veil modules with OMZ, Zim, ZComet, and other frameworks
+# Adapter for using Veil modules with OMZ, Zim, zcomet, and other
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE
 # ------------------------------------------------------------------------------
