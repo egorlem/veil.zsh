@@ -43,3 +43,5 @@ if [[ -z "$VEIL_CORE_LOADED" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/keybindings: critical - keybindings module failed to load" >&2
   fi
 fi
+
+unset -f __veilKeybindingsSetup

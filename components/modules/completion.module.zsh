@@ -150,3 +150,14 @@ if [[ -z "$VEIL_CORE_LOADED" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: critical - module failed to load" >&2
   fi
 fi
+
+typeset -a _VEIL_CLEANUP_FUNCS=(
+  __veilCompletionSetupOptions
+  __veilCompletionInitSystem
+  __veilCompletionDeps
+  __veilCompletionSetupHosts
+  __veilCompletionSetupStyles
+)
+
+unset -f $_VEIL_CLEANUP_FUNCS
+unset _VEIL_CLEANUP_FUNCS

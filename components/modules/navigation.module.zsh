@@ -77,3 +77,12 @@ if [[ -z "$VEIL_CORE_LOADED" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/navigation: critical - navigation module failed to load" >&2
   fi
 fi
+
+typeset -a _VEIL_CLEANUP_FUNCS=(
+  __veilNavigationSetupOptions
+  __veilNavigationSetupAliases
+  __veilNavigationVerify
+)
+
+unset -f $_VEIL_CLEANUP_FUNCS
+unset _VEIL_CLEANUP_FUNCS
