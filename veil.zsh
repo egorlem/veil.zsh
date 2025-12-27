@@ -144,3 +144,12 @@ if [[ "$VEIL_LOAD_MODE" == "standalone" ]]; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "veil: warning - theme loading failed, continuing without theme" >&2
   fi
 fi
+
+typeset -a _VEIL_CLEANUP_FUNCS=(
+  __veilNormalizeModules
+  __veilLoadModule
+  __veilLoadTheme
+)
+
+unset -f $_VEIL_CLEANUP_FUNCS
+unset _VEIL_CLEANUP_FUNCS

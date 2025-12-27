@@ -214,4 +214,13 @@ __ultimaSetupVCS
 __ultimaSetupHooks
 
 # Cleanup setup functions (no longer needed after execution)
-unset __ultimaSetupVCS __ultimaSetupHooks 
+unset  __ultimaSetupHooks 
+
+
+typeset -a _ULTIMA_CLEANUP_FUNCS=(
+  __ultimaSetupVCS
+  __ultimaSetupHooks
+)
+
+unset -f $_ULTIMA_CLEANUP_FUNCS
+unset _ULTIMA_CLEANUP_FUNCS

@@ -16,6 +16,8 @@
 #
 # ------------------------------------------------------------------------------
 
+typeset -g _VEIL_LS_MODULE_LOADED=${_VEIL_LS_MODULE_LOADED:-0}
+
 __veilLsDeps() {
   if ! command -v ls >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: error - 'ls' command not found" >&2
@@ -93,6 +95,9 @@ __veilLsVerify() {
 }
 
 veilLsInit() {
+  [[ $_VEIL_LS_MODULE_LOADED -eq 1 ]] && return 0
+  _VEIL_LS_MODULE_LOADED=1
+
   local statusCode=0
   local systemType
   
@@ -119,3 +124,13 @@ if [[ -z "$VEIL_CORE_LOADED" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: critical - ls module failed to load" >&2
   fi
 fi
+
+typeset -a _VEIL_CLEANUP_FUNCS=(
+  __veilLsDeps
+  __veilLsDetectSystem
+  __veilLsSetupAliases
+  __veilLsVerify
+)
+
+unset -f $_VEIL_CLEANUP_FUNCS
+unset _VEIL_CLEANUP_FUNCS

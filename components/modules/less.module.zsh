@@ -126,3 +126,16 @@ if [[ -z "$VEIL_CORE_LOADED" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: critical - less module failed to load" >&2
   fi
 fi
+
+typeset -a _VEIL_CLEANUP_FUNCS=(
+  __veilLessVerify
+  __veilLessAdaptToTerminal
+  __veilLessSetupHelpers
+  __veilLessSetupAliases
+  __veilLessSetupEnv
+  __veilLessValidateTerm
+  __veilLessDeps
+)
+
+unset -f $_VEIL_CLEANUP_FUNCS
+unset _VEIL_CLEANUP_FUNCS
