@@ -6,7 +6,7 @@ Veil is **not** a plugin manager. It’s an **architectural system** to organize
 
 * **Modular abstractions:** enable, disable, isolate functions.
 * **Transparency:** 100% local, no external dependencies.
-* **Full coverage:** 10 built-in modules + Ultima theme cover core Zsh functionality.
+* **Full coverage:** essential Zsh functionality with 10 modules + Ultima theme.
 
 ---
 
