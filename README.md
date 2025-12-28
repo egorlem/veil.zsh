@@ -2,31 +2,11 @@
 
 **Full control. No magic. Just clarity.**
 
-Veil is **not** a plugin manager. It’s an **architectural system** to organize your `.zshrc` into **self-contained modules**. Each module is a plain `.zsh` file — readable, editable, predictable.
+Veil is **not** a plugin manager. It’s an **architectural system** to organize your `.zshrc` into **self-contained modules**. Each module is a plain .zsh file — editable and designed to be understood in isolation.
 
 * **Modular abstractions:** enable, disable, isolate functions.
 * **Transparency:** 100% local, no external dependencies.
 * **Full coverage:** 10 built-in modules + Ultima theme cover core Zsh functionality.
-
----
-
-## Quick Start
-
-```bash
-# Clone Veil
-git clone https://github.com/egorlem/veil.zsh ~/.veil
-
-# Source in Zsh
-echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
-```
-
-Included by default:
-
-* Core module loader
-* Modules: `less`, `ls`, `completion`
-* [Ultima](https://github.com/egorlem/ultima.zsh-theme) minimalist theme
-
-> For detailed module configuration, see [Tier 2 Documentation](./components/README.md)
 
 ---
 
@@ -47,7 +27,27 @@ It also avoids **dependency chaos**: everything is local, no external repos, no 
 ├── ultima.zsh-theme
 └── ...
 ```
-**Veil covers 95% of core Zsh needs without introducing complexity or hidden magic.**
+**Veil covers most core Zsh needs for everyday use without introducing complexity or hidden magic.**
+
+---
+
+## Quick Start
+
+```bash
+# Clone Veil
+git clone https://github.com/egorlem/veil.zsh ~/.veil
+
+# Source in Zsh
+echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
+```
+
+Included by default:
+
+* Core module loader
+* Modules: `less`, `ls`, `completion`
+* [Ultima](https://github.com/egorlem/ultima.zsh-theme) minimalist theme
+
+> For detailed module configuration, see [Tier 2 Documentation](./components/README.md) 
 
 ---
 
