@@ -193,7 +193,7 @@ source /path/to/veil.plugin.zsh
 
 ## Documentation Tiers
 
-- [**Tier 1** — Quick start, core concepts, essentials.](./README.md)  
+- [**Tier 1** — Quick start, core concepts, essentials.](../README.md)  
 - **Tier 2 (You are here)** — Advanced configuration and integration.  
 - [**Tier 3** — Core modules and system internals.](./components/modules/README.md)
 
