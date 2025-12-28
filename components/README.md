@@ -1,40 +1,40 @@
-# Veil — Руководство по конфигурации (Tier 2)
+# Veil — Configuration Guide (Tier 2)
 
-Этот документ описывает расширенную конфигурацию и интеграцию Veil. Вся настройка выполняется через глобальные переменные, которые должны быть объявлены **до** подключения `veil.zsh`.
+This document describes advanced configuration and integration for Veil. All configuration is done via global variables, which must be declared **before** sourcing `veil.zsh`.
 
 ---
 
-## Переменные конфигурации
+## Configuration Variables
 
-### `VEIL_MODULES` — управление модулями
-Определяет, какие модули будут загружены.
+### `VEIL_MODULES` — Module Management
+Specifies which modules will be loaded.
 
-**Формат (оба варианта поддерживаются):**
+**Format (both variants are supported):**
 ```bash
-# Строка (пробелы как разделители)
+# String (spaces as separators)
 VEIL_MODULES="aliases completion history"
 
-# Массив Zsh
+# Zsh array
 VEIL_MODULES=(aliases completion history)
 ```
 
-**Пример:**
+**Example:**
 ```bash
 VEIL_MODULES="completion history navigation less"
 source "$HOME/.veil/veil.zsh"
 ```
 
-> Полный список и описание модулей: [Tier 3 Documentation](./components/modules/README.md)
+> Full list and description of modules: [Tier 3 Documentation](./components/modules/README.md)
 
 ---
 
-### Отладка: `VEIL_VERBOSE` и `VEIL_MODULES_VERBOSE`
-Включают подробный вывод для отладки загрузки.
+### Debugging: `VEIL_VERBOSE` and `VEIL_MODULES_VERBOSE`
+Enable verbose output for debugging the loading process.
 
-- `VEIL_VERBOSE=1` — вывод от ядра системы
-- `VEIL_MODULES_VERBOSE=1` — вывод от отдельных модулей
+- `VEIL_VERBOSE=1` — output from the system core
+- `VEIL_MODULES_VERBOSE=1` — output from individual modules
 
-**Пример:**
+**Example:**
 ```bash
 VEIL_VERBOSE=1
 VEIL_MODULES_VERBOSE=1
@@ -43,121 +43,121 @@ source "$HOME/.veil/veil.zsh"
 
 ---
 
-### `THEME` — выбор темы (по умолчанию: `ultima`)
-Veil поддерживает стандартный формат тем `*.zsh-theme`.
+### `THEME` — Theme Selection (default: `ultima`)
+Veil supports the standard `*.zsh-theme` theme format.
 
-**Использование:**
+**Usage:**
 ```bash
-THEME="ultima"  # Тема по умолчанию
+THEME="ultima"  # Default theme
 source "$HOME/.veil/veil.zsh"
 ```
 
 ---
 
-### `THEMES_DIR` — кастомная директория для тем
-Если требуется хранить темы отдельно от установки Veil.
+### `THEMES_DIR` — Custom Theme Directory
+Use this if you need to store themes separately from the Veil installation.
 
-**Пример:**
+**Example:**
 ```bash
 THEMES_DIR="$HOME/my-zsh-themes"
 THEME="my-custom-theme"
 source "$HOME/.veil/veil.zsh"
 ```
 
-**Альтернативно:** можно поместить тему в `~/.veil/components/themes/` и указать только `THEME="имя-темы"`.
+**Alternatively:** you can place a theme in `~/.veil/components/themes/` and simply specify `THEME="theme-name"`.
 
 ---
 
-## Добавление собственных модулей
+## Adding Your Own Modules
 
-Veil загружает любой файл `*.module.zsh` из директории модулей.
+Veil loads any `*.module.zsh` file from the modules directory.
 
-**Процесс:**
-1. Создайте файл `example.module.zsh`
-2. Поместите в `~/.veil/components/modules/`
-3. Добавьте в `VEIL_MODULES`:
+**Process:**
+1. Create a file `example.module.zsh`
+2. Place it in `~/.veil/components/modules/`
+3. Add it to `VEIL_MODULES`:
 ```bash
 VEIL_MODULES="completion history example"
 ```
 
-**Минимальный пример модуля:**
+**Minimal module example:**
 ```bash
 # ~/.veil/components/modules/example.module.zsh
 veilExampleInit() {
-  echo "Мой модуль загружен"
+  echo "My module loaded"
   return 0
 }
 
 [[ -n "$VEIL_CORE_LOADED" ]] && veilExampleInit
 ```
 
-> Veil просто source'ит ваши файлы. Никакой дополнительной логики.
+> Veil simply sources your files. No additional logic.
 
 ---
 
-## Режимы использования Veil
+## Veil Usage Modes
 
-### Standalone (режим по умолчанию)
-Как описано в Tier 1 — полная автономная установка.
+### Standalone (default mode)
+As described in Tier 1 — a full, self-contained installation.
 
-### Plugin mode — интеграция с другими системами
-Для использования внутри существующих менеджеров плагинов.
+### Plugin Mode — Integration with Other Systems
+For use within existing plugin managers.
 
-**Активация:** Используйте `veil.plugin.zsh` вместо `veil.zsh`. Этот адаптер автоматически устанавливает `VEIL_MODE="plugin"`.
+**Activation:** Use `veil.plugin.zsh` instead of `veil.zsh`. This adapter automatically sets `VEIL_MODE="plugin"`.
 
-В plugin-режиме отключается авто-загрузка тем. Модули работают как обычно.
+In plugin mode, theme auto-loading is disabled. Modules function as usual.
 
 ---
 
-## Интеграция с конкретными системами
+## Integration with Specific Systems
 
 ### Oh My Zsh
 ```bash
-# 1. Установите в custom/plugins/
+# 1. Install into custom/plugins/
 git clone https://github.com/egorlem/veil.zsh ~/.oh-my-zsh/custom/plugins/veil
 
-# 2. Опционально выберите модули:
+# 2. Optionally select modules:
 VEIL_MODULES="completion history"
 
-# 3. Добавьте в .zshrc:
+# 3. Add to .zshrc:
 plugins=(git veil)
 
 ```
 
 ### Zim Framework
 ```bash
-# В .zimrc:
+# In .zimrc:
 zmodule egorlem/veil.zsh -n veil
 ```
 
 ### zcomet
 ```bash
-# В .zshrc:
+# In .zshrc:
 zcomet load egorlem/veil.zsh
 ```
 
-### Любая система
+### Any System
 ```bash
-source /путь/к/veil.plugin.zsh
+source /path/to/veil.plugin.zsh
 ```
 
-Для управления модулями в plugin-режиме используйте `VEIL_MODULES` как обычно.
+To manage modules in plugin mode, use `VEIL_MODULES` as usual.
 
 ---
 
-## Опциональные переменные
+## Optional Variables
 
-### `VEIL_MODULES_DIR` — кастомная директория модулей
-Если требуется хранить модули вне установки Veil.
+### `VEIL_MODULES_DIR` — Custom Module Directory
+Use this if you need to store modules outside the Veil installation.
 
 ```bash
 VEIL_MODULES_DIR="$HOME/my-zsh-modules"
-# Veil будет искать модули здесь
+# Veil will search for modules here
 ```
 
 ---
 
-<!-- ## Что дальше?
+<!-- ## What's Next?
 
-- **Нужны готовые модули?** → [Tier 3 Documentation](./components/modules/README.md)
-- **Вопросы или проблемы?** → [GitHub Issues](https://github.com/egorlem/veil.zsh/issues) -->
+- **Need ready-made modules?** → [Tier 3 Documentation](./components/modules/README.md)
+- **Questions or issues?** → [GitHub Issues](https://github.com/egorlem/veil.zsh/issues) -->
