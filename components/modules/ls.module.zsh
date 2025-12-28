@@ -1,5 +1,11 @@
 # Veil Ls Module
 #
+# Enhanced Zsh ls aliases with cross-platform color support.
+#
+# Features:
+# • Cross-platform color support (BSD -G / GNU --color=auto)
+# • Optimized aliases: ls, ll, la, l
+# • Graceful fallbacks when color not available
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
 # ------------------------------------------------------------------------------
@@ -10,8 +16,9 @@
 #
 # ------------------------------------------------------------------------------
 
-_veilLsDeps() {
-  # Проверка зависимостей
+typeset -g _VEIL_LS_MODULE_LOADED=${_VEIL_LS_MODULE_LOADED:-0}
+
+__veilLsDeps() {
   if ! command -v ls >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: error - 'ls' command not found" >&2
     return 1
@@ -19,8 +26,7 @@ _veilLsDeps() {
   return 0
 }
 
-_veilLsDetectSystem() {
-  # Определение типа системы
+__veilLsDetectSystem() {
   case "$OSTYPE" in
     darwin*) echo "bsd" ;;
     linux*) echo "gnu" ;;
@@ -29,56 +35,47 @@ _veilLsDetectSystem() {
   esac
 }
 
-_veilLsSetupAliases() {
-  local SYSTEM_TYPE
-  SYSTEM_TYPE=$(_veilLsDetectSystem)
-  local HAS_COLOR_SUPPORT=0
+__veilLsSetupAliases() {
+  local systemType="$1"
+  local hasColorSupport=0
   
-  # Проверяем что LS_COLORS установлен colors модулем
   if [[ -z "$LS_COLORS" && -z "$LSCOLORS" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: warning - colors not configured, ls will be without colors" >&2
   fi
   
-  case $SYSTEM_TYPE in
+  case $systemType in
     bsd)
-      if command ls -G / >/dev/null 2>&1; then 
+      if command ls -G /dev/null >/dev/null 2>&1; then 
         alias ls='command ls -G'
-        alias ll='ls -laG'
-        alias la='ls -laG'
-        HAS_COLOR_SUPPORT=1
-      else
-        alias ll='ls -la'
-        alias la='ls -la'
+        alias ll='command ls -laG'
+        alias la='command ls -laG'
+        hasColorSupport=1
       fi
       ;;
     gnu)
-      if command ls --color=auto / >/dev/null 2>&1; then
+      if command ls --color=auto /dev/null >/dev/null 2>&1; then
         alias ls='command ls --color=auto'
-        alias ll='ls -la --color=auto'
-        alias la='ls -la --color=auto'
-        HAS_COLOR_SUPPORT=1
-      else
-        alias ll='ls -la'
-        alias la='ls -la'
+        alias ll='command ls -la --color=auto'
+        alias la='command ls -la --color=auto'
+        hasColorSupport=1
       fi
       ;;
     *)
-      alias ll='ls -la'
-      alias la='ls -la'
+      alias ll='command ls -la'
+      alias la='command ls -la'
       ;;
   esac
   
-  alias l='ls -CF'
+  alias l='command ls -CF'
   
-  if [[ $HAS_COLOR_SUPPORT -eq 0 ]]; then
+  if [[ $hasColorSupport -eq 0 ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: warning - color support not available for ls" >&2
   fi
   
   return 0
 }
 
-_veilLsVerify() {
-  # Проверка что алиасы установились
+__veilLsVerify() {
   if ! alias ls >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: error - failed to create ls aliases" >&2
     return 1
@@ -98,35 +95,42 @@ _veilLsVerify() {
 }
 
 veilLsInit() {
-  # Основная функция инициализации
-  local EXIT_CODE=0
-  local SYSTEM_TYPE
+  [[ $_VEIL_LS_MODULE_LOADED -eq 1 ]] && return 0
+  _VEIL_LS_MODULE_LOADED=1
+
+  local statusCode=0
+  local systemType
   
-  if ! _veilLsDeps; then
+  if ! __veilLsDeps; then
     return 1
   fi
   
-  if ! _veilLsSetupAliases; then
-    EXIT_CODE=1
+  systemType=$(__veilLsDetectSystem)
+  __veilLsSetupAliases "$systemType"
+  
+  if ! __veilLsVerify; then
+    statusCode=1
   fi
   
-  if ! _veilLsVerify; then
-    EXIT_CODE=1
-  fi
-
-  SYSTEM_TYPE=$(_veilLsDetectSystem)
-  if [[ $EXIT_CODE -eq 0 ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized ($SYSTEM_TYPE system)" >&2
-  else
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized with warnings ($SYSTEM_TYPE system)" >&2
+  if [[ $statusCode -eq 0 ]]; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: module initialized ($systemType system)" >&2
   fi
   
-  return $EXIT_CODE
+  return $statusCode
 }
 
-# Автоинициализация с обработкой ошибок
-if [[ -z "$ULTIMA_CORE_LOADED" ]]; then
+if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilLsInit; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/ls: critical - ls module failed to load" >&2
   fi
 fi
+
+typeset -a _VEIL_CLEANUP_FUNCS=(
+  __veilLsDeps
+  __veilLsDetectSystem
+  __veilLsSetupAliases
+  __veilLsVerify
+)
+
+unset -f $_VEIL_CLEANUP_FUNCS
+unset _VEIL_CLEANUP_FUNCS
