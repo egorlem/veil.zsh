@@ -53,10 +53,8 @@ It also avoids **dependency chaos**: everything is local, no external repos, no 
 
 ## Performance
 
-Tested with **all 10 modules + Ultima theme** using [zimfw/zsh-framework-benchmark](https://github.com/zimfw/zsh-framework-benchmark) with:
+Performance was measured with **all 10 modules + Ultima theme**, including **`zsh-users/zsh-autosuggestions`** and **`zsh-users/zsh-syntax-highlighting`**, using [**zimfw/zsh-framework-benchmark**](https://github.com/zimfw/zsh-framework-benchmark) as the test tool.
 
-* `zsh-users/zsh-autosuggestions`
-* `zsh-users/zsh-syntax-highlighting`
 
 | Framework / Config             | Real  | User  | Sys   | Max      |
 | ------------------------------ | ----- | ----- | ----- | -------- |
@@ -64,8 +62,6 @@ Tested with **all 10 modules + Ultima theme** using [zimfw/zsh-framework-benchma
 | **Veil (10 modules + Ultima)** | 0.083 | 0.003 | 0.079 | 0.107    |
 | Oh My Zsh                      | 0.351 | 0.005 | 0.344 | 0.378    |
 | zplug                          | 0.230 | 0.008 | 0.218 | 0.274    |
-
-Veil starts fast, remains **fully local and predictable**, with **no hidden behavior**.
 
 ---
 
@@ -77,8 +73,6 @@ Veil documentation follows **progressive disclosure**.
 - [**Tier 2** — Advanced configuration and integration.](./components/README.md)
 - [**Tier 3** — Core modules and system internals.](./components/modules/README.md)
 
-
-
 Start with Tier 1.  
 Move deeper only when you’re ready.
 
@@ -86,10 +80,13 @@ Move deeper only when you’re ready.
 
 ## Philosophy
 
-Veil embodies the **“Script as Application”** mindset:
+### Script as Application
 
-Each module is a **self-contained component** — a small, predictable application — rather than a chaotic mix of commands.
-Configuration is **explicit, composable, and easy to reason about**.
+Veil treats each configuration module as a **small standalone program**.
+
+A module has a **single responsibility**, a **clear entry point**, its **own functions** and **internal rules**. It configures **one specific aspect of the shell** and can be **read, reasoned about, and maintained in isolation**.
+
+This approach explains why **all of Veil, including its theme,** is structured like **self-contained programs** instead of typical shell scripts.
 
 ---
 
@@ -99,3 +96,5 @@ Configuration is **explicit, composable, and easy to reason about**.
 See [LICENSE](https://github.com/egorlem/veil.zsh/blob/main/LICENSE) for details.
 
 Maintained by [Egor Lem](https://egorlem.com/)
+
+
