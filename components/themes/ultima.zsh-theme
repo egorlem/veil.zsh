@@ -158,18 +158,25 @@ __ultimaBuildSeparator() {
     spacing+=$_BOX_H
   done
   
-  _U_CACHED_SEPARATOR="${_SCI_BLACK}${_BOX_L}${spacing}${_SCI_RST}"
+  _U_CACHED_SEPARATOR="${_BOX_L}${spacing}"
   return 0
 }
 
-__ultimaPrintSeparator() {
+__ultimaGetSeparator() {
   if (( COLUMNS != _U_CACHED_COLUMNS )) || [[ -z "$_U_CACHED_SEPARATOR" ]]; then
     __ultimaBuildSeparator
   fi
-  
-  echo "$_U_CACHED_SEPARATOR"
-  return 0
+  printf "%s" "$_U_CACHED_SEPARATOR"
 }
+
+# __ultimaPrintSeparator() {
+#   if (( COLUMNS != _U_CACHED_COLUMNS )) || [[ -z "$_U_CACHED_SEPARATOR" ]]; then
+#     __ultimaBuildSeparator
+#   fi
+  
+#   echo "$_U_CACHED_SEPARATOR"
+#   return 0
+# }
 
 # ------------------------------------------------------------------------------
 # EXIT STATUS FUNCTION
@@ -193,7 +200,8 @@ __ultimaExitStatus() {
 setopt PROMPT_SUBST
 setopt TRANSIENT_RPROMPT
 
-PROMPT="%F{0}${_BOX_P} $(__u_ssh) %f%F{6}%~%f$(__u_vcs)
+PROMPT="%F{0}$(__ultimaGetSeparator)
+${_BOX_P} $(__u_ssh) %f%F{6}%~%f$(__u_vcs)
 %F{2} ›%f "
 
 RPROMPT=""
@@ -205,15 +213,12 @@ PS3=" › "
 # HOOKS FUNCTIONS
 # ------------------------------------------------------------------------------
 
-# Called before each prompt display
-# Updates VCS info and draws the top separator line
 __ultimaPrecmd() {
   local lastStatus=$?
   
   if [[ $VCS != "" ]]; then
-    vcs_info || return 1
+    vcs_info
   fi
-  __ultimaPrintSeparator
 
   # Set RPROMPT with exit status
   RPROMPT="$(__ultimaExitStatus "$lastStatus")"
@@ -221,11 +226,24 @@ __ultimaPrecmd() {
   return 0
 }
 
-# Sets up zsh hooks for prompt functionality
+# precmd() {
+#   local lastStatus=$?
+  
+#   if [[ $VCS != "" ]]; then
+#     vcs_info || return 1
+#   fi
+#   # __ultimaPrintSeparator
+
+#   # Set RPROMPT with exit status
+#   RPROMPT="$(__ultimaExitStatus "$lastStatus")"
+# }
+
 __ultimaSetupHooks() {
-  add-zsh-hook precmd __ultimaPrecmd || return 1
+  add-zsh-hook precmd __ultimaPrecmd
   return 0
 }
+
+add-zsh-hook precmd __ultimaPrecmd
 
 # ------------------------------------------------------------------------------
 # MAIN EXECUTION
