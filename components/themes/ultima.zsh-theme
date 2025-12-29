@@ -192,7 +192,6 @@ __ultimaExitStatus() {
 
 setopt PROMPT_SUBST
 setopt TRANSIENT_RPROMPT
-setopt INTERACTIVE_COMMENTS
 
 PROMPT="%F{0}${_BOX_P} $(__u_ssh) %f%F{6}%~%f$(__u_vcs)
 %F{2} ›%f "
