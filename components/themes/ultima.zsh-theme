@@ -172,10 +172,27 @@ __ultimaPrintSeparator() {
 }
 
 # ------------------------------------------------------------------------------
+# EXIT STATUS FUNCTION
+# ------------------------------------------------------------------------------
+
+__ultimaExitStatus() {
+  local lastStatus=$1
+  
+  if (( lastStatus != 0 )); then
+    echo -n "%F{red}• ${lastStatus}%f"
+  else
+    echo -n "%F{green}•%f"
+  fi
+  return 0
+}
+
+# ------------------------------------------------------------------------------
 # PROMPT DEFINITION
 # ------------------------------------------------------------------------------
 
 setopt PROMPT_SUBST
+setopt TRANSIENT_RPROMPT
+setopt INTERACTIVE_COMMENTS
 
 PROMPT="%F{0}${_BOX_P} $(__u_ssh) %f%F{6}%~%f$(__u_vcs)
 %F{2} ›%f "
@@ -192,10 +209,16 @@ PS3=" › "
 # Called before each prompt display
 # Updates VCS info and draws the top separator line
 __ultimaPrecmd() {
+  local lastStatus=$?
+  
   if [[ $VCS != "" ]]; then
     vcs_info || return 1
   fi
   __ultimaPrintSeparator
+
+  # Set RPROMPT with exit status
+  RPROMPT="$(__ultimaExitStatus "$lastStatus")"
+
   return 0
 }
 
