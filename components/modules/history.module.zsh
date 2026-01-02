@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 
-typeset -g _VEIL_HISTORY_MODULE_LOADED=${_VEIL_HISTORY_MODULE_LOADED:-0}
+typeset -gi _VEIL_HISTORY_MODULE_LOADED=${_VEIL_HISTORY_MODULE_LOADED:-0}
 
 __veilHistorySetupEnv() {
   export HISTFILE="$HOME/.zsh_history"

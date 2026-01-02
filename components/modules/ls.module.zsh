@@ -16,7 +16,7 @@
 #
 # ------------------------------------------------------------------------------
 
-typeset -g _VEIL_LS_MODULE_LOADED=${_VEIL_LS_MODULE_LOADED:-0}
+typeset -gi _VEIL_LS_MODULE_LOADED=${_VEIL_LS_MODULE_LOADED:-0}
 
 __veilLsDeps() {
   if ! command -v ls >/dev/null 2>&1; then

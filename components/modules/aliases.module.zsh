@@ -12,6 +12,8 @@
 #
 # ------------------------------------------------------------------------------
 
+typeset -gi _VEIL_ALIASES_MODULE_LOADED=${_VEIL_ALIASES_MODULE_LOADED:-0}
+
 __veilAliasesSetup() {
   # Fun utility - Matrix reference
   alias stay="printf '\x1b[32mFollow the white rabbit...\x1b[0m\n'"
@@ -37,6 +39,9 @@ __veilAliasesSetup() {
 }
 
 veilAliasesInit() {
+  [[ $_VEIL_ALIASES_MODULE_LOADED -eq 1 ]] && return 0
+  _VEIL_ALIASES_MODULE_LOADED=1
+
   __veilAliasesSetup
   
   [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/aliases: module initialized" >&2

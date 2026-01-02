@@ -11,6 +11,8 @@
 #
 # ------------------------------------------------------------------------------
 
+typeset -gi _VEIL_COMPLETION_MODULE_LOADED=${_VEIL_COMPLETION_MODULE_LOADED:-0}
+
 __veilCompletionDeps() {
   if ! autoload -Uz compinit >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: error - zsh completion system not available" >&2
@@ -119,6 +121,9 @@ __veilCompletionSetupHosts() {
 }
 
 veilCompletionInit() {
+  [[ $_VEIL_COMPLETION_MODULE_LOADED -eq 1 ]] && return 0
+  _VEIL_COMPLETION_MODULE_LOADED=1
+
   local statusCode=0
   
   if ! __veilCompletionDeps; then

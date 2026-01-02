@@ -12,6 +12,8 @@
 #
 # ------------------------------------------------------------------------------
 
+typeset -gi _VEIL_ENV_MODULE_LOADED=${_VEIL_ENV_MODULE_LOADED:-0}
+
 __veilEnvSetup() {
   export EDITOR='vim'
   export VISUAL='vim'
@@ -24,6 +26,9 @@ __veilEnvSetup() {
 }
 
 veilEnvInit() {
+  [[ $_VEIL_ENV_MODULE_LOADED -eq 1 ]] && return 0
+  _VEIL_ENV_MODULE_LOADED=1  
+  
   __veilEnvSetup
   
   [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/env: module initialized" >&2

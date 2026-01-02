@@ -12,6 +12,8 @@
 #
 # ------------------------------------------------------------------------------
 
+typeset -gi _VEIL_KEYBINDINGS_MODULE_LOADED=${_VEIL_KEYBINDINGS_MODULE_LOADED:-0}
+
 __veilKeybindingsSetup() {
   # Note: History search bindings are commented out as they require
   # history-substring-search plugin. Uncomment if plugin is installed.
@@ -31,6 +33,9 @@ __veilKeybindingsSetup() {
 }
 
 veilKeybindingsInit() {
+  [[ $_VEIL_KEYBINDINGS_MODULE_LOADED -eq 1 ]] && return 0
+  _VEIL_KEYBINDINGS_MODULE_LOADED=1
+
   __veilKeybindingsSetup
   
   [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/keybindings: module initialized" >&2

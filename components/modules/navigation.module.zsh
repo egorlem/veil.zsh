@@ -16,6 +16,8 @@
 #
 # ------------------------------------------------------------------------------
 
+typeset -gi _VEIL_NAVIGATION_MODULE_LOADED=${_VEIL_NAVIGATION_MODULE_LOADED:-0}
+
 __veilNavigationSetupOptions() {
   # Configure navigation options
   setopt AUTO_CD                          # Change directory without typing 'cd'
@@ -56,6 +58,9 @@ __veilNavigationVerify() {
 }
 
 veilNavigationInit() {
+  [[ $_VEIL_NAVIGATION_MODULE_LOADED -eq 1 ]] && return 0
+  _VEIL_NAVIGATION_MODULE_LOADED=1
+
   local statusCode=0
   
   __veilNavigationSetupOptions

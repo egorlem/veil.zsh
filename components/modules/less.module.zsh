@@ -16,6 +16,8 @@
 #
 # ------------------------------------------------------------------------------
 
+typeset -gi _VEIL_LESS_MODULE_LOADED=${_VEIL_LESS_MODULE_LOADED:-0}
+
 __veilLessDeps() {
   if ! command -v less >/dev/null 2>&1; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/less: error - 'less' command not found" >&2
@@ -102,6 +104,9 @@ __veilLessVerify() {
 }
 
 veilLessInit() {
+  [[ $_VEIL_LESS_MODULE_LOADED -eq 1 ]] && return 0
+  _VEIL_LESS_MODULE_LOADED=1
+
   if ! __veilLessDeps; then
     return 1
   fi

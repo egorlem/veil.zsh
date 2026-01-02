@@ -14,37 +14,37 @@
 #
 # ------------------------------------------------------------------------------
 
-# Global cursor state tracking
-TERMINAL_CURSOR_VISIBLE=1
+typeset -gi _TERMINAL_CURSOR_VISIBLE=1
+typeset -gi _VEIL_CURSOR_MODULE_LOADED=${_VEIL_CURSOR_MODULE_LOADED:-0}
 
 # ------------------------------------------------------------------------------
 # PRIVATE CURSOR CONTROL FUNCTIONS
 # ------------------------------------------------------------------------------
 
 __veilCursorHide() {
-    printf '\033[?25l'
-    TERMINAL_CURSOR_VISIBLE=0
+  printf '\033[?25l'
+  _TERMINAL_CURSOR_VISIBLE=0
 }
 
 __veilCursorShow() {
-    printf '\033[?25h'
-    TERMINAL_CURSOR_VISIBLE=1
+  printf '\033[?25h'
+  _TERMINAL_CURSOR_VISIBLE=1
 }
 
 __veilCursorEnsureVisible() {
-    if (( ! TERMINAL_CURSOR_VISIBLE )); then
-        __veilCursorShow
-    fi
+  if (( ! _TERMINAL_CURSOR_VISIBLE )); then
+      __veilCursorShow
+  fi
 }
 
 __veilCursorScheduleRestore() {
-    precmd_functions=(${precmd_functions:#__veilCursorRestore})
-    precmd_functions+=(__veilCursorRestore)
+  precmd_functions=(${precmd_functions:#__veilCursorRestore})
+  precmd_functions+=(__veilCursorRestore)
 }
 
 __veilCursorRestore() {
-    __veilCursorShow
-    precmd_functions=(${precmd_functions:#__veilCursorRestore})
+  __veilCursorShow
+  precmd_functions=(${precmd_functions:#__veilCursorRestore})
 }
 
 # ------------------------------------------------------------------------------
@@ -52,9 +52,9 @@ __veilCursorRestore() {
 # ------------------------------------------------------------------------------
 
 clear() {
-    __veilCursorHide
-    command clear
-    __veilCursorScheduleRestore
+  __veilCursorHide
+  command clear
+  __veilCursorScheduleRestore
 }
 
 # ------------------------------------------------------------------------------
@@ -62,25 +62,25 @@ clear() {
 # ------------------------------------------------------------------------------
 
 veilCursorFix() {
-    # Contract: forces cursor visibility as safety measure
-    # Use: when cursor disappears unexpectedly
-    # Returns: 0 always
-    
-    __veilCursorEnsureVisible
-    echo "Cursor state reset"
-    return 0
+  # Contract: forces cursor visibility as safety measure
+  # Use: when cursor disappears unexpectedly
+  # Returns: 0 always
+  
+  __veilCursorEnsureVisible
+  echo "Cursor state reset"
+  return 0
 }
 
 veilCursorState() {
-    # Contract: reports current cursor visibility state
-    # Returns: 0 always, prints state to stdout
-    
-    if (( TERMINAL_CURSOR_VISIBLE )); then
-        echo "Cursor: VISIBLE"
-    else
-        echo "Cursor: HIDDEN"
-    fi
-    return 0
+  # Contract: reports current cursor visibility state
+  # Returns: 0 always, prints state to stdout
+  
+  if (( _TERMINAL_CURSOR_VISIBLE )); then
+      echo "Cursor: VISIBLE"
+  else
+      echo "Cursor: HIDDEN"
+  fi
+  return 0
 }
 
 # ------------------------------------------------------------------------------
@@ -88,21 +88,24 @@ veilCursorState() {
 # ------------------------------------------------------------------------------
 
 __veilCursorSetup() {
-    # Initial safety check
-    __veilCursorEnsureVisible
-    
-    # Ensure clean hook registration
-    precmd_functions=(${precmd_functions:#__veilCursorRestore})
-    
-    return 0
+  # Initial safety check
+  __veilCursorEnsureVisible
+  
+  # Ensure clean hook registration
+  precmd_functions=(${precmd_functions:#__veilCursorRestore})
+  
+  return 0
 }
 
 veilCursorInit() {
-    __veilCursorSetup
-    
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/cursor: module initialized" >&2
-    
-    return 0
+  [[ $_VEIL_CURSOR_MODULE_LOADED -eq 1 ]] && return 0
+  _VEIL_CURSOR_MODULE_LOADED=1
+            
+  __veilCursorSetup
+  
+  [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/cursor: module initialized" >&2
+  
+  return 0
 }
 
 # ------------------------------------------------------------------------------
