@@ -2,19 +2,18 @@
 
 **Full control. No magic. Just clarity.**
 
-Veil is **not** a plugin manager. It’s an **architectural system** to organize your `.zshrc` 
-into **self-contained modules**. Each module is a plain `.zsh` file — editable and easy 
-to read on its own.
+Veil is **not** a plugin manager. It’s a **modular system** to organize your `.zshrc` 
+into **self-contained modules**. Each module is a plain `.zsh` file, simple and easy to read or modify.
 
 ---
 
 ## What’s Inside?
 
-Out of the box, Veil provides a clean and well-configured Zsh environment focused on everyday terminal work.  
-It brings together sensible defaults for history, completion, navigation, aliases, keybindings, and common tools like `ls`, `less`, and `man`, forming a setup that behaves the same way across sessions and machines.
+Out of the box, Veil provides a well-configured Zsh environment focused on everyday terminal work.
+It brings together sensible defaults for history, completion, navigation, aliases, keybindings, and common tools like `ls`, `less`, and `man`, forming a setup that **works consistently across systems**.
 
-The included **Ultima** theme adds a minimal prompt that exposes VCS state, SSH sessions,
-and command status, staying out of the way of normal shell usage.
+The included **Ultima** theme shows VCS state, SSH connections, and command status in a clean, unobtrusive prompt.
+
 
 <!-- ---
 
@@ -27,9 +26,9 @@ and command status, staying out of the way of normal shell usage.
 ## Why Veil?
 
 Traditional `.zshrc` files can quickly turn into **unmaintainable monoliths**.
-Veil splits configuration into **isolated modules**, making each part readable, composable, and easy to reason about.
+Veil splits configuration into **isolated modules**, so each part is **clear, composable, and easy to understand**.
 
-It also avoids **dependency chaos**: everything is local, no external repos, no hidden behavior. Every module is explicit — you see and control everything.
+It also avoids **dependency chaos**: everything stays local — **no external repos, no surprises**. Each module is explicit — **you see it all and stay in control**.
 
 ```
 ~/.veil/components/modules
