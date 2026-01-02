@@ -11,7 +11,7 @@ to read on its own.
 ## What’s Inside?
 
 Out of the box, Veil provides a clean and well-configured Zsh environment focused on everyday terminal work.  
-It brings together sensible defaults for history, completion, navigation, aliases, keybindings, and common tools like `ls`, `less`, and `man`, forming a setup that feels consistent and predictable.
+It brings together sensible defaults for history, completion, navigation, aliases, keybindings, and common tools like `ls`, `less`, and `man`, forming a setup that behaves the same way across sessions and machines.
 
 The included **Ultima** theme adds a minimal prompt that exposes VCS state, SSH sessions,
 and command status, staying out of the way of normal shell usage.
