@@ -4,29 +4,24 @@
 
 Veil is **not** a plugin manager. It’s an **architectural system** to organize your `.zshrc` into **self-contained modules**. Each module is a plain `.zsh` file — editable and easy to read on its own.
 
-* **Modular abstractions:** enable, disable, isolate functions.
-* **Transparency:** 100% local, no external dependencies.
-* **Full coverage:** essential Zsh functionality with 10 modules + Ultima theme.
+* Modular structure for organizing shell configuration
+* Fully local setup with no external dependencies
+* Covers essential Zsh features with built-in modules and the Ultima theme
 
 ---
 
-## Quick Start
+## What’s Inside?
 
-```bash
-# Clone Veil
-git clone https://github.com/egorlem/veil.zsh ~/.veil
+Out of the box, Veil provides a clean and well-configured Zsh environment focused on everyday terminal work.  
+It brings together sensible defaults for history, completion, navigation, aliases, keybindings, and common tools like `ls`, `less`, and `man`, forming a setup that feels consistent and predictable.
 
-# Source in Zsh
-echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
-```
+The included **Ultima** theme adds lightweight visual context — git state, SSH sessions, and command status — without getting in the way.
 
-Included by default:
+<!-- ---
 
-* Core module loader
-* Modules: `less`, `ls`, `completion`
-* [Ultima](https://github.com/egorlem/ultima.zsh-theme) minimalist theme
+## See It in Action
 
-> For detailed module configuration, see [Tier 2 Documentation](./components/README.md) 
+![Veil Demo](https://github.com/egorlem/veil.zsh/raw/main/media/demo.gif) -->
 
 ---
 
@@ -47,7 +42,26 @@ It also avoids **dependency chaos**: everything is local, no external repos, no 
 ├── ultima.zsh-theme
 └── ...
 ```
-**Veil covers most core Zsh needs for everyday use without introducing complexity or hidden magic.**
+
+---
+
+## Quick Start
+
+```bash
+# Clone Veil
+git clone https://github.com/egorlem/veil.zsh ~/.veil
+
+# Source in Zsh
+echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
+```
+
+Included by default:
+
+* Core module loader
+* Modules: `less`, `ls`, `completion`
+* [Ultima](https://github.com/egorlem/ultima.zsh-theme) minimalist theme
+
+> For detailed module configuration, see [Tier 2 Documentation](./components/README.md) 
 
 ---
 
@@ -82,11 +96,9 @@ Move deeper only when you’re ready.
 
 ### Script as Application
 
-Veil treats each configuration module as a **small standalone program**.
+Veil treats each configuration module as a **small standalone program**, solving the issues that come with large, tangled `.zshrc` files. Each module handles one part of your shell clearly and predictably, with a **single responsibility**, a **clear entry point**, and its **own functions and internal rules**.  
 
-A module has a **single responsibility**, a **clear entry point**, its **own functions** and **internal rules**. It configures **one specific aspect of the shell** and can be **read, reasoned about, and maintained in isolation**.
-
-This approach explains why **all of Veil, including its theme,** is structured like **self-contained programs** instead of typical shell scripts.
+This design allows every module to be **read, reasoned about, and maintained in isolation**, and explains why **all of Veil, including its theme,** is structured like **self-contained programs** instead of typical shell scripts.
 
 ---
 
