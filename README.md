@@ -2,11 +2,9 @@
 
 **Full control. No magic. Just clarity.**
 
-Veil is **not** a plugin manager. It’s an **architectural system** to organize your `.zshrc` into **self-contained modules**. Each module is a plain `.zsh` file — editable and easy to read on its own.
-
-* Modular structure for organizing shell configuration
-* Fully local setup with no external dependencies
-* Covers essential Zsh features with built-in modules and the Ultima theme
+Veil is **not** a plugin manager. It’s an **architectural system** to organize your `.zshrc` 
+into **self-contained modules**. Each module is a plain `.zsh` file — editable and easy 
+to read on its own.
 
 ---
 
@@ -15,7 +13,8 @@ Veil is **not** a plugin manager. It’s an **architectural system** to organize
 Out of the box, Veil provides a clean and well-configured Zsh environment focused on everyday terminal work.  
 It brings together sensible defaults for history, completion, navigation, aliases, keybindings, and common tools like `ls`, `less`, and `man`, forming a setup that feels consistent and predictable.
 
-The included **Ultima** theme adds lightweight visual context — git state, SSH sessions, and command status — without getting in the way.
+The included **Ultima** theme adds a minimal prompt that exposes VCS state, SSH sessions,
+and command status, staying out of the way of normal shell usage.
 
 <!-- ---
 
