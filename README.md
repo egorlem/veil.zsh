@@ -2,8 +2,7 @@
 
 **Full control. No magic. Just clarity.**
 
-Veil is **not** a plugin manager. It’s a **modular system** to organize your `.zshrc` 
-into **self-contained modules**. Each module is a plain `.zsh` file, simple and easy to read or modify.
+Veil is **not** a plugin manager. It’s a **modular system** that breaks your `.zshrc` into **independent components**. Each module is a plain `.zsh` file — simple and easy to read or modify.
 
 ---
 
