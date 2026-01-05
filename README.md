@@ -44,12 +44,12 @@ It also avoids **dependency chaos**: everything stays local — **no external re
 
 ## Quick Start
 
-```bash
-# Clone Veil
+```shell
+# Clone Veil repository
 git clone https://github.com/egorlem/veil.zsh ~/.veil
 
-# Source in Zsh
-echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
+# Source Veil in your .zshrc (includes Ultima theme)
+echo "source $HOME/.veil/veil.zsh" >> "$HOME/.zshrc"
 ```
 
 Included by default:
