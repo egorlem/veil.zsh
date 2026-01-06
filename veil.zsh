@@ -33,7 +33,7 @@ typeset -g VEIL_LOAD_MODE="${VEIL_MODE:-standalone}"
 
 __veilNormalizeModules() {
   if ! typeset -p VEIL_MODULES >/dev/null 2>&1; then
-    VEIL_MODULES=(less ls completion)
+    VEIL_MODULES=(less ls completion history navigation)
     return 0
   fi
 
