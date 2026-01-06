@@ -49,7 +49,7 @@ It also avoids **dependency chaos**: everything stays local — **no external re
 git clone https://github.com/egorlem/veil.zsh ~/.veil
 
 # Source Veil in your .zshrc (includes Ultima theme)
-echo "source $HOME/.veil/veil.zsh" >> "$HOME/.zshrc"
+echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
 ```
 
 Included by default:
