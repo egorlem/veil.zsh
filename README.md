@@ -14,11 +14,14 @@ It brings together sensible defaults for history, completion, navigation, aliase
 The included **Ultima** theme shows VCS state, SSH connections, and command status in a clean, unobtrusive prompt.
 
 
-<!-- ---
+<!-- 
+---
 
 ## See It in Action
 
-![Veil Demo](https://github.com/egorlem/veil.zsh/raw/main/media/demo.gif) -->
+![Veil Demo](https://github.com/egorlem/veil.zsh/raw/main/media/demo.gif) 
+
+-->
 
 ---
 
@@ -84,8 +87,9 @@ Veil documentation follows **progressive disclosure**.
 - [**Tier 2** — Advanced configuration and integration.](./components/README.md)
 - [**Tier 3** — Core modules and system internals.](./components/modules/README.md)
 
-Start with Tier 1.  
-Move deeper only when you’re ready.
+Start here to learn the basics of Veil.  
+Understand core concepts and essential workflows.  
+Move to Tier 2 only when you are ready to configure and personalize your setup.
 
 ---
 
