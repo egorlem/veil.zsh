@@ -64,7 +64,7 @@ Included by default:
 
 ## Performance
 
-Performance was measured with **all 10 modules + Ultima theme**, including **`zsh-users/zsh-autosuggestions`** and **`zsh-users/zsh-syntax-highlighting`**, using [**zimfw/zsh-framework-benchmark**](https://github.com/zimfw/zsh-framework-benchmark) as the test tool.
+Performance was measured with **all 9 modules + Ultima theme**, including **`zsh-users/zsh-autosuggestions`** and **`zsh-users/zsh-syntax-highlighting`**, using [**zimfw/zsh-framework-benchmark**](https://github.com/zimfw/zsh-framework-benchmark) as the test tool.
 
 
 | Framework / Config             | Real  | User  | Sys   | Max      |
