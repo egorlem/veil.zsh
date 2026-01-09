@@ -324,9 +324,7 @@ The `less` module configures the pager for convenient viewing of text, man pages
 
 ## Customization Modules
 
-These modules allow users to **customize Zsh to their needs**.
-Customization modules provide a blank canvas for your environment variables, aliases, and keybindings.  
-Refer to Tier 2 for general guidance on module autonomy and configuration.
+These modules allow users to **customize Zsh to their needs**. Customization modules provide a blank canvas for your environment variables, aliases, and keybindings. Refer to Tier 2 for general guidance on module autonomy and configuration.
 
 ---
 
