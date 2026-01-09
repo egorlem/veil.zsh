@@ -505,5 +505,4 @@ veilExampleInit() {
 * [**Tier 2** — Advanced configuration and integration.](../README.md)
 * **Tier 3 (You are here)** — Core modules and internal mechanics
 
-Dive into Tier 3 to explore Veil’s core modules and internal mechanics.
-This level is intended for **in-depth understanding and advanced customization**.
+Dive into Tier 3 to explore Veil’s core modules and internal mechanics. This level is intended for **in-depth understanding and advanced customization**.
