@@ -87,9 +87,7 @@ Veil documentation follows **progressive disclosure**.
 - [**Tier 2** — Advanced configuration and integration.](./components/README.md)
 - [**Tier 3** — Core modules and system internals.](./components/modules/README.md)
 
-Start here to learn the basics of Veil.  
-Understand core concepts and essential workflows.  
-Move to Tier 2 only when you are ready to configure and personalize your setup.
+Start here to learn the basics of Veil. Understand core concepts and essential workflows. Move to Tier 2 only when you are ready to configure and personalize your setup.
 
 ---
 
