@@ -3,20 +3,18 @@
 This Tier 2 guide covers **advanced configuration and integration** for Veil.
 Here you’ll find how to:
 
-* Explore [**Configuration via Variables**](#configuration-via-variables) — set global variables to control module loading, enable/disable features, and select themes
+* Explore [**Configuration via Variables**](#configuration-via-variables) — set global variables to control module loading and select themes
 * Explore [**Veil Usage Modes**](#veil-usage-modes) — run Veil in standalone mode or integrate it with other plugin managers
 * Explore [**Integration with Plugin Managers & Frameworks**](#integration-with-plugin-managers--frameworks) — use Veil seamlessly with OMZ, Zim, zcomet, and other systems
 
 Each section provides **examples, recommended practices, and step-by-step instructions**.
-Tier 2 assumes you are familiar with Tier 1 concepts.  
-Veil is modular: each module is autonomous, self-contained, and behaves predictably. You control which modules are loaded via VEIL_MODULES. This ensures clarity, composability, and no hidden magic.
+Tier 2 assumes you are familiar with Tier 1 concepts. Veil is modular: each module is autonomous, self-contained, and behaves predictably. You control which modules are loaded via VEIL_MODULES. This ensures clarity, composability, and no hidden magic.
 
 ---
 
 ## Operating System Compatibility & Prerequisites
 
-Veil, including the **Ultima theme**, is compatible with **Linux**, **macOS**, and **FreeBSD**. Other platforms are **untested** and may not work as expected.  
-To run Veil, you need **Zsh 5.0.8 or newer** and **Git 2.4.11 or higher**. These versions ensure that Veil modules and the Ultima theme **load correctly** and **behave predictably**.
+Veil, including the **Ultima theme**, is compatible with **Linux**, **macOS**, and **FreeBSD**. Other platforms are **untested** and may not work as expected. To run Veil, you need **Zsh 5.0.8 or newer** and **Git 2.4.11 or higher**. These versions ensure that Veil modules and the Ultima theme **load correctly** and **behave predictably**.
 
 ---
 
@@ -167,6 +165,4 @@ source /path/to/veil.plugin.zsh
 - **Tier 2 (You are here)** — Advanced configuration and integration.  
 - [**Tier 3** — Core modules and system internals.](./modules/README.md)
 
-Use this tier to configure and personalize Veil for your workflow.  
-Adjust settings and experiment safely.  
-Refer to Tier 3 only if you need a complete picture of the system internals.
+Use this tier to configure and personalize Veil for your workflow. Adjust settings and experiment safely. Refer to Tier 3 only if you need a complete picture of the system internals.
