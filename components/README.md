@@ -8,7 +8,8 @@ Here you’ll find how to:
 * Explore [**Integration with Plugin Managers & Frameworks**](#integration-with-plugin-managers--frameworks) — use Veil seamlessly with OMZ, Zim, zcomet, and other systems
 
 Each section provides **examples, recommended practices, and step-by-step instructions**.
-Tier 2 assumes you are familiar with Tier 1 concepts, including Veil’s basic usage and module system.
+Tier 2 assumes you are familiar with Tier 1 concepts.  
+Veil is modular: each module is autonomous, self-contained, and behaves predictably. You control which modules are loaded via VEIL_MODULES. This ensures clarity, composability, and no hidden magic.
 
 ---
 
@@ -111,8 +112,9 @@ For existing plugin managers, use `veil.plugin.zsh` instead of `veil.zsh`.
 
 * Automatically sets `VEIL_MODE="plugin"`
 * Theme auto-loading is **disabled**
-* Modules behave normally
-* Allows integration with OMZ, Zim, zcomet, etc.
+* Modules behave normally when loaded via Veil.plugin.zsh, allowing integration with OMZ, Zim, zcomet, or any system.  
+* For details on module behavior and side effects, see Tier 3 — Core Modules & Internals.
+
 
 ```shell
 source "$HOME/.veil/veil.plugin.zsh"
