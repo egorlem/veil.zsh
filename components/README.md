@@ -94,6 +94,7 @@ Use this to load modules from a non-standard location.
 ```shell
 VEIL_MODULES_DIR="$HOME/my-zsh-modules"
 ```
+
 -->
 ---
 
