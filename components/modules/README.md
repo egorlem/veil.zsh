@@ -15,8 +15,8 @@ Tier 3 is intended for users who want an **in-depth understanding and advanced c
 
 ## Core Modules
 
-These modules are installed by default with Veil and provide essential Zsh functionality: navigation, command history, completion, and standard utilities (`ls`, `less`).
-They are implemented to be fully transparent: behavior is clear from the code and documentation, with no hidden magic and only predictable side effects.
+These modules provide essential Zsh functionality: navigation, command history, completion, and standard utilities (`ls`, `less`).  
+For Veil’s overall philosophy of modularity, transparency, and predictable behavior, see Tier 2 — Configuration & Integration.
 
 ---
 
@@ -325,7 +325,8 @@ The `less` module configures the pager for convenient viewing of text, man pages
 ## Customization Modules
 
 These modules allow users to **customize Zsh to their needs**.
-Veil does not impose values — you choose which variables, aliases, and keybindings to use.
+Customization modules provide a blank canvas for your environment variables, aliases, and keybindings.  
+Refer to Tier 2 for general guidance on module autonomy and configuration.
 
 ---
 
@@ -469,7 +470,8 @@ The **Cursor** module fixes this by **hiding the cursor on screen clear** and **
 
 ## Adding Your Own Modules
 
-Veil loads any `*.module.zsh` file from the modules directory.
+You can create and load custom modules by placing `*.module.zsh` files in the modules directory.
+Refer to Tier 2 for guidance on module initialization and variable control.
 
 **Steps:**
 
