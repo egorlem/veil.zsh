@@ -1,16 +1,14 @@
-# Veil — Configuration Guide (Tier 2)
+# Veil — Configuration & Integration (Tier 2)
 
-This Tier 2 guide covers **advanced configuration and integration** for Veil.  
+This Tier 2 guide covers **advanced configuration and integration** for Veil.
 Here you’ll find how to:
 
-* Select and configure modules
-* Customize themes
-* Add your own modules
-* Integrate Veil with other plugin managers (OMZ, Zim, zcomet)
-* Debug module loading and inspect verbose output
+* Explore [**Configuration via Variables**](#configuration-via-variables) — set global variables to control module loading, enable/disable features, and select themes
+* Explore [**Veil Usage Modes**](#veil-usage-modes) — run Veil in standalone mode or integrate it with other plugin managers
+* Explore [**Integration with Plugin Managers & Frameworks**](#integration-with-plugin-managers--frameworks) — use Veil seamlessly with OMZ, Zim, zcomet, and other systems
 
-All configuration is done via **global variables**, which must be set **before** sourcing `veil.zsh` or `veil.plugin.zsh`.  
-Tier 2 assumes you are familiar with Tier 1 concepts, including **modular architecture** and the **Script as Application** philosophy.
+Each section provides **examples, recommended practices, and step-by-step instructions**.
+Tier 2 assumes you are familiar with Tier 1 concepts, including Veil’s basic usage and module system.
 
 ---
 
@@ -29,7 +27,7 @@ Veil is configured **entirely through global variables**. All variables must be 
 Specifies which modules will be loaded.
 
 **Format (both variants are supported):**
-```bash
+```shell
 # String (space-separated)
 VEIL_MODULES="aliases completion history"
 
@@ -39,7 +37,7 @@ VEIL_MODULES=(aliases completion history)
 
 **Example:**
 
-```bash
+```shell
 VEIL_MODULES="completion history navigation less"
 source "$HOME/.veil/veil.zsh"
 ```
@@ -57,7 +55,7 @@ Enable verbose output to debug module loading.
 
 **Example:**
 
-```bash
+```shell
 VEIL_VERBOSE=1
 VEIL_MODULES_VERBOSE=1
 source "$HOME/.veil/veil.zsh"
@@ -69,7 +67,7 @@ source "$HOME/.veil/veil.zsh"
 
 Default theme is **`ultima`**, but you can select any `.zsh-theme` file.
 
-```bash
+```shell
 THEME="ultima"
 source "$HOME/.veil/veil.zsh"
 ```
@@ -80,54 +78,24 @@ source "$HOME/.veil/veil.zsh"
 
 Store themes outside the default Veil installation.
 
-```bash
+```shell
 THEMES_DIR="$HOME/my-zsh-themes"
 THEME="my-custom-theme"
 source "$HOME/.veil/veil.zsh"
 ```
 
 **Alternatively:** place a theme in `~/.veil/components/themes/` and specify `THEME="theme-name"`.
-
+<!--  
 ---
 
 ### `VEIL_MODULES_DIR` — Custom Module Directory
 
 Use this to load modules from a non-standard location.
 
-```bash
+```shell
 VEIL_MODULES_DIR="$HOME/my-zsh-modules"
 ```
-
----
-
-## Adding Your Own Modules
-
-Veil loads any `*.module.zsh` file from the modules directory.
-
-**Steps:**
-
-1. Create `example.module.zsh`
-2. Place it in `~/.veil/components/modules/`
-3. Add it to `VEIL_MODULES`:
-
-```bash
-VEIL_MODULES="completion history example"
-```
-
-**Minimal module example:**
-
-```bash
-# ~/.veil/components/modules/example.module.zsh
-veilExampleInit() {
-  echo "My module loaded"
-  return 0
-}
-
-[[ -n "$VEIL_CORE_LOADED" ]] && veilExampleInit
-```
-
-> Veil simply sources your file — no additional logic is applied.
-
+-->
 ---
 
 ## Veil Usage Modes
@@ -146,7 +114,7 @@ For existing plugin managers, use `veil.plugin.zsh` instead of `veil.zsh`.
 * Modules behave normally
 * Allows integration with OMZ, Zim, zcomet, etc.
 
-```bash
+```shell
 source "$HOME/.veil/veil.plugin.zsh"
 ```
 
@@ -156,7 +124,7 @@ source "$HOME/.veil/veil.plugin.zsh"
 
 ### Oh My Zsh
 
-```bash
+```shell
 # 1. Install into custom/plugins/
 git clone https://github.com/egorlem/veil.zsh ~/.oh-my-zsh/custom/plugins/veil
 
@@ -169,21 +137,21 @@ plugins=(git veil)
 
 ### Zim Framework
 
-```bash
+```shell
 # In .zimrc
 zmodule egorlem/veil.zsh -n veil
 ```
 
 ### zcomet
 
-```bash
+```shell
 # In .zshrc
 zcomet load egorlem/veil.zsh
 ```
 
 ### Any System
 
-```bash
+```shell
 source /path/to/veil.plugin.zsh
 ```
 
@@ -195,8 +163,8 @@ source /path/to/veil.plugin.zsh
 
 - [**Tier 1** — Quick start, core concepts, essentials.](../README.md)  
 - **Tier 2 (You are here)** — Advanced configuration and integration.  
-- [**Tier 3** — Core modules and system internals.](./components/modules/README.md)
+- [**Tier 3** — Core modules and system internals.](./modules/README.md)
 
-Start with Tier 1 to understand the basics.  
-Use Tier 2 to configure, customize, and integrate Veil.  
-Move to Tier 3 only when you need in-depth module details or internal mechanics.
+Use this tier to configure and personalize Veil for your workflow.  
+Adjust settings and experiment safely.  
+Refer to Tier 3 only if you need a complete picture of the system internals.
