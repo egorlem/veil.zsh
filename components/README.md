@@ -41,7 +41,7 @@ VEIL_MODULES="completion history navigation less"
 source "$HOME/.veil/veil.zsh"
 ```
 
-> Full list and description of modules: [Tier 3 Documentation](./components/modules/README.md)
+> Full list and description of modules: [Tier 3 Documentation](./modules/README.md)
 
 ---
 
@@ -111,8 +111,8 @@ For existing plugin managers, use `veil.plugin.zsh` instead of `veil.zsh`.
 
 * Automatically sets `VEIL_MODE="plugin"`
 * Theme auto-loading is **disabled**
-* Modules behave normally when loaded via `veil.plugin.zsh`, allowing integration with OMZ, Zim, zcomet, or any system.  
-* For details on module behavior and side effects, see Tier 3 — Core Modules & Internals.
+* Modules behave normally when loaded via `veil.plugin.zsh`, allowing integration with OMZ, Zim, zcomet, or any system
+* For details on module behavior and side effects, see [Tier 3 — Core Modules & Internals](./modules/README.md)
 
 
 ```shell
