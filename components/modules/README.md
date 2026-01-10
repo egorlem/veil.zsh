@@ -16,7 +16,7 @@ Tier 3 is intended for users who want an **in-depth understanding and advanced c
 ## Core Modules
 
 These modules provide essential Zsh functionality: navigation, command history, completion, and standard utilities (`ls`, `less`).  
-For Veil’s overall philosophy of modularity, transparency, and predictable behavior, see Tier 2 — Configuration & Integration.
+For Veil’s overall philosophy of modularity, transparency, and predictable behavior, see [Tier 2 — Configuration & Integration](../README.md).
 
 ---
 
