@@ -111,7 +111,7 @@ For existing plugin managers, use `veil.plugin.zsh` instead of `veil.zsh`.
 
 * Automatically sets `VEIL_MODE="plugin"`
 * Theme auto-loading is **disabled**
-* Modules behave normally when loaded via Veil.plugin.zsh, allowing integration with OMZ, Zim, zcomet, or any system.  
+* Modules behave normally when loaded via `veil.plugin.zsh`, allowing integration with OMZ, Zim, zcomet, or any system.  
 * For details on module behavior and side effects, see Tier 3 — Core Modules & Internals.
 
 
