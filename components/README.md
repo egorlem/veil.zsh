@@ -140,8 +140,10 @@ plugins=(git veil)
 
 ```shell
 # In .zimrc
-zmodule egorlem/veil.zsh -n veil
+zmodule egorlem/veil.zsh -n veil.plugin
 ```
+
+Run `zimfw install` to install it.
 
 ### zcomet
 
