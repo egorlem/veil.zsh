@@ -73,12 +73,12 @@ source "$HOME/.veil/veil.zsh"
 
 ---
 
-### `THEMES_DIR` — Custom Theme Directory
+### `VEIL_THEMES_DIR` — Custom Theme Directory
 
 Store themes outside the default Veil installation.
 
 ```shell
-THEMES_DIR="$HOME/my-zsh-themes"
+VEIL_THEMES_DIR="$HOME/my-zsh-themes"
 THEME="my-custom-theme"
 source "$HOME/.veil/veil.zsh"
 ```
