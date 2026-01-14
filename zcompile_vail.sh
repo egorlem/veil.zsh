@@ -19,7 +19,7 @@
 # Usage
 # -----
 #
-#   ./zcompile.sh [directory] [mode]
+#   ./zcompile_vail.sh [directory] [mode]
 #
 # Modes:
 #   compile    - Compile changed files (default)
@@ -28,10 +28,10 @@
 #   stats      - Show compilation statistics
 #
 # Examples:
-#   ./zcompile.sh                  # Compile current directory
-#   ./zcompile.sh ~/.zsh force     # Force recompile
-#   ./zcompile.sh . clean          # Clean current directory
-#   ./zcompile.sh . stats          # Show stats
+#   ./zcompile_vail.sh                  # Compile current directory
+#   ./zcompile_vail.sh ~/.zsh force     # Force recompile
+#   ./zcompile_vail.sh . clean          # Clean current directory
+#   ./zcompile_vail.sh . stats          # Show stats
 #
 # ==============================================================================
 
