@@ -22,6 +22,23 @@ __veilCompletionDeps() {
   return 0
 }
 
+# Checks whether `compinit` has already been called in the current Zsh session.
+# This prevents calling `compinit` again, which is especially important when
+# using Veil alongside frameworks like Zim, avoiding the warning:
+# "compinit being called again after completion module".
+#
+# It checks three signs of completion initialization:
+#   1. functions[_completion_loader]  - the main completion loader function created by compinit
+#   2. _comps                         - array of compiled completion functions
+#   3. _compctl_modes                 - variable used for legacy compctl support
+#
+__veilCompinitAlreadyCalled() {
+  (( ${+functions[_completion_loader]} )) && return 0
+  (( ${+_comps} )) && return 0
+  (( ${+_compctl_modes} )) && return 0
+  return 1
+}
+
 __veilCompletionInitSystem() {
   local cacheDir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
   local compdump="$cacheDir/.zcompdump"
@@ -32,7 +49,12 @@ __veilCompletionInitSystem() {
       compdump="$HOME/.zcompdump"
     fi
   fi
-  
+
+  if __veilCompinitAlreadyCalled; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: warning - compinit being called"
+    return 0
+  fi
+
   if [[ -n "$compdump"(#qN.mh+24) ]]; then
     compinit -d "$compdump"
   else
