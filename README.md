@@ -9,18 +9,9 @@ Veil is **not** a plugin manager. It does not pull external tools or hide behavi
 
 ## What’s Inside?
 
-Veil breaks your `.zshrc` into **independent modules**, each a plain `.zsh` file that can be read, modified, or disabled individually.
+Veil breaks your `.zshrc` into **independent modules**, each a plain `.zsh` file that can be **read, modified, or disabled independently**.
 
 Out of the box, it provides a ready-to-use Zsh environment for **everyday terminal work**, with sensible defaults for history, completion, navigation, aliases, keybindings, and common tools. The included **Ultima** theme shows VCS state, SSH connections, and command status in a clean, unobtrusive prompt.
-
-<!-- 
----
-
-## See It in Action
-
-![Veil Demo](https://github.com/egorlem/veil.zsh/raw/main/media/demo.gif) 
-
--->
 
 ---
 
@@ -48,7 +39,7 @@ Included by default:
 
 Traditional `.zshrc` files often grow into tangled, hard-to-manage scripts. Changing one part can break another, and debugging becomes slow and frustrating.
 
-Veil’s modular design solves this problem: each module is **self-contained**, with its own functions and rules, and can be **read, modified, or disabled independently**. This makes your shell **predictable, transparent, and fully under your control**.
+Veil’s modular design solves this problem: each module is **self-contained**, with its own functions and rules. This makes your shell **predictable, transparent, and fully under your control**.
 
 Modules and themes are organized in simple folders for clarity:
 
