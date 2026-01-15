@@ -66,7 +66,7 @@ Performance was measured with **all 9 modules + Ultima theme**, including **`zsh
 | Framework / Config             | Real  | User  | Sys   | Max      |
 | ------------------------------ | ----- | ----- | ----- | -------- |
 | ZimFW (all included)           | 0.075 | 0.003 | 0.071 | 0.107    |
-| **Veil (10 modules + Ultima)** | 0.083 | 0.003 | 0.079 | 0.107    |
+| **Veil (9 modules + Ultima)**  | 0.083 | 0.003 | 0.079 | 0.107    |
 | zplug                          | 0.230 | 0.008 | 0.218 | 0.274    |
 | Oh My Zsh                      | 0.351 | 0.005 | 0.344 | 0.378    |
 
