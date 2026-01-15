@@ -2,17 +2,16 @@
 
 **Full control. No magic. Just clarity.**
 
-Veil is **not** a plugin manager. It’s a **modular system** that breaks your `.zshrc` into **independent modules**. Each module is a plain `.zsh` file — simple and easy to read or modify.
+Veil is **not** a plugin manager. It does not pull external tools or hide behavior behind layers of magic. Everything it does is explicit, local, and under your control.
+
 
 ---
 
 ## What’s Inside?
 
-Out of the box, Veil provides a well-configured Zsh environment focused on everyday terminal work.
-It brings together sensible defaults for history, completion, navigation, aliases, keybindings, and common tools like `ls`, `less`, and `man`, forming a setup that **works consistently across systems**.
+Veil breaks your `.zshrc` into **independent modules**, each a plain `.zsh` file that can be read, modified, or disabled individually.
 
-The included **Ultima** theme shows VCS state, SSH connections, and command status in a clean, unobtrusive prompt.
-
+Out of the box, it provides a ready-to-use Zsh environment for **everyday terminal work**, with sensible defaults for history, completion, navigation, aliases, keybindings, and common tools. The included **Ultima** theme shows VCS state, SSH connections, and command status in a clean, unobtrusive prompt.
 
 <!-- 
 ---
@@ -22,26 +21,6 @@ The included **Ultima** theme shows VCS state, SSH connections, and command stat
 ![Veil Demo](https://github.com/egorlem/veil.zsh/raw/main/media/demo.gif) 
 
 -->
-
----
-
-## Why Veil?
-
-Traditional `.zshrc` files can quickly turn into **unmaintainable monoliths**.
-Veil splits configuration into **isolated modules**, so each part is **clear, composable, and easy to understand**.
-
-It also avoids **dependency chaos**: everything stays local — **no external repos, no surprises**. Each module is explicit — **you see it all and stay in control**.
-
-```
-~/.veil/components/modules
-├── completion.module.zsh
-├── history.module.zsh
-└── ...
-
-~/.veil/components/themes
-├── ultima.zsh-theme
-└── ...
-```
 
 ---
 
@@ -65,6 +44,29 @@ Included by default:
 
 ---
 
+## Why Veil?
+
+Traditional `.zshrc` files often grow into tangled, hard-to-manage scripts. Changing one part can break another, and debugging becomes slow and frustrating.
+
+Veil’s modular design solves this problem: each module is **self-contained**, with its own functions and rules, and can be **read, modified, or disabled independently**. This makes your shell **predictable, transparent, and fully under your control**.
+
+Modules and themes are organized in simple folders for clarity:
+
+```
+~/.veil/components/modules
+├── completion.module.zsh
+├── history.module.zsh
+└── ...
+
+~/.veil/components/themes
+├── ultima.zsh-theme
+└── ...
+```
+
+If you prefer plugins that just work without showing how they work, Veil may not be the right fit — it’s meant for users who value **visibility and control** over magic.
+
+---
+
 ## Performance
 
 Performance was measured with **all 9 modules + Ultima theme**, including **`zsh-users/zsh-autosuggestions`** and **`zsh-users/zsh-syntax-highlighting`**, using [**zimfw/zsh-framework-benchmark**](https://github.com/zimfw/zsh-framework-benchmark) as the test tool.
@@ -74,8 +76,10 @@ Performance was measured with **all 9 modules + Ultima theme**, including **`zsh
 | ------------------------------ | ----- | ----- | ----- | -------- |
 | ZimFW (all included)           | 0.075 | 0.003 | 0.071 | 0.107    |
 | **Veil (10 modules + Ultima)** | 0.083 | 0.003 | 0.079 | 0.107    |
-| Oh My Zsh                      | 0.351 | 0.005 | 0.344 | 0.378    |
 | zplug                          | 0.230 | 0.008 | 0.218 | 0.274    |
+| Oh My Zsh                      | 0.351 | 0.005 | 0.344 | 0.378    |
+
+Veil remains efficient and responsive, even with multiple modules loaded, and adding more modules may slow it down slightly — but performance stays within reasonable bounds.
 
 ---
 
