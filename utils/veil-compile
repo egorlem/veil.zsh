@@ -6,15 +6,6 @@
 # Recursive ZSH file compiler with smart caching and exclusions.
 # Automatically compiles .zsh and .zsh-theme files for faster loading.
 #
-# Features:
-#   - Smart recompilation (only if source changed)
-#   - Recursive dependency compilation (-R flag)
-#   - Excludes test directories by default
-#   - Clean and informative output
-#
-# This script was generated with AI assistance.
-# AI assistance provided by DeepSeek.
-#
 # ------------------------------------------------------------------------------
 # Usage
 # -----
