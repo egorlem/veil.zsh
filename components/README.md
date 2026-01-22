@@ -105,14 +105,15 @@ VEIL_MODULES_DIR="$HOME/my-zsh-modules"
 A full, self-contained Veil installation.
 All modules and themes work out-of-the-box.
 
-### Plugin Mode — Integration with Other Systems
+### Environment Mode — Integration with Other Systems
 
 For existing plugin managers, use `veil.plugin.zsh` instead of `veil.zsh`.
 
-* Automatically sets `VEIL_MODE="plugin"`
+* Automatically sets `VEIL_MODE="environment"`
 * Theme auto-loading is **disabled**
 * Modules behave normally when loaded via `veil.plugin.zsh`, allowing integration with OMZ, Zim, zcomet, or any system
-* For details on module behavior and side effects, see [Tier 3 — Core Modules & Internals](./modules/README.md)
+
+For details on module behavior and side effects, see [Tier 3 — Core Modules & Internals](./modules/README.md)
 
 
 ```shell
