@@ -19,10 +19,10 @@ Out of the box, it provides a ready-to-use Zsh environment for **everyday termin
 
 ```shell
 # Clone Veil repository
-git clone https://github.com/egorlem/veil.zsh ~/.veil
+git clone https://github.com/egorlem/veil.zsh "$HOME/.zsh/veil"
 
 # Source Veil in your .zshrc (includes Ultima theme)
-echo 'source ~/.veil/veil.zsh' >> ~/.zshrc
+echo 'source "$HOME/.zsh/veil/veil.zsh"' >> "${ZDOTDIR:-$HOME}/.zshrc"
 ```
 
 Included by default:
