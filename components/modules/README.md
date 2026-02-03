@@ -17,8 +17,8 @@ Tier 3 is intended for users who want an **in-depth understanding and advanced c
 
 Veil modules follow the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) for storing state and cache files.
 
-**For completion module:** `XDG_CACHE_HOME → ZDOTDIR → HOME`  
-**For history module:** `XDG_STATE_HOME → HOME`
+**For completion module:** `XDG_CACHE_HOME - ZDOTDIR - HOME`  
+**For history module:** `XDG_STATE_HOME - HOME`
 
 If XDG variables are set, they take precedence. Otherwise, `ZDOTDIR` serves as a fallback for completion cache before defaulting to `$HOME`. History always uses either `XDG_STATE_HOME` or `$HOME`.
 
