@@ -17,7 +17,7 @@ Tier 3 is intended for users who want an **in-depth understanding and advanced c
 
 Veil configures Zsh to use [XDG directories](https://specifications.freedesktop.org/basedir/latest/) for its files: history `.zsh_history`, completion cache `.zcompdump`, and `.zcompcache`. With `XDG_CACHE_HOME` or `XDG_STATE_HOME` set, files go there; otherwise, Zsh uses `$HOME` or `ZDOTDIR`.
 
-These are Zsh's files — Veil only sets their location.
+These are Zsh-owned files — Veil only sets their location.
 
 ---
 
