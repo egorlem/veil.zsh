@@ -11,6 +11,17 @@ Here you’ll find how to:
 Each section provides **detailed descriptions, options, and expected behavior**.
 Tier 3 is intended for users who want an **in-depth understanding and advanced customization** of Veil.
 
+--- 
+
+## XDG Base Directory Support
+
+Veil modules follow the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) for storing state and cache files.
+
+**For completion module:** `XDG_CACHE_HOME → ZDOTDIR → HOME`  
+**For history module:** `XDG_STATE_HOME → HOME`
+
+If XDG variables are set, they take precedence. Otherwise, `ZDOTDIR` serves as a fallback for completion cache before defaulting to `$HOME`. History always uses either `XDG_STATE_HOME` or `$HOME`.
+
 ---
 
 ## Core Modules
@@ -89,6 +100,14 @@ The `completion` module configures and initializes Zsh completion, defining its 
 
 ---
 
+### File Location
+Uses `XDG_CACHE_HOME` if set, otherwise `ZDOTDIR`, falling back to `$HOME`.
+- `$XDG_CACHE_HOME/zsh/.zcompdump` (with XDG)  
+- `$ZDOTDIR/.zcompdump` (with ZDOTDIR)  
+- `$HOME/.zcompdump` (default)
+
+---
+
 #### Zsh Mechanisms Used
 
 * `compinit`
@@ -141,6 +160,13 @@ The `completion` module configures and initializes Zsh completion, defining its 
 ### History (`history.module.zsh`)
 
 The `history` module extends Zsh command history with persistent storage, deduplication, and convenient interactive aliases.
+
+---
+
+#### File Location  
+Uses `XDG_STATE_HOME` if set, otherwise `$HOME`.
+- `$XDG_STATE_HOME/zsh/.zsh_history` (with XDG)  
+- `$HOME/.zsh_history` (default)
 
 ---
 
