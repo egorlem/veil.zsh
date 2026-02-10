@@ -42,7 +42,7 @@ __veilCompinitAlreadyCalled() {
 __veilCompletionInitSystem() {
   local dumpDir compdump
 
-  if [[ -n "${XDG_CACHE_HOME}" ]]; then
+  if [[ ${VEIL_SKIP_XDG} -ne 1 && -n "${XDG_CACHE_HOME}" ]]; then
     dumpDir="${XDG_CACHE_HOME}/zsh"
   else
     dumpDir="${ZDOTDIR:-$HOME}"
@@ -90,7 +90,7 @@ __veilCompletionSetupOptions() {
 __veilCompletionSetupStyles() {
   local cacheDir compcache
 
-  if [[ -n "${XDG_CACHE_HOME}" ]]; then
+  if [[ ${VEIL_SKIP_XDG} -ne 1 && -n "${XDG_CACHE_HOME}" ]]; then
     cacheDir="${XDG_CACHE_HOME}/zsh"
   else
     cacheDir="${ZDOTDIR:-$HOME}"

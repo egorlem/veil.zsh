@@ -26,6 +26,7 @@ typeset -g THEMES_DIR="${VEIL_THEMES_DIR:-$VEIL_DIR/components/themes}"
 typeset -g THEME="${THEME:-ultima}"
 
 typeset -g VEIL_LOAD_MODE="${VEIL_MODE:-standalone}"
+typeset -g VEIL_SKIP_XDG="${VEIL_SKIP_XDG:-0}"
 
 # ------------------------------------------------------------------------------
 # VEIL_MODULES normalization

@@ -19,8 +19,17 @@ Zsh manages the command history file and completion cache through environment va
 
 Veil extends this behavior by configuring Zsh to use paths in accordance with the [**XDG Base Directory Specification**](https://specifications.freedesktop.org/basedir/latest/). If the `XDG_STATE_HOME` and `XDG_CACHE_HOME` environment variables are set, Veil sets `HISTFILE="$XDG_STATE_HOME/zsh/.zsh_history"` and directs `compinit` to use `$XDG_CACHE_HOME/zsh/.zcompdump`.
 
-This ensures more predictable file placement and helps keep the home directory clean.
+This ensures more predictable file placement and helps keep the home directory clean. 
 
+### Controlling XDG Support
+
+If you want to keep using Zsh with `ZDOTDIR` while other tools in your system rely on XDG, set `VEIL_SKIP_XDG=1` in your `.zshenv` or `.zshrc` before initializing Veil.
+
+When `VEIL_SKIP_XDG=1` is set:
+- History file (`HISTFILE`) will use `$HOME/.zsh_history`
+- Completion cache (`.zcompdump`) will use `$ZDOTDIR/.zcompdump` or `$HOME/.zcompdump`
+
+**Default behavior:** `VEIL_SKIP_XDG=0` (use XDG paths when available).
 
 ---
 

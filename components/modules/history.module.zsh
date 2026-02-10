@@ -22,7 +22,7 @@ typeset -gi _VEIL_HISTORY_MODULE_LOADED=${_VEIL_HISTORY_MODULE_LOADED:-0}
 __veilHistorySetupEnv() {
   local histDir
 
-  if [[ -n "${XDG_STATE_HOME}" ]]; then
+  if [[ ${VEIL_SKIP_XDG} -ne 1 && -n "${XDG_STATE_HOME}" ]]; then
     histDir="${XDG_STATE_HOME}/zsh"
   else
     histDir="$HOME"
