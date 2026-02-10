@@ -40,22 +40,27 @@ __veilCompinitAlreadyCalled() {
 }
 
 __veilCompletionInitSystem() {
-  local cacheDir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
-  local compdump="$cacheDir/.zcompdump"
-  
-  if [[ ! -d "$cacheDir" ]]; then
-    if ! mkdir -p "$cacheDir" 2>/dev/null; then
-      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: warning - cannot create cache directory, using default" >&2
-      compdump="$HOME/.zcompdump"
-    fi
+  local dumpDir compdump
+
+  if [[ ${VEIL_SKIP_XDG} -ne 1 && -n "${XDG_CACHE_HOME}" ]]; then
+    dumpDir="${XDG_CACHE_HOME}/zsh"
+  else
+    dumpDir="${ZDOTDIR:-$HOME}"
   fi
 
+  if [[ -d "$dumpDir" ]] || mkdir -p "$dumpDir" 2>/dev/null; then
+    compdump="${dumpDir}/.zcompdump"
+  else
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: warning - cannot create directory $dumpDir, using default" >&2
+    compdump="$HOME/.zcompdump"
+  fi
+  
   if __veilCompinitAlreadyCalled; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: warning - compinit being called"
     return 0
   fi
 
-  if [[ -n "$compdump"(#qN.mh+24) ]]; then
+  if [[ ! -f "$compdump" ]] || [[ -n "$compdump"(#qN.mh+24) ]]; then
     compinit -d "$compdump"
   else
     compinit -d "$compdump" -C
@@ -83,8 +88,23 @@ __veilCompletionSetupOptions() {
 }
 
 __veilCompletionSetupStyles() {
+  local cacheDir compcache
+
+  if [[ ${VEIL_SKIP_XDG} -ne 1 && -n "${XDG_CACHE_HOME}" ]]; then
+    cacheDir="${XDG_CACHE_HOME}/zsh"
+  else
+    cacheDir="${ZDOTDIR:-$HOME}"
+  fi
+
+  if [[ -d "$cacheDir" ]] || mkdir -p "$cacheDir" 2>/dev/null; then
+    compcache="${cacheDir}/.zcompcache"
+  else
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/completion: warning - cannot create cache directory, using default" >&2
+    compcache="$HOME/.zcompcache"
+  fi
+
   zstyle ':completion:*' use-cache on
-  zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompcache"
+  zstyle ':completion:*' cache-path "$compcache"
   zstyle ':completion:*' verbose yes
   zstyle ':completion:*' menu select=2
   zstyle ':completion:*' matcher-list "m:{a-z}={A-Z}" "r:|[-._]=*" "r:|=* r:|[-._]=*" "l:|=* r:|=* l:|=*"

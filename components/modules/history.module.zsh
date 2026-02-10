@@ -3,10 +3,10 @@
 # Enhanced Zsh history with persistent storage, deduplication, and useful aliases.
 #
 # Features:
-# • Persistent history (100k commands) with timestamps
-# • Smart deduplication and space optimization  
-# • Shared history across sessions
-# • Convenient aliases: history, h, hg (search)
+# - Persistent history (100k commands) with timestamps
+# - Smart deduplication and space optimization  
+# - Shared history across sessions
+# - Convenient aliases: history, h, hg (search)
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
 # ------------------------------------------------------------------------------
@@ -20,20 +20,27 @@
 typeset -gi _VEIL_HISTORY_MODULE_LOADED=${_VEIL_HISTORY_MODULE_LOADED:-0}
 
 __veilHistorySetupEnv() {
-  export HISTFILE="$HOME/.zsh_history"
-  export HISTSIZE=100000
-  export SAVEHIST=100000
-  
-  local histDir="${HISTFILE:h}"
-  if [[ ! -d "$histDir" ]]; then
-    if ! mkdir -p "$histDir" 2>/dev/null; then
-      [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: error - cannot create history directory $histDir" >&2
-      return 1
-    fi
+  local histDir
+
+  if [[ ${VEIL_SKIP_XDG} -ne 1 && -n "${XDG_STATE_HOME}" ]]; then
+    histDir="${XDG_STATE_HOME}/zsh"
+  else
+    histDir="$HOME"
   fi
   
-  if [[ ! -w "$histDir" ]]; then
-    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: error - history directory $histDir is not writable" >&2
+  if [[ -d "$histDir" ]] || mkdir -p "$histDir" 2>/dev/null; then
+    typeset -gx HISTFILE="${histDir}/.zsh_history"
+  else
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: warning - cannot create history directory, using default" >&2
+    typeset -gx HISTFILE="$HOME/.zsh_history"
+  fi
+  
+  typeset -gx HISTSIZE=100000
+  typeset -gx SAVEHIST=100000
+  
+  # 3. Проверяем возможность записи
+  if [[ ! -w "${HISTFILE:h}" ]]; then
+    [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: error - history directory ${HISTFILE:h} is not writable" >&2
     return 1
   fi
   
