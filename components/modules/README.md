@@ -15,9 +15,12 @@ Tier 3 is intended for users who want an **in-depth understanding and advanced c
 
 ## XDG Base Directory Support
 
-Veil configures Zsh to use [XDG directories](https://specifications.freedesktop.org/basedir/latest/) for its files: history `.zsh_history`, completion cache `.zcompdump`, and `.zcompcache`. With `XDG_CACHE_HOME` or `XDG_STATE_HOME` set, files go there; otherwise, Zsh uses `$HOME` or `ZDOTDIR`.
+Zsh manages the command history file and completion cache through environment variables. By default, these files are created in the home directory: the history file is configured by the user via the `HISTFILE` variable, and the `.zcompdump` file is stored in `$HOME` or `$ZDOTDIR`, if set.
 
-These are Zsh-owned files — Veil only sets their location.
+Veil extends this behavior by configuring Zsh to use paths in accordance with the [**XDG Base Directory Specification**](https://specifications.freedesktop.org/basedir/latest/). If the `XDG_STATE_HOME` and `XDG_CACHE_HOME` environment variables are set, Veil sets `HISTFILE="$XDG_STATE_HOME/zsh/.zsh_history"` and directs `compinit` to use `$XDG_CACHE_HOME/zsh/.zcompdump`.
+
+This ensures more predictable file placement and helps keep the home directory clean.
+
 
 ---
 
