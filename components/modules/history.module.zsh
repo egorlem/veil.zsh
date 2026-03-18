@@ -38,7 +38,6 @@ __veilHistorySetupEnv() {
   typeset -gx HISTSIZE=100000
   typeset -gx SAVEHIST=100000
   
-  # 3. Проверяем возможность записи
   if [[ ! -w "${HISTFILE:h}" ]]; then
     [[ -n "$VEIL_MODULES_VERBOSE" ]] && echo "veil/history: error - history directory ${HISTFILE:h} is not writable" >&2
     return 1

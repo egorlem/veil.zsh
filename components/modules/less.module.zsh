@@ -133,13 +133,13 @@ if [[ -z "$VEIL_CORE_LOADED" ]]; then
 fi
 
 typeset -a _VEIL_CLEANUP_FUNCS=(
-  __veilLessVerify
-  __veilLessAdaptToTerminal
-  __veilLessSetupHelpers
-  __veilLessSetupAliases
-  __veilLessSetupEnv
-  __veilLessValidateTerm
   __veilLessDeps
+  __veilLessValidateTerm
+  __veilLessSetupEnv
+  __veilLessSetupAliases
+  __veilLessSetupHelpers
+  __veilLessAdaptToTerminal
+  __veilLessVerify
 )
 
 unset -f $_VEIL_CLEANUP_FUNCS
