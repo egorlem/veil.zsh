@@ -443,38 +443,111 @@ __veilAliasesSetup() {
 
 ### Keybindings (`keybindings.module.zsh`)
 
-The `keybindings` module provides a **clean canvas for personal keybindings** in Zsh.
+The `keybindings` module provides a **sane default set of keyboard shortcuts** for interactive shell usage.
 
-> Keybindings are deeply personal. Some terminals, like **Ghostty**, already support many keybindings out of the box.
-> Veil does not impose defaults but offers **structure and examples** for convenience.
+It covers both **special keys** (Home, End, PageUp, PageDown) and **common editing shortcuts** using **Control (Ctrl)**, **Alt/Option**, and standard keys like **Backspace** and **Delete**.
 
----
-
-#### Philosophy
-
-* Each user has their own workflow, muscle memory, and preferences
-* The module only provides neutral examples for inspiration
-* All keybindings are **commented by default**
-* Suitable for gradual creation of a personal keybinding system
+The goal is simple: make editing and navigation feel **natural and consistent** across terminals.
 
 ---
 
-#### Configuration
+#### Behavior
 
-Commented blocks show **how to define keybindings**:
+After loading:
+
+* Special keys (Home, End, PageUp, PageDown) work reliably
+* Word navigation (Ctrl/Alt + arrows) behaves consistently
+* Editing shortcuts follow common terminal conventions
+* History search is easily accessible
+
+Uses `terminfo` when available, with fallbacks for common terminals.
+
+> This module is **mode-agnostic** and does not enforce Zsh keymap mode.
+> Keymap selection (`emacs` or `vi`) is intentionally left to the user and should be configured manually if needed:
 
 ```shell
-__veilKeybindingsSetup() {
-  # Edit commands
-  # bindkey '^U' backward-kill-line
-  # bindkey '^W' backward-kill-word 
-  # ...
-  return 0
-}
+bindkey -e   # for emacs mode
+bindkey -v   # for vi mode
 ```
 
-> To activate a keybinding, uncomment the line or add your own.
-> The module serves as a **tool for building a fully personalized command-line environment**.
+---
+
+#### Keybindings
+
+**Navigation**
+
+| Key      | Action            |
+| -------- | ----------------- |
+| Home     | Beginning of line |
+| End      | End of line       |
+| PageUp   | Previous history  |
+| PageDown | Next history      |
+
+---
+
+**Editing (Backspace / Delete)**
+
+| Shortcut             | Action               |
+| -------------------- | -------------------- |
+| Backspace            | Delete character     |
+| Delete               | Delete character     |
+| Ctrl+H               | Delete previous word |
+| Ctrl+Delete          | Delete next word     |
+| Alt/Option+Backspace | Delete previous word |
+
+---
+
+**Movement (by word)**
+
+| Shortcut         | Action           |
+| ---------------- | ---------------- |
+| Ctrl+Right       | Forward by word  |
+| Ctrl+Left        | Backward by word |
+| Alt/Option+Right | Forward by word  |
+| Alt/Option+Left  | Backward by word |
+
+---
+
+**Line Editing**
+
+| Shortcut | Action               |
+| -------- | -------------------- |
+| Ctrl+A   | Start of line        |
+| Ctrl+E   | End of line          |
+| Ctrl+K   | Delete to end        |
+| Ctrl+U   | Clear line           |
+| Ctrl+W   | Delete previous word |
+| Ctrl+Y   | Paste (yank)         |
+
+---
+
+**History**
+
+| Shortcut     | Action           |
+| ------------ | ---------------- |
+| Ctrl+R       | Search backward  |
+| Ctrl+S       | Search forward   |
+| Ctrl+P       | Previous command |
+| Ctrl+N       | Next command     |
+| Alt/Option+R | Search forward   |
+
+---
+
+**Other**
+
+| Shortcut | Action          |
+| -------- | --------------- |
+| Tab      | Completion      |
+| Ctrl+T   | Transpose chars |
+
+---
+
+#### Notes
+
+* Works in both **emacs** and **vi** keymap modes
+* Zsh keymap mode is **not enforced by Veil** set manually via `bindkey -e` or `bindkey -v` in your `.zshrc`
+* Some default Zsh bindings are overridden
+* Behavior may vary slightly between terminals
 
 ---
 
