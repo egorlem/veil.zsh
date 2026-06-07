@@ -98,7 +98,7 @@ This design allows every module to be **read, reasoned about, and maintained in 
 
 ## License
 
-**Do What The F*ck You Want To Public License, Version 2**
+**Do What The F*ck You Want To Public License, Version III**
 See [LICENSE](https://github.com/egorlem/veil.zsh/blob/main/LICENSE) for details.
 
 Maintained by [Egor Lem](https://egorlem.com/)
