@@ -3,17 +3,11 @@
 # Enhanced Zsh ls aliases with cross-platform color support.
 #
 # Features:
-# • Cross-platform color support (BSD -G / GNU --color=auto)
-# • Optimized aliases: ls, ll, la, l
-# • Graceful fallbacks when color not available
+# - Cross-platform color support (BSD -G / GNU --color=auto)
+# - Optimized aliases: ls, ll, la, l
+# - Graceful fallbacks when color not available
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
-# ------------------------------------------------------------------------------
-# Authors
-# -------
-#
-#  * Egor Lem <guezwhoz@gmail.com> / egorlem.com
-#
 # ------------------------------------------------------------------------------
 
 typeset -gi _VEIL_LS_MODULE_LOADED=${_VEIL_LS_MODULE_LOADED:-0}

@@ -1,20 +1,12 @@
-# Veil — https://github.com/egorlem/veil.zsh
+# Veil - https://github.com/egorlem/veil.zsh
 #
 # Modular Z Shell Configuration System
 # Takes full control of zsh configuration through logical modules
 # ------------------------------------------------------------------------------
-# License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
-# ------------------------------------------------------------------------------
-# Authors
-# -------
-#
-#  * Egor Lem <guezwhoz@gmail.com> / egorlem.com
-#
+# License: WTFPL - https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
 # ------------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------------
-# CORE CONFIGURATION
-# ------------------------------------------------------------------------------
+# Configuration ----------------------------------------------------------------
 
 if [[ -n "$VEIL_CORE_LOADED" ]]; then
   return 0
@@ -28,9 +20,7 @@ typeset -g THEME="${THEME:-ultima}"
 typeset -g VEIL_LOAD_MODE="${VEIL_MODE:-standalone}"
 typeset -g VEIL_SKIP_XDG="${VEIL_SKIP_XDG:-0}"
 
-# ------------------------------------------------------------------------------
-# VEIL_MODULES normalization
-# ------------------------------------------------------------------------------
+# Modules normalization --------------------------------------------------------
 
 __veilNormalizeModules() {
   if ! typeset -p VEIL_MODULES >/dev/null 2>&1; then
@@ -53,22 +43,17 @@ __veilNormalizeModules() {
 
 __veilNormalizeModules
 
-# Warn if empty
 if [[ ${#VEIL_MODULES[@]} -eq 0 ]]; then
   [[ -n "$VEIL_VERBOSE" ]] && echo "veil: warning - no modules specified" >&2
 fi
 
-# ------------------------------------------------------------------------------
-# MODULE SYSTEM
-# ------------------------------------------------------------------------------
+# Loader -----------------------------------------------------------------------
 
-# Associative array to track loaded modules
 typeset -gA VEIL_MODULE_LOADED
 
 __veilLoadModule() {
   local moduleFile="$MODULES_DIR/$1.module.zsh"
   
-  # Validate module name to prevent path traversal
   if [[ ! "$1" =~ ^[a-zA-Z0-9_-]+$ ]]; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "veil: invalid module name: $1" >&2
     return 1
@@ -103,7 +88,6 @@ __veilLoadModule() {
 __veilLoadTheme() {
   local themeFile="$THEMES_DIR/${THEME}.zsh-theme"
   
-  # Validate module name to prevent path traversal
   if [[ ! "$THEME" =~ ^[a-zA-Z0-9_-]+$ ]]; then
     [[ -n "$VEIL_VERBOSE" ]] && echo "veil: invalid theme name: $THEME" >&2
     return 1

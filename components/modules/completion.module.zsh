@@ -3,13 +3,7 @@
 # Enhanced Zsh completion system with caching and customizable styles
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
-# ------------------------------------------------------------------------------
-# Authors
-# -------
-#
-#  * Egor Lem <guezwhoz@gmail.com> / egorlem.com
-#
-# ------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
 
 typeset -gi _VEIL_COMPLETION_MODULE_LOADED=${_VEIL_COMPLETION_MODULE_LOADED:-0}
 

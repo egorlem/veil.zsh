@@ -3,17 +3,11 @@
 # Enhanced directory navigation with intelligent stack management and shortcuts.
 #
 # Features:
-# • Auto-change directory without typing 'cd'
-# • Smart aliases: .., ..., ...., .....
-# • Clean stack behavior (no duplicates, silent operations)
+# - Auto-change directory without typing 'cd'
+# - Smart aliases: .., ..., ...., .....
+# - Clean stack behavior (no duplicates, silent operations)
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
-# ------------------------------------------------------------------------------
-# Authors
-# -------
-#
-#  * Egor Lem <guezwhoz@gmail.com> / egorlem.com
-#
 # ------------------------------------------------------------------------------
 
 typeset -gi _VEIL_NAVIGATION_MODULE_LOADED=${_VEIL_NAVIGATION_MODULE_LOADED:-0}

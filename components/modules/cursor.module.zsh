@@ -1,25 +1,13 @@
 # Veil Cursor Module
 #
-# Terminal cursor visibility control system.
+# Terminal cursor visibility control.
 #
-# Features:
-# • Smart cursor hiding during clear operations
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
-# ------------------------------------------------------------------------------
-# Authors
-# -------
-#
-#  * Egor Lem <guezwhoz@gmail.com> / egorlem.com
-#
 # ------------------------------------------------------------------------------
 
 typeset -gi _TERMINAL_CURSOR_VISIBLE=1
 typeset -gi _VEIL_CURSOR_MODULE_LOADED=${_VEIL_CURSOR_MODULE_LOADED:-0}
-
-# ------------------------------------------------------------------------------
-# PRIVATE CURSOR CONTROL FUNCTIONS
-# ------------------------------------------------------------------------------
 
 __veilCursorHide() {
   printf '\033[?25l'
@@ -57,10 +45,6 @@ clear() {
   __veilCursorScheduleRestore
 }
 
-# ------------------------------------------------------------------------------
-# PUBLIC CURSOR UTILITIES
-# ------------------------------------------------------------------------------
-
 veilCursorFix() {
   # Contract: forces cursor visibility as safety measure
   # Use: when cursor disappears unexpectedly
@@ -83,10 +67,6 @@ veilCursorState() {
   return 0
 }
 
-# ------------------------------------------------------------------------------
-# MODULE INITIALIZATION
-# ------------------------------------------------------------------------------
-
 __veilCursorSetup() {
   # Initial safety check
   __veilCursorEnsureVisible
@@ -107,10 +87,6 @@ veilCursorInit() {
   
   return 0
 }
-
-# ------------------------------------------------------------------------------
-# AUTO-INITIALIZATION
-# ------------------------------------------------------------------------------
 
 if [[ -z "$VEIL_CORE_LOADED" ]]; then
   if ! veilCursorInit; then

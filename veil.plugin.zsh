@@ -2,10 +2,10 @@
 #
 # Adapter for using Veil modules with OMZ, Zim, zcomet, and other
 # ------------------------------------------------------------------------------
-# License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE
+# License: WTFPL - https://github.com/egorlem/veil.zsh/blob/main/LICENSE
 # ------------------------------------------------------------------------------
 
-# Set load mode to environment
+# set mode to environment
 # shellcheck disable=SC2034
 typeset -g VEIL_MODE="environment"
 

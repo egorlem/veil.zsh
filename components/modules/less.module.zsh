@@ -3,17 +3,12 @@
 # Enhanced pager configuration with terminal adaptation and color support.
 #
 # Features:
-# • Intelligent less options based on terminal capabilities
-# • Colorful man pages with proper termcaps
-# • Terminal-specific optimizations (kitty, console, etc.)
-# • Convenient aliases: less, more
+# - Intelligent less options based on terminal capabilities
+# - Colorful man pages with proper termcaps
+# - Terminal-specific optimizations (kitty, console, etc.)
+# - Convenient aliases: less, more
 # ------------------------------------------------------------------------------
 # License: WTFPL – https://github.com/egorlem/veil.zsh/blob/main/LICENSE 
-# ------------------------------------------------------------------------------
-# Authors
-# -------
-#  * Egor Lem <guezwhoz@gmail.com> / egorlem.com
-#
 # ------------------------------------------------------------------------------
 
 typeset -gi _VEIL_LESS_MODULE_LOADED=${_VEIL_LESS_MODULE_LOADED:-0}
